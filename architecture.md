@@ -35,9 +35,7 @@ Result page: SVG + report sections + privacy/disclaimer
 | Honest degradation | Unknown birth time and moon sign-change are explained, not invented |
 | Public repo + secrets outside git | `.streamlit/secrets.toml` / Cloud Secrets; API spend cap ≈ $10 |
 
-## Modules (intended)
-
-Until code exists, treat this as the target layout:
+## Modules
 
 ```
 app.py                 # Streamlit entry: form, orchestration, result UI
@@ -46,10 +44,10 @@ interpret.py           # LLM prompts + main report + tarot follow-up
 tarot.py               # deck, shuffle, three-card draw (stdlib random)
 .streamlit/
   secrets.toml         # gitignored — API keys, GeoNames username
+  secrets.toml.example
+  config.toml
 requirements.txt
 ```
-
-A single `app.py` is acceptable for the spike if splitting stays optional.
 
 ## Form contract
 
@@ -57,7 +55,7 @@ A single `app.py` is acceptable for the spike if splitting stays optional.
 |---|---|---|
 | Birth date | date | required |
 | Birth time | time +「不知道出生时间」 | checkbox → degraded report |
-| Birth place | city text | pinyin/English; GeoNames |
+| Birth place | city text + ISO nation (default `CN`) | pinyin/English city; GeoNames |
 | MBTI | 16-type select |「不确定」→ skip MBTI cross-analysis |
 
 ### Unknown birth time

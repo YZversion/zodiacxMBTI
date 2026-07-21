@@ -38,6 +38,8 @@ Reversible Streamlit spike: natal chart (kerykeion) + MBTI → one-shot Chinese 
 
 Local (then Cloud) path: form → chart + SVG → Chinese report, including unknown-time and place-failure copy. Prompt quality is the main product work — iterate on fixed serializer output before polishing UI.
 
+**Code status:** the path above is implemented in `app.py` / `chart.py` / `interpret.py` / `tarot.py`. Remaining human steps: fill secrets, `streamlit run app.py`, deploy Cloud, friend test.
+
 ## Docs to read before coding
 
 1. [`星盘MBTI解读spike需求与实施方案.md`](星盘MBTI解读spike需求与实施方案.md) — sealed plan v1.4

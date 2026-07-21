@@ -47,7 +47,8 @@ desktop.ini
 # Local / generated
 *.log
 .cache/
+cache/
 tmp/
 temp/
-*.svg
-!assets/**/*.svg
+charts_output/
+_smoke_*.py
