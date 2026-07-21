@@ -76,6 +76,9 @@ class ChartResult:
     preface_notes: list[str] = field(default_factory=list)
     resolved_city: str = ""
     resolved_tz: str = ""
+    sun_sign: str = ""
+    moon_sign: str = ""
+    asc_sign: str = ""
 
 
 def sign_to_zh(sign: str) -> str:
@@ -168,9 +171,37 @@ def _strip_houses_and_angles(xml: str) -> str:
     return xml
 
 
+def _prepare_chart_svg(svg: str) -> str:
+    """Inject CJK-safe fonts so CN labels don't collide with Latin metrics."""
+    style = (
+        "<style type='text/css'><![CDATA[\n"
+        "  text, tspan {\n"
+        "    font-family: 'Noto Sans SC', 'Microsoft YaHei', 'PingFang SC',"
+        " 'Helvetica Neue', Arial, sans-serif !important;\n"
+        "  }\n"
+        "]]></style>\n"
+    )
+    if "<svg" not in svg or "Noto Sans SC" in svg:
+        return svg
+    # Insert style immediately after the opening <svg ...> tag
+    return re.sub(r"(<svg\b[^>]*>)", r"\1" + style, svg, count=1, flags=re.IGNORECASE)
+
+
 def _svg_for_subject(subject) -> str:
     chart_data = ChartDataFactory.create_natal_chart_data(subject)
-    return ChartDrawer(chart_data=chart_data).generate_svg_string()
+    drawer = ChartDrawer(
+        chart_data=chart_data,
+        theme="dark",
+        chart_language="CN",
+        custom_title="本命盘",
+        show_house_position_comparison=False,
+        show_cusp_position_comparison=False,
+        show_degree_indicators=True,
+        show_aspect_icons=False,
+    )
+    # Wheel-only: full chart's CN info tables overlap badly on mobile scale
+    svg = drawer.generate_wheel_only_svg_string()
+    return _prepare_chart_svg(svg)
 
 
 def build_chart(
@@ -182,7 +213,7 @@ def build_chart(
     nation: str,
     mbti: Optional[str],
     geonames_username: Optional[str] = None,
-    subject_name: str = "You",
+    subject_name: str = "本命",
 ) -> ChartResult:
     if not city or not city.strip():
         raise PlaceLookupError(PLACE_HINT)
@@ -237,6 +268,9 @@ def build_chart(
         )
 
     svg = _svg_for_subject(subject)
+    asc_sign = ""
+    if not time_unknown and getattr(subject, "ascendant", None) is not None:
+        asc_sign = subject.ascendant.sign
 
     return ChartResult(
         subject_name=subject_name,
@@ -252,4 +286,7 @@ def build_chart(
         preface_notes=notes,
         resolved_city=getattr(subject, "city", city),
         resolved_tz=getattr(subject, "tz_str", "") or "",
+        sun_sign=subject.sun.sign,
+        moon_sign=subject.moon.sign,
+        asc_sign=asc_sign,
     )

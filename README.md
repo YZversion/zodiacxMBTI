@@ -64,6 +64,8 @@ app.py                 # Streamlit UI + session_state 缓存
 chart.py               # kerykeion 排盘 / 生时降级 / 月亮换座 / SVG
 interpret.py           # 主报告与塔罗 LLM prompt
 tarot.py               # 78 张牌 + 三牌阵
+tarot_ui.py            # 塔罗翻牌 HTML（展示层，不改抽牌逻辑）
+assets/tarot/          # LuciellaES CC0 韦特牌面
 requirements.txt
 .streamlit/config.toml
 .streamlit/secrets.toml.example
@@ -75,6 +77,9 @@ requirements.txt
 
 出生信息仅用于当次计算，不存储、不写日志、无数据库。报告底部固定免责声明。
 
-## 许可
+## 素材与许可
 
-本仓库应用代码以 [MIT](LICENSE) 发布。运行时依赖 **kerykeion（AGPL-3.0）**；若将来商业化闭源，计划切换到 [Astrologer API](https://github.com/g-battaglia/Astrologer-API)。
+- **应用代码**：[MIT](LICENSE)
+- **kerykeion**：AGPL-3.0；商业化闭源时计划切换 [Astrologer API](https://github.com/g-battaglia/Astrologer-API)
+- **塔罗牌面**：Rider–Waite–Smith 扫描清理版，[LuciellaES / Luciella Elisabeth Scarlett](https://luciellaes.itch.io/rider-waite-smith-tarot-cards-cc0)，**CC0**。详见 [`assets/tarot/ATTRIBUTION.md`](assets/tarot/ATTRIBUTION.md)
+- **PDF 中文字体**：Noto Sans SC（SIL OFL），见 `assets/fonts/`

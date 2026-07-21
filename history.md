@@ -11,6 +11,13 @@ Source of truth for the sealed plan: [`星盘MBTI解读spike需求与实施方�
 | 2026-07-21 | Plan sealed at v1.4 (moon sign-change handling; friend-sample bias / signal grading). Paper review ends. |
 | 2026-07-21 | Repo bootstrap: `.gitignore`, MIT `LICENSE`, `README.md`, `agent.md`, `architecture.md`, `history.md`. Application code not started. |
 | 2026-07-21 | Implemented full spike path: `chart.py` / `interpret.py` / `tarot.py` / `app.py`, `requirements.txt`, Streamlit secrets example. Session-state cache + unknown-time / moon-ambiguity / optional tarot. |
+| 2026-07-21 | UI polish: streaming LLM, summary card, CN chart expander, country dropdown, tarot flip stage (LuciellaES CC0 assets) + beige starfield background. |
+| 2026-07-21 | Prompt: psychological-astrology persona + anti-Barnum rule in `MAIN_SYSTEM` (astrologyprompt.com-aligned). Classical rule-bank deferred to watch list. |
+
+## Watch list (not in spike)
+
+- Chart art polish, conversational follow-ups, English UI (from sealed plan)
+- Inject classical interpretation rule packs (e.g. aryaminus/astro style) so the model grounds aspect meanings in an explicit rule set rather than latent memory — only after commercialization review
 
 ## Version notes (plan)
 
