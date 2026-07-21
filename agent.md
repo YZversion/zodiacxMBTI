@@ -4,54 +4,56 @@ Instructions for AI coding agents working in this repository.
 
 ## Project in one sentence
 
-Reversible Streamlit spike: natal chart (kerykeion) + MBTI → one-shot Chinese LLM report; optional tarot add-on. Friends-only (~10 users), two-weekend timebox, then measure pull or archive.
+Reversible Streamlit spike: natal chart (kerykeion) + MBTI → streamed Chinese LLM report; optional tarot flip + HTML/PDF export. Friends-only (~10), two-weekend timebox, then measure pull or archive.
 
 ## Non-negotiable boundaries
 
 - **Spike, not product.** No accounts, no DB, no history, no marketing, no payment.
 - **Do not rebuild deleted scope:** no astro-seek scraping, no GPT-generated chart images, no built-in MBTI quiz, no React/Vercel custom frontend, no CI/cron/monitoring unless the human explicitly expands the timebox.
-- **Secrets never in git.** Keys live in `.streamlit/secrets.toml` (gitignored) or Streamlit Cloud Secrets. If a key appears in a diff, stop and remove it.
-- **Privacy:** do not log or persist birth data. No print of PII to logs.
-- **Timebox:** prefer cutting tarot over bloating the chart→report main path. Two weekends max; unfinished → stop and archive.
+- **Secrets never in git.** Keys live in `.streamlit/secrets.toml` (gitignored) or Streamlit Cloud Secrets.
+- **Privacy:** do not log or persist birth data.
+- **Timebox:** prefer cutting polish over bloating the chart→report path. Two weekends max.
 
 ## Preferred stack
 
 | Layer | Choice |
 |---|---|
-| UI + deploy | Single Streamlit app (`app.py` or a thin module split if needed) |
-| Chart + SVG | `kerykeion` + GeoNames username for place lookup |
-| LLM context | kerykeion `context_serializer` (XML) + MBTI field — do not hand-roll JSON chart dumps |
-| LLM | OpenAI or Anthropic API, Chinese long-form sections fixed in prompt |
-| Tarot | stdlib `random` only; 78 Rider–Waite; 3 cards past/present/future; upright/reversed |
+| UI + deploy | Streamlit (`app.py`) + dark theme CSS via `st.html` |
+| Chart + SVG | kerykeion wheel-only, `theme="dark"`, `chart_language="CN"` |
+| LLM context | `to_context` XML + MBTI — do not hand-roll chart JSON |
+| LLM | OpenAI-compatible client (`OPENAI_*` secrets); DeepSeek via `OPENAI_BASE_URL` is fine |
+| Tarot logic | `tarot.py` stdlib `random` only — **do not change draw logic for UI** |
+| Tarot UI | `tarot_ui.py` + `components.html` flip stage; LuciellaES assets |
+| Export | `report_export.py` — full HTML snapshot + text PDF (`fpdf2`) |
 
 ## Implementation rules
 
-1. **`st.session_state` from day one.** Cache chart context, SVG, and main report text. Tarot must only add one incremental LLM call — never re-run the full chart + report pipeline on widget interaction.
-2. **Unknown birth time:** compute planetary signs at 12:00; omit ascendant and houses; state that clearly at the top of the report. **Moon:** if sign differs between 00:00 and 24:00 that day, say both possibilities — never fake certainty.
-3. **Place input:** prompt users for pinyin/English city names (e.g. `Shanghai`). On GeoNames failure, suggest a larger nearby city.
-4. **MBTI:** 16-type select; optional「不确定」skips MBTI cross-analysis.
-5. **Report sections (fixed in prompt):** (1) core portrait / resonance (2) tension points (3) relationship & communication (4) one-line stage advice. Tone: concrete, little jargon; explain terms in plain Chinese on first use.
-6. **Disclaimer footer** always present (entertainment / self-exploration only).
-7. **License awareness:** app code is MIT; kerykeion is AGPL-3.0. Do not advise closed-source distribution while importing the library; commercialization path is Astrologer API swap.
+1. **`st.session_state`:** cache `chart`, `report_text`, tarot results. Tarot = one incremental LLM call only. Fingerprint reset logic must stay intact; only append keys if needed.
+2. **Unknown birth time:** noon planets; strip houses/angles from XML; moon 00:00 vs 24:00 ambiguity — never fake certainty.
+3. **Place:** pinyin/English city; country dropdown → ISO (default China=`CN`);「其他」shows 2-letter code field.
+4. **MBTI:** 16-type select;「不确定」skips cross-analysis.
+5. **MAIN_SYSTEM (locked intent):** psychological-astrology persona; ground-truth only; anti-Barnum (falsifiable behaviors in sections 1–3); four fixed `##` headings. Do not casually rewrite unless the human asks.
+6. **Streaming:** use `stream_main_report` / `stream_tarot_report` + `st.write_stream`; persist full text to session after stream; `st.rerun()` for clean cached view.
+7. **Theme CSS:** inject with `st.html`, once. **Never** set `font-family` on all `span` — breaks expander `.arrow_` icon fonts.
+8. **Chart display:** wheel-only + CJK font injection; square iframe; avoid full CN side-tables (they overlap on mobile).
+9. **Disclaimer / privacy** footer always present.
+10. **License:** MIT app code; kerykeion AGPL-3.0 while imported.
 
-## What “done” means for weekend one
+## Code status
 
-Local (then Cloud) path: form → chart + SVG → Chinese report, including unknown-time and place-failure copy. Prompt quality is the main product work — iterate on fixed serializer output before polishing UI.
-
-**Code status:** the path above is implemented in `app.py` / `chart.py` / `interpret.py` / `tarot.py`. Remaining human steps: fill secrets, `streamlit run app.py`, deploy Cloud, friend test.
+Implemented end-to-end locally. Remaining human path: secrets → Cloud deploy → friend canary → quiet two-week observation.
 
 ## Docs to read before coding
 
 1. [`星盘MBTI解读spike需求与实施方案.md`](星盘MBTI解读spike需求与实施方案.md) — sealed plan v1.4
 2. [architecture.md](architecture.md) — runtime shape
-3. [history.md](history.md) — why decisions were locked
+3. [history.md](history.md) — decisions + timeline
 
-## Out of scope for agents unless asked
+## Out of scope unless asked
 
-Commercialization review, payment, Law 25 compliance build-out, English UI, conversational follow-ups, chart art polish, expanding beyond the friends circle.
+Commercialization, payment, Law 25 build-out, English UI, conversational follow-ups, classical aspect rule-banks, Bloom-style scroll video landing (separate static page only if requested).
 
 ## Commit hygiene
 
-- First real code commit must not contain secrets.
-- Prefer small, reversible commits aligned to the weekend plan.
+- Never commit `.streamlit/secrets.toml` or API keys.
 - Do not commit unless the human asks.

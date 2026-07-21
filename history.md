@@ -8,74 +8,66 @@ Source of truth for the sealed plan: [`星盘MBTI解读spike需求与实施方�
 
 | When | What |
 |---|---|
-| 2026-07-21 | Plan sealed at v1.4 (moon sign-change handling; friend-sample bias / signal grading). Paper review ends. |
-| 2026-07-21 | Repo bootstrap: `.gitignore`, MIT `LICENSE`, `README.md`, `agent.md`, `architecture.md`, `history.md`. Application code not started. |
-| 2026-07-21 | Implemented full spike path: `chart.py` / `interpret.py` / `tarot.py` / `app.py`, `requirements.txt`, Streamlit secrets example. Session-state cache + unknown-time / moon-ambiguity / optional tarot. |
-| 2026-07-21 | UI polish: streaming LLM, summary card, CN chart expander, country dropdown, tarot flip stage (LuciellaES CC0 assets) + beige starfield background. |
-| 2026-07-21 | Prompt: psychological-astrology persona + anti-Barnum rule in `MAIN_SYSTEM` (astrologyprompt.com-aligned). Classical rule-bank deferred to watch list. |
+| 2026-07-21 | Plan sealed at v1.4 (moon sign-change; signal grading). Paper review ends. |
+| 2026-07-21 | Repo bootstrap: `.gitignore`, MIT `LICENSE`, docs. |
+| 2026-07-21 | Full spike path: `chart` / `interpret` / `tarot` / `app`, secrets example, GeoNames + DeepSeek local runs. |
+| 2026-07-21 | UI: streaming LLM, summary card, country dropdown, CN chart expander, tarot 3D flip (LuciellaES CC0), exports. |
+| 2026-07-21 | Prompt: psychological-astrology persona + anti-Barnum in `MAIN_SYSTEM`. |
+| 2026-07-21 | Theme: dark starfield + vignette/grain; Instrument Serif / Space Grotesk / Noto Sans SC; glass summary. |
+| 2026-07-21 | Chart: wheel-only dark SVG + CJK font injection (fix CN side-tables overlapped on mobile). |
+| 2026-07-21 | Fix: stop global `span { font-family }` so expander `.arrow_` icons don’t collide with labels. |
+| 2026-07-21 | Export: full-page HTML snapshot (chart + cards + report); keep lightweight text PDF. Print-from-HTML for visual PDF. |
 
 ## Watch list (not in spike)
 
-- Chart art polish, conversational follow-ups, English UI (from sealed plan)
-- Inject classical interpretation rule packs (e.g. aryaminus/astro style) so the model grounds aspect meanings in an explicit rule set rather than latent memory — only after commercialization review
+- Chart art polish, conversational follow-ups, English UI (sealed plan)
+- Classical interpretation rule packs (aryaminus/astro-style) after commercialization review
+- Bloom-style scroll-video landing as a **separate** static page (not inside Streamlit)
+- True server-side visual PDF (complex kerykeion SVG ≈ unsupported in fpdf2)
 
 ## Version notes (plan)
 
 | Version | Delta |
 |---|---|
-| v1.2 | Optional tarot block at bottom of report (friend-requested); half-day cap; cut first if weekend two slips |
-| v1.3 | Two-leg acceptance (quantitative API delta + qualitative friend interviews); disclaimer; secrets + spend cap; Streamlit rerun/`session_state` pitfall |
-| v1.4 | Moon day-boundary ambiguity when birth time unknown; weak vs strong pull signals (self-reuse vs friend-forwarded strangers); freeze further paper review |
+| v1.2 | Optional tarot; half-day cap |
+| v1.3 | Two-leg acceptance; disclaimer; secrets + spend cap; session_state for reruns |
+| v1.4 | Moon day-boundary ambiguity; weak vs strong pull signals; freeze paper review |
 
 ## Locked product boundary
 
 - Free, no promotion, no fees, no user accounts.
 - Audience ≈ 10 Chinese-speaking friends, mobile link.
-- Outside career C++ tooling track — amateur timebox only; overtime → stop.
+- Outside career C++ tooling track — amateur timebox only.
 
 ## Five-step review archive (summary)
 
 ### Kept
 
-- Birth date / time / place (astronomy inputs);「不知道出生时间」allowed
-- MBTI as 16-type dropdown (no built-in quiz)
-- Chart visualization via kerykeion SVG
-- LLM API one-shot Chinese interpretation (core hypothesis)
-- Optional tarot second step on report page only
+- Birth date / time / place;「不知道出生时间」
+- MBTI dropdown (no quiz)
+- Chart visualization via kerykeion
+- LLM one-shot Chinese interpretation
+- Optional tarot second step
 
 ### Deleted
 
-- astro-seek scraping
-- GPT-generated chart images
-- Built-in MBTI question bank / scoring
-- Accounts, login, history, database
-- Custom React/Vercel frontend
+- astro-seek scraping; GPT chart images; MBTI item bank; accounts/DB; custom React/Vercel frontend
 
 ### Simplified
 
-- Stack → Streamlit single app
-- Chart + drawing → kerykeion alone
-- Geocoding → GeoNames via kerykeion (no local gazetteer)
-
-### Accelerated / automation stance
-
-- Local hot reload; fake fixed chart context while tuning prompts
-- No CI, cron, or monitoring for the spike; deploy = git push → Streamlit Cloud
+- Streamlit single app; kerykeion only; GeoNames via kerykeion
 
 ## Acceptance & kill criteria
 
-**Quantitative:** two weeks after share, LLM API calls show spontaneous volume beyond first-wave use.
+**Quantitative:** two weeks after share, LLM calls show spontaneous volume beyond first wave.
 
-**Qualitative:** ask ~10 friends whether they reused or forwarded. Privacy promise ⇒ no per-user analytics; interviews decide.
+**Qualitative:** ask ~10 friends about reuse/forward. Strong signal = forward to strangers who then use.
 
-**Signal grades:** friend self-reuse = weak (politeness bias); forward to strangers who then use = strong. Commercialization review requires strong signal.
+**Stop if:** unfinished in two weekends; or no spontaneous reuse in two weeks.
 
-**Stop and archive if:** not done in two weekends; or no spontaneous reuse in two weeks. Real pull → separate career/commercialization review (compliance, payment, privacy at a different scale).
+## References
 
-## Open references used in planning
-
-- gsinghjay/zodiac-engine — prompt / interpretation patterns (not FastAPI structure)
-- g-battaglia/kerykeion — `context_serializer`, `ReportGenerator`
-- catch-twenty2/AstroChart_Analysis — chart field checklist for prompts
-- qwq202/Aurora-MBTI — Chinese interpretation tone (quiz parts ignored)
-- g-battaglia/Astrologer-API — future paid/non-copyleft data path
+- Planning: zodiac-engine, kerykeion docs, AstroChart_Analysis, Aurora-MBTI, Astrologer-API
+- Prompt craft: [astrologyprompt.com](https://astrologyprompt.com) (external calc + ground-truth-only paradigm)
+- Tarot art: LuciellaES CC0 RWS
+- UI mood (not cloned into Streamlit): local `bloom.html` glass / dark reference

@@ -9,15 +9,16 @@
 一条直线链路：
 
 1. Streamlit 表单收集出生日期 / 时间 / 地点与 MBTI
-2. [kerykeion](https://github.com/g-battaglia/kerykeion)（Swiss Ephemeris）算行星落座、宫位、上升，并出 SVG 星盘图
-3. LLM API 基于 `to_context` XML + MBTI 生成中文分节解读
-4. （可选）报告页「再抽三张牌」——韦特牌阵 + 结合星盘/MBTI 的补充解读
+2. [kerykeion](https://github.com/g-battaglia/kerykeion)（Swiss Ephemeris）算行星落座、宫位、上升，并出暗色轮盘 SVG
+3. LLM API（OpenAI 兼容，可用 DeepSeek）流式生成中文分节解读
+4. （可选）报告页「再抽三张牌」——3D 翻牌演出 + 结合星盘/MBTI 的补充解读
+5. 可下载**完整页面 HTML**（含图）或**文字版 PDF**
 
 详细边界见 [architecture.md](architecture.md) 与 [history.md](history.md)；纸面方案原文见 [`星盘MBTI解读spike需求与实施方案.md`](星盘MBTI解读spike需求与实施方案.md)（v1.4 封版）。协作约定见 [agent.md](agent.md)。
 
 ## 状态
 
-- **阶段**：全链路代码已就绪（表单 → 排盘 → 报告 → 可选塔罗）
+- **阶段**：本地全链路可用（表单 → 排盘 → 流式报告 → 可选塔罗 → 导出）；待推送 / Streamlit Cloud / 朋友发放与两周观察
 - **时间盒**：两个周末，硬上限
 - **验收**：两周后看 LLM 调用是否有自发增量；定性问朋友是否回访/转发。商业化只认强信号
 
@@ -42,36 +43,56 @@ copy .streamlit\secrets.toml.example .streamlit\secrets.toml
 cp .streamlit/secrets.toml.example .streamlit/secrets.toml
 ```
 
-编辑 `.streamlit/secrets.toml`：
+编辑 `.streamlit/secrets.toml`（OpenAI 或 DeepSeek 二选一）：
 
-- `OPENAI_API_KEY` — 必填
-- `OPENAI_MODEL` — 默认 `gpt-4o-mini`
-- `GEONAMES_USERNAME` — [GeoNames](https://www.geonames.org/login) 免费注册后填入（强烈建议；否则会落到库默认账号，易被限流）
-- `OPENAI_BASE_URL` — 可选，兼容网关
+```toml
+# DeepSeek 示例（便宜，适合 spike 试跑）
+OPENAI_API_KEY = "sk-..."
+OPENAI_MODEL = "deepseek-chat"
+OPENAI_BASE_URL = "https://api.deepseek.com"
 
-在 OpenAI（或所用提供商）账户设置 **硬性消费上限**（建议 $10）。
+GEONAMES_USERNAME = "your_geonames_username"
+```
+
+- `GEONAMES_USERNAME` — [GeoNames](https://www.geonames.org/login) 注册后，在 manageaccount **启用免费 Web Services**
+- API 账户设 **硬性消费上限**（建议 $10）
 
 ```bash
 streamlit run app.py
 ```
 
-部署：推送到 GitHub 后，在 [Streamlit Community Cloud](https://streamlit.io/cloud) 绑定本仓库，入口填 `app.py`，并在应用 Secrets 中粘贴与本地相同的键。
+部署：推送到 GitHub 后，在 [Streamlit Community Cloud](https://streamlit.io/cloud) 绑定本仓库，入口填 `app.py`，Secrets 粘贴与本地相同的键。
 
 ## 工程结构
 
 ```
-app.py                 # Streamlit UI + session_state 缓存
-chart.py               # kerykeion 排盘 / 生时降级 / 月亮换座 / SVG
-interpret.py           # 主报告与塔罗 LLM prompt
-tarot.py               # 78 张牌 + 三牌阵
-tarot_ui.py            # 塔罗翻牌 HTML（展示层，不改抽牌逻辑）
+app.py                 # Streamlit UI、主题 CSS、session_state、导出按钮
+chart.py               # 排盘 / 生时降级 / 月亮换座 / 暗色轮盘 SVG
+interpret.py           # MAIN_SYSTEM / TAROT_SYSTEM + 流式 LLM 调用
+tarot.py               # 78 张牌 + 三牌阵（纯 random）
+tarot_ui.py            # 翻牌 HTML + 牌面映射（展示层）
+report_export.py       # 完整页 HTML + 文字 PDF
 assets/tarot/          # LuciellaES CC0 韦特牌面
+assets/fonts/          # Noto Sans SC（PDF 中文）
 requirements.txt
-.streamlit/config.toml
+.streamlit/config.toml           # dark theme
 .streamlit/secrets.toml.example
 ```
 
-`st.session_state` 会缓存星盘上下文、SVG 与主报告；点塔罗只追加一次 LLM 调用，不会重跑整份报告。
+`st.session_state` 缓存星盘、SVG、主报告与塔罗结果；点塔罗只追加一次 LLM，不重跑主报告。
+
+## 产品要点（已实现）
+
+| 能力 | 说明 |
+|---|---|
+| 生时未知 | 正午行星；无上升/宫位；月亮换座则双可能 |
+| 出生国家 | 下拉（中国默认），「其他」才填两位码 |
+| 流式解读 | `st.write_stream`；结束后写入 session 缓存 |
+| 摘要卡 | 太阳/月亮/上升 × MBTI + 第 4 节一句话 |
+| 星盘 | 折叠展开的暗色轮盘（CN 标签 + Noto 防叠字） |
+| 塔罗 | CSS 3D 翻牌；牌面 base64 内联 |
+| 导出 | 完整 HTML（含图，可浏览器打印成 PDF）+ 文字 PDF |
+| UI | 黑星空 + vignette/grain；标题 Instrument Serif / 正文 Space Grotesk + Noto Sans SC |
 
 ## 隐私
 
@@ -81,5 +102,5 @@ requirements.txt
 
 - **应用代码**：[MIT](LICENSE)
 - **kerykeion**：AGPL-3.0；商业化闭源时计划切换 [Astrologer API](https://github.com/g-battaglia/Astrologer-API)
-- **塔罗牌面**：Rider–Waite–Smith 扫描清理版，[LuciellaES / Luciella Elisabeth Scarlett](https://luciellaes.itch.io/rider-waite-smith-tarot-cards-cc0)，**CC0**。详见 [`assets/tarot/ATTRIBUTION.md`](assets/tarot/ATTRIBUTION.md)
-- **PDF 中文字体**：Noto Sans SC（SIL OFL），见 `assets/fonts/`
+- **塔罗牌面**：[LuciellaES CC0 RWS](https://luciellaes.itch.io/rider-waite-smith-tarot-cards-cc0) — [`assets/tarot/ATTRIBUTION.md`](assets/tarot/ATTRIBUTION.md)
+- **PDF 字体**：Noto Sans SC（SIL OFL）— [`assets/fonts/README.md`](assets/fonts/README.md)

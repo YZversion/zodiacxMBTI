@@ -41,10 +41,11 @@ def resolve_cjk_font() -> Path:
 
 
 def extract_section_4_advice(report: str) -> str:
+    """Extract the closing one-line advice section (heading ## 5, legacy ## 4)."""
     if not report:
         return ""
     match = re.search(
-        r"##\s*4[\.、．]?\s*当前阶段的一句话建议\s*\n+(.*?)(?=\n##\s|\Z)",
+        r"##\s*(?:5|4)[\.、．]?\s*当前阶段的一句话建议\s*\n+(.*?)(?=\n##\s|\Z)",
         report,
         flags=re.DOTALL,
     )

@@ -283,6 +283,7 @@ def _init_state() -> None:
         "tarot_text": None,
         "form_fingerprint": None,
         "tarot_streaming": False,
+        "main_user_question": "",
     }
     for k, v in defaults.items():
         if k not in st.session_state:
@@ -296,9 +297,18 @@ def _fingerprint(
     city: str,
     nation: str,
     mbti: str,
+    user_question: str = "",
 ) -> tuple:
     t = None if time_unknown else (birth_time.hour, birth_time.minute) if birth_time else None
-    return (birth_date.isoformat(), t, time_unknown, city.strip(), nation.strip().upper(), mbti)
+    return (
+        birth_date.isoformat(),
+        t,
+        time_unknown,
+        city.strip(),
+        nation.strip().upper(),
+        mbti,
+        user_question.strip(),
+    )
 
 
 def _resolve_nation(country_label: str, other_code: str) -> str | None:
@@ -395,6 +405,10 @@ def main() -> None:
             help=PLACE_HINT,
         )
         mbti_raw = st.selectbox("MBTI", MBTI_OPTIONS, index=0)
+        user_question = st.text_input(
+            "最近在纠结的事（选填，报告会针对它展开）",
+            placeholder="例：在纠结稳定的 A 和自由的 B 两份工作 / 一段关系要不要继续",
+        )
         submitted = st.form_submit_button("生成解读", type="primary", use_container_width=True)
 
     if submitted:
@@ -406,7 +420,15 @@ def main() -> None:
             st.error("请填写有效的两位字母国家代码（例如 DE）。")
             st.stop()
 
-        fp = _fingerprint(birth_date, birth_time, time_unknown, city, nation, mbti_raw)
+        fp = _fingerprint(
+            birth_date,
+            birth_time,
+            time_unknown,
+            city,
+            nation,
+            mbti_raw,
+            user_question,
+        )
         if fp != st.session_state.form_fingerprint:
             st.session_state.report_ready = False
             st.session_state.chart = None
@@ -414,6 +436,7 @@ def main() -> None:
             st.session_state.tarot_cards = None
             st.session_state.tarot_text = None
             st.session_state.tarot_streaming = False
+            st.session_state.main_user_question = ""
             st.session_state.form_fingerprint = fp
 
         if not st.session_state.report_ready:
@@ -422,6 +445,7 @@ def main() -> None:
             base_url = _secret("OPENAI_BASE_URL") or None
             geonames = _secret("GEONAMES_USERNAME") or None
             mbti = None if mbti_raw == "不确定" else mbti_raw
+            q = (user_question or "").strip()
 
             try:
                 with st.spinner("正在排盘…"):
@@ -450,6 +474,7 @@ def main() -> None:
                         api_key=api_key,
                         model=model,
                         base_url=base_url,
+                        user_question=q,
                     )
                 )
             except Exception as exc:  # noqa: BLE001
@@ -461,6 +486,9 @@ def main() -> None:
                 st.error("LLM 返回空内容，请稍后重试。")
                 st.stop()
             st.session_state.report_text = text
+            st.session_state.main_user_question = q
+            # Prefill tarot question box with the same text (user can edit)
+            st.session_state.tarot_question = q
             st.session_state.report_ready = True
             st.rerun()
 
@@ -584,9 +612,12 @@ def main() -> None:
                 "tarot_text",
                 "form_fingerprint",
                 "tarot_streaming",
+                "main_user_question",
             ):
                 if k == "report_ready" or k == "tarot_streaming":
                     st.session_state[k] = False
+                elif k == "main_user_question":
+                    st.session_state[k] = ""
                 else:
                     st.session_state[k] = None
             st.rerun()

@@ -20,12 +20,16 @@ MAIN_SYSTEM = """你是心理占星传统下的现代西方占星师，并用务
 4. 反巴纳姆：禁止对任何人都成立的泛化描述（如「外表坚强内心柔软」）；第 1–3 节每一节至少给出两个可被本人证实或证伪的具体行为推断（例如在什么场景下会做什么、会回避什么）。
 5. 不要写成通用星座运势或鸡汤；写出这个人可能的具体行为与内在张力。
 6. 全文使用简体中文。
-7. 严格按下列四个二级标题输出（不要增减标题）：
+7. 严格按下列二级标题输出（不要自创其他二级标题）。第 1 节控制在两段以内。第 4 节「关于你正在纠结的事」仅当用户提供了具体问题时报出，且该节应为全文最长；未提供则完全跳过第 4 节（标题也不要出现），其余章节编号仍保持为 1、2、3、5（即跳过 4 后直接写第 5 节）：
 ## 1. 核心性格画像
-## 2. 星盘与 MBTI 的张力点
+## 2. 金钱与事业风格
 ## 3. 关系与沟通风格
-## 4. 当前阶段的一句话建议
-若 MBTI 未知，第 1、2 节只做星盘分析，并明确说明未做 MBTI 交叉分析；第 2 节可改为「星盘内的张力点」。"""
+## 4. 关于你正在纠结的事
+## 5. 当前阶段的一句话建议
+8. 「金钱与事业风格」一节：基于第二宫、第六宫、第十宫及土星/木星等相关落座，只分析金钱观、消费与积累的行为模式、职业中的决策倾向与优劣势。严禁预测财运走势、严禁给出投资理财或买卖建议、严禁断言未来事件。生时未知（无宫位）时，改用相关行星星座与相位分析，并如实说明依据较少。
+9. 钩子句规则：每一节的第一句必须是一个反直觉、略带冒犯性但可被本人证实或证伪的断言（禁止「你的太阳落在X座」式教科书开头），随后的段落再用星盘数据展开论证该断言。
+10. 「关于你正在纠结的事」一节：必须围绕用户原话展开，给出该星盘主人面对此类抉择时的典型决策模式、最可能的自我欺骗方式、以及一个可操作的判断框架；不代替用户做决定，不预测哪个选项会成功。
+若 MBTI 未知，不做 MBTI 交叉分析并明确说明，第 1–3 节仅依据星盘展开。"""
 
 TAROT_SYSTEM = """你是一位结合星盘与 MBTI 做塔罗补充解读的中文写作者。
 规则：
@@ -69,7 +73,11 @@ def _stream_chat(
             yield delta
 
 
-def build_main_user_prompt(chart: "ChartResult") -> str:
+def build_main_user_prompt(
+    chart: "ChartResult",
+    *,
+    user_question: str = "",
+) -> str:
     parts = [
         "请根据以下星盘 ground truth 撰写解读报告。",
         "",
@@ -84,6 +92,14 @@ def build_main_user_prompt(chart: "ChartResult") -> str:
         parts.append(f"- MBTI：{chart.mbti}（请做星盘 × MBTI 交叉分析）")
     else:
         parts.append("- MBTI：不确定（跳过 MBTI 交叉分析）")
+
+    q = (user_question or "").strip()
+    if q:
+        parts.append(
+            f'- 用户正在纠结的事（原话）："{q}"，请在第 4 节针对性展开'
+        )
+    else:
+        parts.append("- 用户未提供具体问题，跳过第 4 节")
 
     parts.extend(
         [
@@ -126,12 +142,13 @@ def stream_main_report(
     api_key: str,
     model: str = "gpt-4o-mini",
     base_url: Optional[str] = None,
+    user_question: str = "",
 ) -> Iterator[str]:
     yield from _stream_chat(
         api_key=api_key,
         model=model,
         system=MAIN_SYSTEM,
-        user=build_main_user_prompt(chart),
+        user=build_main_user_prompt(chart, user_question=user_question),
         base_url=base_url,
     )
 
@@ -160,10 +177,15 @@ def generate_main_report(
     api_key: str,
     model: str = "gpt-4o-mini",
     base_url: Optional[str] = None,
+    user_question: str = "",
 ) -> str:
     text = "".join(
         stream_main_report(
-            chart, api_key=api_key, model=model, base_url=base_url
+            chart,
+            api_key=api_key,
+            model=model,
+            base_url=base_url,
+            user_question=user_question,
         )
     ).strip()
     if not text:
