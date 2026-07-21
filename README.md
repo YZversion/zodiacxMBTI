@@ -8,17 +8,17 @@
 
 一条直线链路：
 
-1. Streamlit 表单收集出生日期 / 时间 / 地点与 MBTI
+1. Streamlit 表单收集出生日期 / 时间 / 地点 / MBTI /（选填）最近在纠结的事
 2. [kerykeion](https://github.com/g-battaglia/kerykeion)（Swiss Ephemeris）算行星落座、宫位、上升，并出暗色轮盘 SVG
-3. LLM API（OpenAI 兼容，可用 DeepSeek）流式生成中文分节解读
+3. LLM API（OpenAI 兼容，可用 DeepSeek）流式生成中文分节解读（含金钱事业；有问题时加「纠结」专节）
 4. （可选）报告页「再抽三张牌」——3D 翻牌演出 + 结合星盘/MBTI 的补充解读
 5. 可下载**完整页面 HTML**（含图）或**文字版 PDF**
 
-详细边界见 [architecture.md](architecture.md) 与 [history.md](history.md)；纸面方案原文见 [`星盘MBTI解读spike需求与实施方案.md`](星盘MBTI解读spike需求与实施方案.md)（v1.4 封版）。协作约定见 [agent.md](agent.md)。
+详细边界见 [architecture.md](architecture.md) 与 [history.md](history.md)；发群清单见 [SHIP.md](SHIP.md)；纸面方案原文见 [`星盘MBTI解读spike需求与实施方案.md`](星盘MBTI解读spike需求与实施方案.md)（v1.4 封版）。协作约定见 [agent.md](agent.md)。
 
 ## 状态
 
-- **阶段**：本地全链路可用（表单 → 排盘 → 流式报告 → 可选塔罗 → 导出）；待推送 / Streamlit Cloud / 朋友发放与两周观察
+- **阶段**：本地全链路可用（含可选「纠结」专节与导出）；发群前见 [SHIP.md](SHIP.md)。待推送 / Cloud / 静默两周观察
 - **时间盒**：两个周末，硬上限
 - **验收**：两周后看 LLM 调用是否有自发增量；定性问朋友是否回访/转发。商业化只认强信号
 
@@ -87,8 +87,10 @@ requirements.txt
 |---|---|
 | 生时未知 | 正午行星；无上升/宫位；月亮换座则双可能 |
 | 出生国家 | 下拉（中国默认），「其他」才填两位码 |
+| 想问的事 | 选填；有则报告第 4 节针对性展开，并预填塔罗问题框 |
 | 流式解读 | `st.write_stream`；结束后写入 session 缓存 |
-| 摘要卡 | 太阳/月亮/上升 × MBTI + 第 4 节一句话 |
+| 报告结构 | ①画像（短）②金钱与事业 ③关系 ④纠结（可选，宜最长）⑤一句话建议 |
+| 摘要卡 | 太阳/月亮/上升 × MBTI + 第 5 节一句话 |
 | 星盘 | 折叠展开的暗色轮盘（CN 标签 + Noto 防叠字） |
 | 塔罗 | CSS 3D 翻牌；牌面 base64 内联 |
 | 导出 | 完整 HTML（含图，可浏览器打印成 PDF）+ 文字 PDF |

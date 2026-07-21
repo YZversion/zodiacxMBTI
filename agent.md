@@ -32,22 +32,24 @@ Reversible Streamlit spike: natal chart (kerykeion) + MBTI → streamed Chinese 
 2. **Unknown birth time:** noon planets; strip houses/angles from XML; moon 00:00 vs 24:00 ambiguity — never fake certainty.
 3. **Place:** pinyin/English city; country dropdown → ISO (default China=`CN`);「其他」shows 2-letter code field.
 4. **MBTI:** 16-type select;「不确定」skips cross-analysis.
-5. **MAIN_SYSTEM (locked intent):** psychological-astrology persona; ground-truth only; anti-Barnum (falsifiable behaviors in sections 1–3); four fixed `##` headings. Do not casually rewrite unless the human asks.
-6. **Streaming:** use `stream_main_report` / `stream_tarot_report` + `st.write_stream`; persist full text to session after stream; `st.rerun()` for clean cached view.
-7. **Theme CSS:** inject with `st.html`, once. **Never** set `font-family` on all `span` — breaks expander `.arrow_` icon fonts.
-8. **Chart display:** wheel-only + CJK font injection; square iframe; avoid full CN side-tables (they overlap on mobile).
-9. **Disclaimer / privacy** footer always present.
-10. **License:** MIT app code; kerykeion AGPL-3.0 while imported.
+5. **Optional `user_question`:** form field「最近在纠结的事」; included in fingerprint; passed to `stream_main_report(..., user_question=)`; prefills tarot question on success.
+6. **MAIN_SYSTEM:** psychological-astrology persona; ground-truth + anti-Barnum (rules 1–6 keep intent); sections = 画像 / 金钱与事业 / 关系 / 纠结(optional) / 一句话建议; hook-sentence + no fortune-telling in money section. Edit only when the human asks.
+7. **Streaming:** `stream_main_report` / `stream_tarot_report` + `st.write_stream`; cache then `st.rerun()`.
+8. **Theme CSS:** `st.html` once. **Never** `font-family` on all `span` (breaks expander `.arrow_`).
+9. **Chart display:** wheel-only + CJK font injection; square iframe.
+10. **Disclaimer / privacy** footer always present.
+11. **License:** MIT app code; kerykeion AGPL-3.0 while imported.
 
 ## Code status
 
-Implemented end-to-end locally. Remaining human path: secrets → Cloud deploy → friend canary → quiet two-week observation.
+Implemented end-to-end locally (including optional life-question section). Human path: [SHIP.md](SHIP.md) → Cloud → canary → quiet two weeks.
 
 ## Docs to read before coding
 
 1. [`星盘MBTI解读spike需求与实施方案.md`](星盘MBTI解读spike需求与实施方案.md) — sealed plan v1.4
 2. [architecture.md](architecture.md) — runtime shape
 3. [history.md](history.md) — decisions + timeline
+4. [SHIP.md](SHIP.md) — pre-share checklist
 
 ## Out of scope unless asked
 

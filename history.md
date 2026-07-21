@@ -17,6 +17,7 @@ Source of truth for the sealed plan: [`星盘MBTI解读spike需求与实施方�
 | 2026-07-21 | Chart: wheel-only dark SVG + CJK font injection (fix CN side-tables overlapped on mobile). |
 | 2026-07-21 | Fix: stop global `span { font-family }` so expander `.arrow_` icons don’t collide with labels. |
 | 2026-07-21 | Export: full-page HTML snapshot (chart + cards + report); keep lightweight text PDF. Print-from-HTML for visual PDF. |
+| 2026-07-21 | Report quality (canary feedback): optional「想问的事」; five-section MAIN_SYSTEM (金钱与事业 + 纠结专节 + 钩子句); tarot Q prefill. |
 
 ## Watch list (not in spike)
 
