@@ -80,19 +80,19 @@ requirements.txt       # streamlit, kerykeion, openai, fpdf2
 
 **Input:** `to_context` XML (+ moon_ambiguity if needed) + MBTI + optional `user_question`.
 
-**MAIN_SYSTEM highlights:** psychological-astrology persona; ground truth only; anti-Barnum; hook first sentence per section; money section = 2nd/6th/10th + Saturn/Jupiter behavior (no fortune predictions). Headings:
+**MAIN_SYSTEM highlights:** psychological-astrology persona; ground truth only; anti-Barnum; section-open hooks = concrete personality contradictions (thesis of the section); money section = 2nd/6th/10th + Saturn/Jupiter behavior (no fortune predictions); length ~1000–1300 Chinese chars. Headings:
 
-1. 核心性格画像（≤ two paragraphs）  
-2. 金钱与事业风格  
-3. 关系与沟通风格  
-4. 关于你正在纠结的事（only if `user_question` set; should be longest）  
-5. 当前阶段的一句话建议  
+1. 核心性格画像（180–250）  
+2. 金钱与事业风格（220–300）  
+3. 关系与沟通风格（220–300）  
+4. 关于你正在纠结的事（only if `user_question` set; 350–450）  
+5. 当前阶段的一句话建议（30–45）  
 
-If no question: skip §4 entirely (heading omitted); still emit §5.
+If no question: skip §4 entirely (heading omitted); still emit §5. Any model-invented「延伸探索」is stripped by `sanitize_main_report`.
 
-**Streaming:** OpenAI-compatible `stream=True` → `st.write_stream` → cache full string.
+**Streaming:** OpenAI-compatible `stream=True` → `st.write_stream` → sanitize → cache full string.
 
-**Tarot:** past/present/future + orientation; optional question (prefilled from main form); weave chart + MBTI. `TAROT_SYSTEM` unchanged from early spike.
+**Tarot:** past / present / future / 三张牌共同指向 (~500–650 chars); closing hammer = one core tension + one self-question; optional question (prefilled from main form); weave chart + MBTI. No transit invention.
 
 ## UI / export
 

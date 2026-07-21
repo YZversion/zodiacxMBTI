@@ -33,12 +33,13 @@ Reversible Streamlit spike: natal chart (kerykeion) + MBTI → streamed Chinese 
 3. **Place:** pinyin/English city; country dropdown → ISO (default China=`CN`);「其他」shows 2-letter code field.
 4. **MBTI:** 16-type select;「不确定」skips cross-analysis.
 5. **Optional `user_question`:** form field「最近在纠结的事」; included in fingerprint; passed to `stream_main_report(..., user_question=)`; prefills tarot question on success.
-6. **MAIN_SYSTEM:** psychological-astrology persona; ground-truth + anti-Barnum (rules 1–6 keep intent); sections = 画像 / 金钱与事业 / 关系 / 纠结(optional) / 一句话建议; hook-sentence + no fortune-telling in money section. Edit only when the human asks.
-7. **Streaming:** `stream_main_report` / `stream_tarot_report` + `st.write_stream`; cache then `st.rerun()`.
-8. **Theme CSS:** `st.html` once. **Never** `font-family` on all `span` (breaks expander `.arrow_`).
-9. **Chart display:** wheel-only + CJK font injection; square iframe.
-10. **Disclaimer / privacy** footer always present.
-11. **License:** MIT app code; kerykeion AGPL-3.0 while imported.
+6. **MAIN_SYSTEM:** psychological-astrology persona; ground-truth + anti-Barnum; sections = 画像 / 金钱与事业 / 关系 / 纠结(optional) / 一句话建议 (no §6); length budget ~1000–1300 Chinese chars; hooks = open with a concrete personality contradiction that is also the section thesis (not offensive one-liners, not teaser CTAs). `sanitize_main_report` strips any model-invented「延伸探索」. Edit only when the human asks.
+7. **TAROT_SYSTEM:** past / present / future / 三张牌共同指向; ~500–650 chars; closing is a hammer (one core tension + one self-question), not more analysis. Red lines: no transit/timing invention, no fabricated trauma origins.
+8. **Streaming:** `stream_main_report` / `stream_tarot_report` + `st.write_stream`; cache then `st.rerun()`.
+9. **Theme CSS:** `st.html` once. **Never** `font-family` on all `span` (breaks expander `.arrow_`).
+10. **Chart display:** wheel-only + CJK font injection; square iframe.
+11. **Disclaimer / privacy** footer always present.
+12. **License:** MIT app code; kerykeion AGPL-3.0 while imported.
 
 ## Code status
 

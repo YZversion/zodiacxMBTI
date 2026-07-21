@@ -9,7 +9,7 @@ import streamlit as st
 import streamlit.components.v1 as components
 
 from chart import PLACE_HINT, PlaceLookupError, build_chart
-from interpret import stream_main_report, stream_tarot_report
+from interpret import sanitize_main_report, stream_main_report, stream_tarot_report
 from report_export import (
     DISCLAIMER,
     FontNotFoundError,
@@ -482,6 +482,7 @@ def main() -> None:
                 st.stop()
 
             text = (report or "").strip() if isinstance(report, str) else str(report or "").strip()
+            text = sanitize_main_report(text)
             if not text:
                 st.error("LLM 返回空内容，请稍后重试。")
                 st.stop()
@@ -494,7 +495,7 @@ def main() -> None:
 
     if st.session_state.report_ready and st.session_state.chart:
         chart = st.session_state.chart
-        report_text = st.session_state.report_text or ""
+        report_text = sanitize_main_report(st.session_state.report_text or "")
 
         st.subheader("解读摘要")
         _render_summary_card(chart, report_text)
