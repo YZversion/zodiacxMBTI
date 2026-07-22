@@ -439,7 +439,7 @@ def _init_state() -> None:
 
 
 def _fingerprint(
-    birth_date: date,
+    birth_date: date | None,
     birth_time: time | None,
     time_unknown: bool,
     city: str,
@@ -449,7 +449,7 @@ def _fingerprint(
 ) -> tuple:
     t = None if time_unknown else (birth_time.hour, birth_time.minute) if birth_time else None
     return (
-        birth_date.isoformat(),
+        birth_date.isoformat() if isinstance(birth_date, date) else None,
         t,
         time_unknown,
         city.strip(),
@@ -519,17 +519,23 @@ def _render_hero() -> None:
 
 def _render_coordinate_strip(
     *,
-    birth_date: date,
+    birth_date: date | None,
     birth_time: time | None,
     time_unknown: bool,
     city: str,
     mbti: str,
 ) -> None:
-    time_value = "UNKNOWN" if time_unknown or birth_time is None else birth_time.strftime("%H:%M")
+    date_value = birth_date.isoformat() if isinstance(birth_date, date) else "DATE REQUIRED"
+    if time_unknown:
+        time_value = "UNKNOWN"
+    elif birth_time is None:
+        time_value = "TIME REQUIRED"
+    else:
+        time_value = birth_time.strftime("%H:%M")
     city_value = (city or "").strip().upper() or "CITY PENDING"
     mbti_value = "UNSET" if mbti == "不确定" else mbti
     cells = (
-        ("DATE", birth_date.isoformat()),
+        ("DATE", date_value),
         ("LOCAL TIME", time_value),
         ("PLACE", city_value),
         ("TYPE", mbti_value),
@@ -681,7 +687,13 @@ def main() -> None:
 
     if submitted:
         nation = _resolve_nation(country_label, other_code)
-        if not city.strip():
+        if not isinstance(birth_date, date):
+            st.error("请选择出生日期。")
+            st.stop()
+        if not time_unknown and not isinstance(birth_time, time):
+            st.error("请选择出生时间，或勾选“不知道出生时间”。")
+            st.stop()
+        if not (city or "").strip():
             st.error(PLACE_HINT)
             st.stop()
         if not nation:

@@ -9,7 +9,7 @@ from types import SimpleNamespace
 
 from streamlit.testing.v1 import AppTest
 
-from app import THEME_CSS, _render_svg
+from app import THEME_CSS, _fingerprint, _render_svg
 from design_system import COLORS, css_variables
 from report_export import build_report_html
 from tarot import DrawnCard
@@ -20,6 +20,35 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class DesignSystemTests(unittest.TestCase):
+    def test_empty_date_is_rendered_and_fingerprinted_safely(self) -> None:
+        code = """
+from app import _render_coordinate_strip
+
+_render_coordinate_strip(
+    birth_date=None,
+    birth_time=None,
+    time_unknown=False,
+    city="",
+    mbti="不确定",
+)
+"""
+        app = AppTest.from_string(code).run(timeout=20)
+        self.assertEqual(len(app.exception), 0)
+        self.assertEqual(len(app.get("html")), 1)
+        self.assertIn("DATE REQUIRED", app.get("html")[0].proto.body)
+        self.assertEqual(
+            _fingerprint(None, None, False, "", "CN", "不确定")[0],
+            None,
+        )
+
+    def test_submit_with_empty_date_shows_validation_instead_of_crashing(self) -> None:
+        app = AppTest.from_file(str(ROOT / "app.py")).run(timeout=20)
+        app.date_input[0].set_value(None)
+        app.button[0].click()
+        app.run(timeout=20)
+        self.assertEqual(len(app.exception), 0)
+        self.assertEqual([item.value for item in app.error], ["请选择出生日期。"])
+
     def test_theme_has_accessibility_guards_and_no_remote_fonts(self) -> None:
         self.assertIn("@media (prefers-reduced-motion: reduce)", THEME_CSS)
         self.assertIn("button:focus-visible", THEME_CSS)
