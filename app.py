@@ -3,13 +3,14 @@
 from __future__ import annotations
 
 import html
+import re
 from datetime import date, time
 
 import streamlit as st
-import streamlit.components.v1 as components
 
 from chart import PLACE_HINT, PlaceLookupError, build_chart
-from interpret import sanitize_main_report, stream_main_report, stream_tarot_report
+from design_system import COLORS, css_variables
+from interpret import stream_main_report, stream_tarot_report
 from report_export import (
     DISCLAIMER,
     FontNotFoundError,
@@ -17,6 +18,8 @@ from report_export import (
     build_report_html,
     build_report_pdf,
     extract_section_4_advice,
+    sanitize_main_report,
+    split_main_and_extensions,
     summary_headline,
 )
 from tarot import DrawnCard, draw_three
@@ -62,17 +65,8 @@ COUNTRY_TO_ISO = {
 
 THEME_CSS = """
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Noto+Sans+SC:wght@400;500;600;700&family=Noto+Serif+SC:wght@400;600&family=Space+Grotesk:wght@400;500;600;700&display=swap');
-
 :root {
-  --zx-bg: #05060a;
-  --zx-text: #f4f1ea;
-  --zx-muted: rgba(244, 241, 234, 0.62);
-  --zx-accent: #c9a46c;
-  --zx-glass: rgba(255, 255, 255, 0.08);
-  --zx-border: rgba(255, 255, 255, 0.22);
-  --zx-display: "Instrument Serif", "Noto Serif SC", Georgia, serif;
-  --zx-body: "Space Grotesk", "Noto Sans SC", system-ui, sans-serif;
+  __ZX_DESIGN_TOKENS__
 }
 
 html, body, [data-testid="stAppViewContainer"], .stApp {
@@ -83,21 +77,12 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
 [data-testid="stAppViewContainer"] {
   background-color: var(--zx-bg) !important;
   background-image:
-    radial-gradient(1.4px 1.4px at 8% 12%, rgba(255,255,255,0.55) 0, transparent 2px),
-    radial-gradient(1px 1px at 18% 48%, rgba(255,255,255,0.35) 0, transparent 2px),
-    radial-gradient(1.6px 1.6px at 32% 22%, rgba(201,164,108,0.45) 0, transparent 2px),
-    radial-gradient(1px 1px at 46% 68%, rgba(255,255,255,0.28) 0, transparent 2px),
-    radial-gradient(1.3px 1.3px at 58% 16%, rgba(255,255,255,0.5) 0, transparent 2px),
-    radial-gradient(1px 1px at 71% 42%, rgba(255,255,255,0.32) 0, transparent 2px),
-    radial-gradient(1.5px 1.5px at 84% 28%, rgba(180,200,255,0.4) 0, transparent 2px),
-    radial-gradient(1px 1px at 92% 74%, rgba(255,255,255,0.3) 0, transparent 2px),
-    radial-gradient(1.2px 1.2px at 14% 82%, rgba(255,255,255,0.38) 0, transparent 2px),
-    radial-gradient(1px 1px at 38% 90%, rgba(201,164,108,0.35) 0, transparent 2px),
-    radial-gradient(1.4px 1.4px at 63% 86%, rgba(255,255,255,0.42) 0, transparent 2px),
-    radial-gradient(1px 1px at 78% 58%, rgba(255,255,255,0.25) 0, transparent 2px),
-    radial-gradient(ellipse 80% 55% at 70% 20%, rgba(70, 90, 160, 0.18), transparent 55%),
-    radial-gradient(ellipse 70% 50% at 20% 80%, rgba(90, 60, 120, 0.14), transparent 50%),
-    linear-gradient(165deg, #05060a 0%, #0a0d16 45%, #07080f 100%) !important;
+    radial-gradient(circle at 78% 12%, rgba(110, 143, 180, 0.18), transparent 26rem),
+    radial-gradient(circle at 12% 86%, rgba(127, 167, 155, 0.11), transparent 24rem),
+    linear-gradient(var(--zx-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--zx-line) 1px, transparent 1px),
+    linear-gradient(150deg, var(--zx-bg-deep) 0%, var(--zx-bg) 48%, #0e1b2d 100%) !important;
+  background-size: auto, auto, 48px 48px, 48px 48px, auto !important;
   background-attachment: fixed !important;
 }
 
@@ -108,34 +93,17 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
   pointer-events: none;
   z-index: 0;
   background:
-    radial-gradient(circle at 50% 35%, transparent 0%, rgba(0,0,0,0.35) 55%, rgba(0,0,0,0.72) 100%),
-    linear-gradient(180deg, rgba(0,0,0,0.45) 0%, transparent 28%, transparent 62%, rgba(0,0,0,0.7) 100%);
-}
-
-[data-testid="stAppViewContainer"]::after {
-  content: "";
-  position: fixed;
-  inset: -20%;
-  pointer-events: none;
-  z-index: 0;
-  opacity: 0.07;
-  background-image: repeating-radial-gradient(
-    circle at 17% 23%,
-    rgba(255,255,255,0.85) 0 1px,
-    transparent 1px 4px
-  );
-  background-size: 64px 64px;
-  animation: zx-drift-grain 9s steps(8) infinite;
-}
-
-@keyframes zx-drift-grain {
-  0% { transform: translate3d(0, 0, 0); }
-  100% { transform: translate3d(-64px, 42px, 0); }
+    radial-gradient(circle at 82% 8%, transparent 0 11.9rem, rgba(169,198,189,0.22) 12rem 12.05rem, transparent 12.1rem 16rem, rgba(110,143,180,0.14) 16.05rem 16.1rem, transparent 16.15rem),
+    linear-gradient(180deg, rgba(7,16,29,0.18), rgba(7,16,29,0.64));
 }
 
 [data-testid="stHeader"] {
-  background: rgba(5, 6, 10, 0.55) !important;
-  backdrop-filter: blur(12px);
+  display: none !important;
+}
+
+[data-testid="stMainBlockContainer"] {
+  padding-top: 2.25rem !important;
+  padding-bottom: 4rem !important;
 }
 
 [data-testid="stAppViewContainer"] > .main,
@@ -154,6 +122,44 @@ h1, h2, h3,
   letter-spacing: 0.01em;
 }
 
+.zx-hero {
+  padding: 2.1rem 0 1.2rem;
+  max-width: 46rem;
+}
+.zx-eyebrow {
+  margin: 0 0 0.75rem;
+  color: var(--zx-accent-strong);
+  font-family: var(--zx-data);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+.zx-hero-title {
+  margin: 0;
+  color: var(--zx-text);
+  font-family: var(--zx-display);
+  font-size: clamp(2.35rem, 7vw, 4.4rem);
+  font-weight: 400;
+  letter-spacing: 0.015em;
+  line-height: 1.12;
+  text-wrap: balance;
+}
+.zx-hero-title span {
+  display: block;
+}
+.zx-hero-lede {
+  max-width: 38rem;
+  margin: 1rem 0 0;
+  color: var(--zx-muted);
+  font-size: 1rem;
+  line-height: 1.75;
+}
+.zx-hero-lede strong {
+  color: var(--zx-text);
+  font-weight: 600;
+}
+
 /* Body copy only — never blanket-style `span` (breaks expander .arrow_ icon fonts) */
 [data-testid="stMarkdownContainer"] p,
 [data-testid="stMarkdownContainer"] li,
@@ -170,6 +176,85 @@ h1, h2, h3,
 
 [data-testid="stCaption"] {
   color: var(--zx-muted) !important;
+}
+
+[data-testid="stVerticalBlockBorderWrapper"] {
+  border: 1px solid var(--zx-border) !important;
+  border-radius: 14px !important;
+  background: linear-gradient(145deg, rgba(24,40,61,0.80), rgba(18,31,49,0.58)) !important;
+  box-shadow: 0 20px 55px rgba(2, 8, 16, 0.24);
+  backdrop-filter: blur(14px);
+}
+
+[data-baseweb="input"],
+[data-baseweb="select"] > div,
+[data-testid="stDateInput"] [data-baseweb="input"],
+[data-testid="stTimeInput"] [data-baseweb="input"] {
+  background-color: var(--zx-surface) !important;
+  border-color: var(--zx-border) !important;
+}
+
+[data-baseweb="input"]:focus-within,
+[data-baseweb="select"] > div:focus-within,
+button:focus-visible,
+summary:focus-visible {
+  outline: 3px solid rgba(169, 198, 189, 0.92) !important;
+  outline-offset: 2px !important;
+  box-shadow: 0 0 0 5px rgba(11, 22, 38, 0.86) !important;
+}
+
+[data-testid="stButton"] button[kind="primary"],
+[data-testid="stFormSubmitButton"] button[kind="primary"] {
+  min-height: 2.8rem;
+  border: 1px solid var(--zx-cta) !important;
+  border-radius: 10px !important;
+  background: var(--zx-cta) !important;
+  color: var(--zx-cta-text) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.02em;
+  box-shadow: 0 12px 28px rgba(2, 8, 16, 0.28);
+}
+[data-testid="stButton"] button[kind="primary"]:hover,
+[data-testid="stFormSubmitButton"] button[kind="primary"]:hover {
+  border-color: var(--zx-accent-strong) !important;
+  background: var(--zx-accent-strong) !important;
+  color: var(--zx-cta-text) !important;
+  transform: translateY(-1px);
+}
+
+.zx-coordinate-strip {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  margin: 0.5rem 0 0.8rem;
+  overflow: hidden;
+  border: 1px solid var(--zx-line);
+  border-radius: 12px;
+  background: var(--zx-line);
+}
+.zx-coordinate-cell {
+  min-width: 0;
+  padding: 0.72rem 0.78rem;
+  background: rgba(7, 16, 29, 0.72);
+}
+.zx-coordinate-cell small {
+  display: block;
+  margin-bottom: 0.22rem;
+  color: var(--zx-coordinate);
+  font-family: var(--zx-data);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+.zx-coordinate-cell strong {
+  display: block;
+  overflow: hidden;
+  color: var(--zx-text);
+  font-family: var(--zx-data);
+  font-size: 0.82rem;
+  font-weight: 500;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 /* Expander header: body font + room for the toggle arrow */
@@ -207,8 +292,8 @@ span[class*="arrow_"] {
   backdrop-filter: blur(22px);
   -webkit-backdrop-filter: blur(22px);
   box-shadow:
-    0 24px 60px rgba(0, 0, 0, 0.45),
-    inset 0 1px 0 rgba(255, 255, 255, 0.16);
+    0 24px 60px rgba(2, 8, 16, 0.42),
+    inset 0 1px 0 rgba(231, 221, 201, 0.10);
   overflow: hidden;
 }
 .zx-summary-card::before {
@@ -217,8 +302,8 @@ span[class*="arrow_"] {
   inset: 0;
   pointer-events: none;
   background:
-    linear-gradient(135deg, rgba(255,255,255,0.16), transparent 40%),
-    radial-gradient(circle at 86% 12%, rgba(201,164,108,0.2), transparent 32%);
+    linear-gradient(135deg, rgba(231,221,201,0.09), transparent 40%),
+    radial-gradient(circle at 86% 12%, rgba(127,167,155,0.20), transparent 32%);
 }
 .zx-summary-headline {
   position: relative;
@@ -226,7 +311,7 @@ span[class*="arrow_"] {
   font-size: 1.45rem;
   line-height: 1.35;
   font-weight: 400;
-  color: #fff;
+  color: var(--zx-text);
   margin: 0 0 0.8rem;
   text-shadow: 0 10px 30px rgba(0,0,0,0.35);
 }
@@ -245,10 +330,36 @@ span[class*="arrow_"] {
   font-size: 1.02rem;
   line-height: 1.6;
   margin: 0;
-  color: rgba(244, 241, 234, 0.92);
+  color: var(--zx-text);
+}
+
+@media (max-width: 520px) {
+  .zx-hero {
+    padding-top: 1.3rem;
+  }
+  .zx-hero-title {
+    font-size: 2.2rem;
+    line-height: 1.14;
+  }
+  .zx-coordinate-strip {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  [data-testid="stButton"] button[kind="primary"]:hover,
+  [data-testid="stFormSubmitButton"] button[kind="primary"]:hover {
+    transform: none;
+  }
 }
 </style>
-"""
+""".replace("__ZX_DESIGN_TOKENS__", css_variables())
 
 
 def _inject_theme() -> None:
@@ -335,27 +446,120 @@ def _render_summary_card(chart, report_text: str) -> None:
     )
 
 
+def _render_hero() -> None:
+    st.html(
+        """
+        <section class="zx-hero">
+          <p class="zx-eyebrow">Birth coordinate × personality type</p>
+          <h1 class="zx-hero-title">
+            <span>把出生坐标和 MBTI，</span>
+            <span>交叉成一份性格报告</span>
+          </h1>
+          <p class="zx-hero-lede">
+            <strong>只讲矛盾，不讲套话。</strong>
+            无需注册，一次生成，可下载留存。
+          </p>
+        </section>
+        """
+    )
+
+
+def _render_coordinate_strip(
+    *,
+    birth_date: date,
+    birth_time: time | None,
+    time_unknown: bool,
+    city: str,
+    mbti: str,
+) -> None:
+    time_value = "UNKNOWN" if time_unknown or birth_time is None else birth_time.strftime("%H:%M")
+    city_value = (city or "").strip().upper() or "CITY PENDING"
+    mbti_value = "UNSET" if mbti == "不确定" else mbti
+    cells = (
+        ("DATE", birth_date.isoformat()),
+        ("LOCAL TIME", time_value),
+        ("PLACE", city_value),
+        ("TYPE", mbti_value),
+    )
+    body = "".join(
+        '<div class="zx-coordinate-cell">'
+        f"<small>{html.escape(label)}</small>"
+        f"<strong>{html.escape(value)}</strong>"
+        "</div>"
+        for label, value in cells
+    )
+    st.html(f'<div class="zx-coordinate-strip" aria-label="当前输入摘要">{body}</div>')
+
+
 def _render_svg(svg: str) -> None:
-    # Square wheel chart; keep room so CN glyphs aren't crushed on mobile.
-    wrapped = f"""
-    <div style="width:100%;max-width:520px;margin:0 auto;aspect-ratio:1/1;
-                overflow:hidden;background:#0a0d16;border-radius:12px;
-                border:1px solid rgba(255,255,255,0.12);box-sizing:border-box;">
-      <style>
-        svg {{ width:100% !important; height:100% !important; display:block; }}
-        text, tspan {{
-          font-family: 'Noto Sans SC', 'Microsoft YaHei', 'PingFang SC', sans-serif !important;
-        }}
-      </style>
-      {svg}
-    </div>
-    """
-    components.html(wrapped, height=540, scrolling=False)
+    # Streamlit measures srcdoc content and updates the iframe height when its
+    # responsive width changes, so the chart never reserves stale space.
+    # Keep the SVG top-level and style it inline: Kerykeion's percentage
+    # dimensions then resolve from its viewBox without an extra wrapper.
+    root_match = re.search(r"<svg\b[^>]*>", svg, re.IGNORECASE)
+    if not root_match:
+        st.error("星盘图形格式无效，请重新生成。")
+        return
+    opening = root_match.group(0)
+    viewbox_match = re.search(
+        r"\bviewBox\s*=\s*(['\"])([^'\"]+)\1", opening, re.IGNORECASE
+    )
+    intrinsic_width, intrinsic_height = "100", "100"
+    if viewbox_match:
+        viewbox = viewbox_match.group(2).replace(",", " ").split()
+        if len(viewbox) == 4:
+            intrinsic_width, intrinsic_height = viewbox[2], viewbox[3]
+            for attribute, value in (
+                ("width", intrinsic_width),
+                ("height", intrinsic_height),
+            ):
+                pattern = rf"\s{attribute}\s*=\s*(['\"])[^'\"]*\1"
+                if re.search(pattern, opening, re.IGNORECASE):
+                    opening = re.sub(
+                        pattern,
+                        f' {attribute}="{value}"',
+                        opening,
+                        count=1,
+                        flags=re.IGNORECASE,
+                    )
+                else:
+                    opening = opening[:-1] + f' {attribute}="{value}">'
+    try:
+        chart_ratio = float(intrinsic_height) / float(intrinsic_width)
+    except (TypeError, ValueError, ZeroDivisionError):
+        chart_ratio = 1.0
+    max_height = 640 * chart_ratio
+    viewport_height = 100 * chart_ratio
+    gutter_height = 16 * chart_ratio
+    chart_style = (
+        "display:block;"
+        "width:min(640px,calc(100% - 16px));"
+        f"height:min({max_height:.3f}px,calc({viewport_height:.3f}vw - {gutter_height:.3f}px));"
+        "margin:8px auto;"
+        f"border:1px solid {COLORS['border']};"
+        "border-radius:12px;"
+        f"background:{COLORS['surface']};"
+        "box-sizing:border-box;"
+    )
+    style_marker = re.search(r"\sstyle\s*=\s*(['\"])", opening, re.IGNORECASE)
+    if style_marker:
+        quote = style_marker.group(1)
+        style_end = opening.find(quote, style_marker.end())
+        opening = opening[:style_end] + ";" + chart_style + opening[style_end:]
+    else:
+        opening = opening[:-1] + f' style="{chart_style}">'
+    styled_svg = svg[: root_match.start()] + opening + svg[root_match.end() :]
+    st.iframe(
+        styled_svg,
+        width="stretch",
+        height="content",
+        tab_index=-1,
+    )
 
 
 def _render_tarot_cards(cards: list[DrawnCard]) -> None:
-    # Self-contained flip stage; interpretation text stays in Streamlit below.
-    components.html(build_flip_html(cards), height=920, scrolling=False)
+    # Inline fragment participates in normal layout; no fixed-height iframe whitespace.
+    st.html(build_flip_html(cards))
 
 
 def _footer() -> None:
@@ -373,20 +577,19 @@ def main() -> None:
     _init_state()
     _inject_theme()
 
-    st.title("星盘 × MBTI 性格解读")
-    st.caption("一次性报告 · 不存账号 · 朋友圈 spike")
+    _render_hero()
 
-    # Country outside the form so「其他」能即时展开（form 内控件提交前不重跑）
-    country_label = st.selectbox("出生国家", COUNTRY_LABELS, index=0)
-    other_code = ""
-    if country_label == "其他":
-        other_code = st.text_input(
-            "请填写两位国家代码",
-            placeholder="例如 DE、FR",
-            help="若列表中没有你的国家，填写两位字母代码（如德国 DE）。",
-        )
-
-    with st.form("birth_form"):
+    with st.container(border=True):
+        st.markdown("#### 出生坐标")
+        st.caption("日期、时间与地点共同决定星盘；不知道具体时间也可以继续。")
+        country_label = st.selectbox("出生国家", COUNTRY_LABELS, index=0)
+        other_code = ""
+        if country_label == "其他":
+            other_code = st.text_input(
+                "请填写两位国家代码",
+                placeholder="例如 DE、FR",
+                help="若列表中没有你的国家，填写两位字母代码（如德国 DE）。",
+            )
         birth_date = st.date_input(
             "出生日期",
             value=date(1995, 1, 1),
@@ -404,12 +607,24 @@ def main() -> None:
             placeholder="Shanghai",
             help=PLACE_HINT,
         )
+        st.caption("请使用拼音或英文城市名，例如 Shanghai、Beijing。")
+
+    with st.container(border=True):
+        st.markdown("#### 人格参照")
+        st.caption("MBTI 用来做交叉分析；不确定可以跳过。具体问题会在报告中单独展开。")
         mbti_raw = st.selectbox("MBTI", MBTI_OPTIONS, index=0)
         user_question = st.text_input(
             "最近在纠结的事（选填，报告会针对它展开）",
             placeholder="例：在纠结稳定的 A 和自由的 B 两份工作 / 一段关系要不要继续",
         )
-        submitted = st.form_submit_button("生成解读", type="primary", use_container_width=True)
+        _render_coordinate_strip(
+            birth_date=birth_date,
+            birth_time=birth_time,
+            time_unknown=time_unknown,
+            city=city,
+            mbti=mbti_raw,
+        )
+        submitted = st.button("生成解读", type="primary", use_container_width=True)
 
     if submitted:
         nation = _resolve_nation(country_label, other_code)
@@ -555,7 +770,14 @@ def main() -> None:
             _render_svg(chart.svg)
 
         st.subheader("解读报告")
-        st.markdown(report_text)
+        main_body, ext_items = split_main_and_extensions(report_text)
+        st.markdown(main_body)
+        if ext_items:
+            st.markdown("##### 延伸探索")
+            st.caption("点开查看短解析（默认折叠）")
+            for i, (title, body) in enumerate(ext_items):
+                with st.expander(title, expanded=False):
+                    st.markdown(body or "（暂无解析）")
 
         st.subheader("再抽三张牌（可选）")
         st.caption("默认收起主漏斗之外的第二步；不想用可直接忽略。")
@@ -625,7 +847,6 @@ def main() -> None:
 
         _footer()
     else:
-        st.info(PLACE_HINT)
         _footer()
 
 

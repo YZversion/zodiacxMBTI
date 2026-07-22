@@ -10,6 +10,7 @@ from typing import Optional, Sequence
 from fpdf import FPDF
 
 from chart import sign_to_zh
+from design_system import BODY_FONT_STACK, DATA_FONT_STACK, DISPLAY_FONT_STACK, css_variables
 
 PRIVACY = "出生信息仅用于本次计算，不存储、不留日志。"
 DISCLAIMER = (
@@ -52,6 +53,70 @@ def extract_section_4_advice(report: str) -> str:
     if not match:
         return ""
     return match.group(1).strip()
+
+
+def sanitize_main_report(report: str) -> str:
+    """Normalize whitespace; keep §6 for collapsible rendering."""
+    return (report or "").strip()
+
+
+def split_extension_section(report: str) -> tuple[str, str]:
+    """Split main body from ## 6 延伸/衍生探索. Returns (main, extension_body)."""
+    if not report:
+        return "", ""
+    m = re.search(
+        r"(?:\n|^)##\s*6[.、．]?\s*(?:延伸|衍生)探索\s*\n?(.*)\Z",
+        report,
+        flags=re.DOTALL,
+    )
+    if not m:
+        return report.strip(), ""
+    main = report[: m.start()].strip()
+    return main, m.group(1).strip()
+
+
+def parse_extension_items(extension_body: str) -> list[tuple[str, str]]:
+    """Parse ### titled items, or legacy bullet teasers, into (title, body)."""
+    body = (extension_body or "").strip()
+    if not body:
+        return []
+
+    items: list[tuple[str, str]] = []
+    # Preferred: ### Title + paragraphs
+    chunks = re.split(r"(?m)^###\s+", body)
+    if len(chunks) > 1:
+        for chunk in chunks[1:]:
+            lines = chunk.strip().splitlines()
+            if not lines:
+                continue
+            title = re.sub(r"^#+\s*", "", lines[0]).strip()
+            text = "\n".join(lines[1:]).strip()
+            if title:
+                items.append((title, text or "（暂无解析）"))
+        if items:
+            return items
+
+    # Legacy: "- 想知道…吗？" bullets → fold each as title with placeholder body
+    bullets = re.findall(r"(?m)^(?:[-*]|\d+[.、])\s*(.+)$", body)
+    if bullets:
+        for b in bullets:
+            title = b.strip().rstrip("？?").lstrip("想知道").strip("，, ")
+            if len(title) > 36:
+                title = title[:36] + "…"
+            items.append(
+                (
+                    title or "延伸探索",
+                    "本条仍是旧版「只提问」格式。请重新生成报告，以获得带解析的折叠内容。",
+                )
+            )
+        return items
+
+    return [("延伸探索", body)]
+
+
+def split_main_and_extensions(report: str) -> tuple[str, list[tuple[str, str]]]:
+    main, ext = split_extension_section(report)
+    return main, parse_extension_items(ext)
 
 
 def summary_headline(chart) -> str:
@@ -118,6 +183,29 @@ def _md_to_html(text: str) -> str:
     return "\n".join(parts)
 
 
+def _extensions_to_html(items: list[tuple[str, str]]) -> str:
+    import html as html_lib
+
+    if not items:
+        return ""
+    blocks: list[str] = []
+    for title, body in items:
+        body_html = _md_to_html(body) if body else "<p>（暂无解析）</p>"
+        blocks.append(
+            f'<details class="fold">'
+            f"<summary>{html_lib.escape(title)}</summary>"
+            f'<div class="fold-body prose">{body_html}</div>'
+            f"</details>"
+        )
+    return (
+        '<section class="section">'
+        "<h1>延伸探索</h1>"
+        '<p class="meta" style="margin-top:0">点开查看短解析</p>'
+        + "".join(blocks)
+        + "</section>"
+    )
+
+
 def build_report_html(
     *,
     chart,
@@ -130,6 +218,7 @@ def build_report_html(
 
     from tarot_ui import card_face_data_uri
 
+    design_tokens = css_variables()
     headline = html_lib.escape(summary_headline(chart))
     advice = extract_section_4_advice(report_text or "")
     advice_html = (
@@ -197,13 +286,19 @@ def build_report_html(
         tarot_reading = _md_to_html(tarot_text or "")
         tarot_block = f"""
         <section class="section">
-          <h1>塔罗补充</h1>
-          <div class="tarot-row">{''.join(cards_html)}</div>
-          <div class="prose">{tarot_reading}</div>
+          <details class="fold" open>
+            <summary>塔罗补充 · 衍生探索</summary>
+            <div class="fold-body">
+              <div class="tarot-row">{''.join(cards_html)}</div>
+              <div class="prose">{tarot_reading}</div>
+            </div>
+          </details>
         </section>
         """
 
-    report_html = _md_to_html(report_text or "")
+    report_main, ext_items = split_main_and_extensions(report_text or "")
+    report_html = _md_to_html(report_main)
+    extension_block = _extensions_to_html(ext_items)
 
     return f"""<!DOCTYPE html>
 <html lang="zh-CN">
@@ -213,24 +308,19 @@ def build_report_html(
 <title>星盘 × MBTI 性格解读</title>
 <style>
   :root {{
-    --bg: #05060a;
-    --text: #f4f1ea;
-    --muted: rgba(244,241,234,0.62);
-    --glass: rgba(255,255,255,0.08);
-    --border: rgba(255,255,255,0.22);
-    --accent: #c9a46c;
+    {design_tokens}
   }}
   * {{ box-sizing: border-box; }}
   body {{
     margin: 0;
-    color: var(--text);
-    font-family: "Space Grotesk", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+    color: var(--zx-text);
+    font-family: {BODY_FONT_STACK};
     background:
-      radial-gradient(1.4px 1.4px at 8% 12%, rgba(255,255,255,0.55) 0, transparent 2px),
-      radial-gradient(1px 1px at 46% 68%, rgba(255,255,255,0.28) 0, transparent 2px),
-      radial-gradient(1.3px 1.3px at 78% 24%, rgba(201,164,108,0.4) 0, transparent 2px),
-      radial-gradient(1px 1px at 22% 82%, rgba(255,255,255,0.35) 0, transparent 2px),
-      linear-gradient(165deg, #05060a 0%, #0a0d16 45%, #07080f 100%);
+      radial-gradient(circle at 78% 12%, rgba(110,143,180,0.18), transparent 26rem),
+      linear-gradient(var(--zx-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--zx-line) 1px, transparent 1px),
+      linear-gradient(150deg, var(--zx-bg-deep) 0%, var(--zx-bg) 48%, #0e1b2d 100%);
+    background-size: auto, 48px 48px, 48px 48px, auto;
     background-attachment: fixed;
     line-height: 1.65;
   }}
@@ -240,33 +330,33 @@ def build_report_html(
     padding: 28px 18px 64px;
   }}
   .brand {{
-    font-family: "Instrument Serif", "Noto Serif SC", Georgia, serif;
+    font-family: {DISPLAY_FONT_STACK};
     font-size: clamp(28px, 5vw, 40px);
     font-weight: 400;
     margin: 0 0 8px;
   }}
-  .meta {{ color: var(--muted); font-size: 13px; margin-bottom: 18px; }}
+  .meta {{ color: var(--zx-muted); font-family: {DATA_FONT_STACK}; font-size: 12px; margin-bottom: 18px; }}
   .glass {{
     position: relative;
-    background: var(--glass);
-    border: 1px solid var(--border);
+    background: var(--zx-glass);
+    border: 1px solid var(--zx-border);
     border-radius: 16px;
     padding: 1.15rem 1.2rem;
     margin: 0 0 22px;
     backdrop-filter: blur(18px);
-    box-shadow: 0 24px 60px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.14);
+    box-shadow: 0 24px 60px rgba(2,8,16,0.42), inset 0 1px 0 rgba(231,221,201,0.10);
     overflow: hidden;
   }}
   .glass::before {{
     content: "";
     position: absolute; inset: 0; pointer-events: none;
     background:
-      linear-gradient(135deg, rgba(255,255,255,0.14), transparent 40%),
-      radial-gradient(circle at 86% 12%, rgba(201,164,108,0.18), transparent 32%);
+      linear-gradient(135deg, rgba(231,221,201,0.09), transparent 40%),
+      radial-gradient(circle at 86% 12%, rgba(127,167,155,0.20), transparent 32%);
   }}
   .headline {{
     position: relative;
-    font-family: "Instrument Serif", "Noto Serif SC", Georgia, serif;
+    font-family: {DISPLAY_FONT_STACK};
     font-size: 1.45rem;
     line-height: 1.35;
     margin: 0 0 0.75rem;
@@ -276,13 +366,13 @@ def build_report_html(
     font-size: 0.72rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: var(--muted);
+    color: var(--zx-muted);
     margin: 0 0 0.35rem;
   }}
   .advice {{ position: relative; margin: 0; font-size: 1.02rem; }}
-  .note {{ color: #e2c48a; font-size: 0.92rem; }}
+  .note {{ color: var(--zx-accent-strong); font-size: 0.92rem; }}
   .section h1 {{
-    font-family: "Instrument Serif", "Noto Serif SC", Georgia, serif;
+    font-family: {DISPLAY_FONT_STACK};
     font-size: 1.5rem;
     font-weight: 400;
     margin: 28px 0 12px;
@@ -291,20 +381,44 @@ def build_report_html(
     width: min(520px, 100%);
     margin: 0 auto 8px;
     aspect-ratio: 1 / 1;
-    background: #0a0d16;
+    background: var(--zx-surface);
     border-radius: 12px;
-    border: 1px solid rgba(255,255,255,0.12);
+    border: 1px solid var(--zx-border);
     overflow: hidden;
   }}
   .chart-box svg {{ width: 100%; height: 100%; display: block; }}
   .prose h2 {{
-    font-family: "Instrument Serif", "Noto Serif SC", Georgia, serif;
-    color: var(--accent);
+    font-family: {DISPLAY_FONT_STACK};
+    color: var(--zx-accent-strong);
     font-size: 1.15rem;
     font-weight: 400;
     margin: 1.2rem 0 0.45rem;
   }}
   .prose p {{ margin: 0.35rem 0; }}
+  details.fold {{
+    border: 1px solid var(--zx-border);
+    border-radius: 12px;
+    background: var(--zx-glass);
+    padding: 0.4rem 1rem 1rem;
+    margin: 1.25rem 0;
+  }}
+  details.fold > summary {{
+    cursor: pointer;
+    list-style: none;
+    font-family: {DISPLAY_FONT_STACK};
+    font-size: 1.35rem;
+    color: var(--zx-accent-strong);
+    padding: 0.75rem 0.15rem;
+    user-select: none;
+  }}
+  details.fold > summary::-webkit-details-marker {{ display: none; }}
+  details.fold > summary::after {{
+    content: " ▾";
+    font-size: 0.85em;
+    opacity: 0.7;
+  }}
+  details.fold:not([open]) > summary::after {{ content: " ▸"; }}
+  details.fold .fold-body {{ margin-top: 0.5rem; }}
   .tarot-row {{
     display: flex;
     flex-wrap: wrap;
@@ -316,7 +430,7 @@ def build_report_html(
     width: 148px;
     text-align: center;
   }}
-  .tarot-card .pos {{ color: var(--muted); font-size: 12px; margin-bottom: 6px; }}
+  .tarot-card .pos {{ color: var(--zx-coordinate); font-family: {DATA_FONT_STACK}; font-size: 12px; margin-bottom: 6px; }}
   .tarot-card .name {{ font-size: 14px; font-weight: 600; margin: 8px 0 6px; }}
   .card-img {{
     width: 100%;
@@ -332,25 +446,25 @@ def build_report_html(
     border-radius: 999px;
     font-weight: 600;
   }}
-  .badge-up {{ background: #dceee3; color: #1f6b45; }}
-  .badge-rev {{ background: #f3d9d4; color: #8a2f2a; }}
+  .badge-up {{ background: var(--zx-cta); color: var(--zx-cta-text); }}
+  .badge-rev {{ background: #e3b9b0; color: #4f1814; }}
   .foot {{
     margin-top: 36px;
-    color: var(--muted);
+    color: var(--zx-muted);
     font-size: 12px;
-    border-top: 1px solid rgba(255,255,255,0.12);
+    border-top: 1px solid var(--zx-border);
     padding-top: 14px;
   }}
   .print-hint {{
     margin: 0 0 18px;
     padding: 10px 12px;
-    border: 1px dashed rgba(201,164,108,0.45);
+    border: 1px dashed var(--zx-accent);
     border-radius: 10px;
-    color: var(--muted);
+    color: var(--zx-muted);
     font-size: 13px;
   }}
   @media print {{
-    body {{ background: #05060a; -webkit-print-color-adjust: exact; print-color-adjust: exact; }}
+    body {{ background: var(--zx-bg); -webkit-print-color-adjust: exact; print-color-adjust: exact; }}
     .print-hint {{ display: none; }}
     .wrap {{ padding: 0; max-width: 100%; }}
   }}
@@ -374,6 +488,7 @@ def build_report_html(
       <h1>解读报告</h1>
       <div class="prose">{report_html}</div>
     </section>
+    {extension_block}
     {tarot_block}
     <div class="foot">
       <p>{html_lib.escape(PRIVACY)}</p>

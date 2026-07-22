@@ -7,6 +7,7 @@ import html
 from functools import lru_cache
 from pathlib import Path
 
+from design_system import css_variables
 from tarot import MAJOR, DrawnCard
 
 ASSETS_DIR = Path(__file__).resolve().parent / "assets" / "tarot" / "rws"
@@ -65,7 +66,7 @@ def card_face_data_uri(card_name: str) -> str:
 
 
 def build_flip_html(cards: list[DrawnCard]) -> str:
-    """Self-contained HTML/CSS: backs up, then sequential 3D flips."""
+    """Self-contained HTML fragment: backs up, then sequential 3D flips."""
     items: list[str] = []
     for i, card in enumerate(cards):
         delay = f"{i * 0.4:.1f}s"
@@ -95,39 +96,53 @@ def build_flip_html(cards: list[DrawnCard]) -> str:
             """
         )
 
-    return f"""<!DOCTYPE html>
-<html><head><meta charset="utf-8" />
+    tokens = css_variables()
+    return f"""
 <style>
-  html, body {{
-    margin: 0; padding: 0;
-    background: transparent;
-    font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
-    color: #1c1b19;
+  :root {{
+    {tokens}
+  }}
+  .zx-tarot-stage {{
+    margin: 0.4rem 0 1rem;
+    padding: 1rem 0.75rem 1.1rem;
+    border: 1px solid var(--zx-border);
+    border-radius: 14px;
+    background:
+      linear-gradient(var(--zx-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--zx-line) 1px, transparent 1px),
+      linear-gradient(145deg, rgba(24,40,61,0.90), rgba(11,22,38,0.86));
+    background-size: 28px 28px, 28px 28px, auto;
+    color: var(--zx-text);
+    font-family: var(--zx-body);
+    box-sizing: border-box;
   }}
   .zx-flip-row {{
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 148px));
     justify-content: center;
     gap: 14px 16px;
-    padding: 6px 4px 10px;
+    padding: 6px 0 2px;
     box-sizing: border-box;
   }}
   .zx-flip-item {{
-    width: 148px;
+    width: 100%;
     max-width: 100%;
     text-align: center;
     opacity: 0;
     animation: zx-fade-in 0.35s ease forwards;
   }}
   .zx-pos {{
-    font-size: 12px;
-    color: #6b655c;
+    color: var(--zx-coordinate);
+    font-family: var(--zx-data);
+    font-size: 11px;
+    font-weight: 700;
     margin-bottom: 8px;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.12em;
   }}
   .zx-scene {{
-    width: 148px;
-    height: 260px;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 148 / 260;
     margin: 0 auto;
     perspective: 1100px;
   }}
@@ -146,10 +161,11 @@ def build_flip_html(cards: list[DrawnCard]) -> str:
     -webkit-backface-visibility: hidden;
     border-radius: 10px;
     overflow: hidden;
-    box-shadow: 0 8px 18px rgba(44, 74, 110, 0.18);
+    border: 1px solid rgba(231,221,201,0.20);
+    box-shadow: 0 14px 30px rgba(2, 8, 16, 0.36);
   }}
   .zx-back {{
-    background: linear-gradient(145deg, #2c4a6e 0%, #1e334d 55%, #3a5f86 100%);
+    background: linear-gradient(145deg, var(--zx-surface-strong), var(--zx-bg-deep));
     display: flex;
     align-items: center;
     justify-content: center;
@@ -157,24 +173,25 @@ def build_flip_html(cards: list[DrawnCard]) -> str:
   .zx-back-pattern {{
     width: 78%;
     height: 84%;
-    border: 1px solid rgba(247, 244, 239, 0.35);
+    border: 1px solid rgba(169, 198, 189, 0.48);
     border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
     background:
-      radial-gradient(circle at 30% 30%, rgba(247,244,239,0.18) 0 1px, transparent 2px),
-      radial-gradient(circle at 70% 60%, rgba(247,244,239,0.14) 0 1px, transparent 2px);
-    background-size: 12px 12px, 16px 16px;
+      linear-gradient(var(--zx-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--zx-line) 1px, transparent 1px),
+      radial-gradient(circle at 50% 50%, rgba(127,167,155,0.24), transparent 58%);
+    background-size: 14px 14px, 14px 14px, auto;
   }}
   .zx-back-pattern span {{
-    color: #f7f4ef;
+    color: var(--zx-accent-strong);
     font-size: 28px;
     opacity: 0.9;
   }}
   .zx-front {{
     transform: rotateY(180deg);
-    background: #f7f4ef;
+    background: var(--zx-text);
   }}
   .zx-front img {{
     width: 100%;
@@ -189,6 +206,7 @@ def build_flip_html(cards: list[DrawnCard]) -> str:
     margin-top: 10px;
   }}
   .zx-name {{
+    color: var(--zx-text);
     font-size: 14px;
     font-weight: 650;
     line-height: 1.35;
@@ -201,8 +219,8 @@ def build_flip_html(cards: list[DrawnCard]) -> str:
     border-radius: 999px;
     font-weight: 600;
   }}
-  .badge-up {{ background: #dceee3; color: #1f6b45; }}
-  .badge-rev {{ background: #f3d9d4; color: #8a2f2a; }}
+  .badge-up {{ background: var(--zx-cta); color: var(--zx-cta-text); }}
+  .badge-rev {{ background: #e3b9b0; color: #4f1814; }}
   @keyframes zx-flip {{
     from {{ transform: rotateY(0deg); }}
     to {{ transform: rotateY(180deg); }}
@@ -211,13 +229,30 @@ def build_flip_html(cards: list[DrawnCard]) -> str:
     from {{ opacity: 0; transform: translateY(6px); }}
     to {{ opacity: 1; transform: translateY(0); }}
   }}
-  @media (max-width: 420px) {{
-    .zx-flip-item, .zx-scene {{ width: 160px; }}
-    .zx-scene {{ height: 282px; }}
+  @media (max-width: 520px) {{
+    .zx-flip-row {{
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }}
+    .zx-flip-item:last-child:nth-child(odd) {{
+      grid-column: 1 / -1;
+      justify-self: center;
+      width: min(148px, 48%);
+    }}
   }}
-</style></head>
-<body>
+  @media (prefers-reduced-motion: reduce) {{
+    .zx-flip-item {{
+      opacity: 1;
+      animation: none;
+    }}
+    .zx-card {{
+      animation: none;
+      transform: rotateY(180deg);
+    }}
+  }}
+</style>
+<div class="zx-tarot-stage">
   <div class="zx-flip-row">
-    {"".join(items)}
+    {''.join(items)}
   </div>
-</body></html>"""
+</div>
+"""

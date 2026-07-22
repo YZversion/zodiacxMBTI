@@ -1,0 +1,175 @@
+{
+  "name": "zodiacxMBTI",
+  "description": "一个面向约 10 名朋友圈用户的中文 Streamlit 可逆实验：输入出生信息与 MBTI，一次生成结合星盘、LLM 解读和可选三张塔罗牌的报告。项目明确定位为两周验证用 spike，而非正式产品立项。",
+  "languages": [
+    "example",
+    "markdown",
+    "python",
+    "toml",
+    "txt"
+  ],
+  "frameworks": [
+    "Streamlit"
+  ],
+  "files": [
+    {
+      "path": "_inspect_chart.py",
+      "language": "python",
+      "sizeLines": 35,
+      "fileCategory": "code"
+    },
+    {
+      "path": "_inspect_wheel.py",
+      "language": "python",
+      "sizeLines": 26,
+      "fileCategory": "code"
+    },
+    {
+      "path": ".streamlit/config.toml",
+      "language": "toml",
+      "sizeLines": 10,
+      "fileCategory": "config"
+    },
+    {
+      "path": ".streamlit/secrets.toml.example",
+      "language": "example",
+      "sizeLines": 14,
+      "fileCategory": "code"
+    },
+    {
+      "path": "今日日志_2026-07-21.md",
+      "language": "markdown",
+      "sizeLines": 96,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "星盘MBTI解读spike需求与实施方案.md",
+      "language": "markdown",
+      "sizeLines": 191,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "agent.md",
+      "language": "markdown",
+      "sizeLines": 62,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "app.py",
+      "language": "python",
+      "sizeLines": 642,
+      "fileCategory": "code"
+    },
+    {
+      "path": "architecture.md",
+      "language": "markdown",
+      "sizeLines": 127,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "assets/fonts/README.md",
+      "language": "markdown",
+      "sizeLines": 10,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "assets/tarot/ATTRIBUTION.md",
+      "language": "markdown",
+      "sizeLines": 20,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "chart.py",
+      "language": "python",
+      "sizeLines": 292,
+      "fileCategory": "code"
+    },
+    {
+      "path": "history.md",
+      "language": "markdown",
+      "sizeLines": 74,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "interpret.py",
+      "language": "python",
+      "sizeLines": 240,
+      "fileCategory": "code"
+    },
+    {
+      "path": "README.md",
+      "language": "markdown",
+      "sizeLines": 109,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "report_export.py",
+      "language": "python",
+      "sizeLines": 617,
+      "fileCategory": "code"
+    },
+    {
+      "path": "requirements.txt",
+      "language": "txt",
+      "sizeLines": 4,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "SHIP.md",
+      "language": "markdown",
+      "sizeLines": 29,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "tarot_ui.py",
+      "language": "python",
+      "sizeLines": 223,
+      "fileCategory": "code"
+    },
+    {
+      "path": "tarot.py",
+      "language": "python",
+      "sizeLines": 92,
+      "fileCategory": "code"
+    }
+  ],
+  "totalFiles": 20,
+  "filteredByIgnore": 9,
+  "estimatedComplexity": "small",
+  "importMap": {
+    "_inspect_chart.py": [
+      "chart.py"
+    ],
+    "_inspect_wheel.py": [],
+    ".streamlit/config.toml": [],
+    ".streamlit/secrets.toml.example": [],
+    "今日日志_2026-07-21.md": [],
+    "星盘MBTI解读spike需求与实施方案.md": [],
+    "agent.md": [],
+    "app.py": [
+      "chart.py",
+      "interpret.py",
+      "report_export.py",
+      "tarot_ui.py",
+      "tarot.py"
+    ],
+    "architecture.md": [],
+    "assets/fonts/README.md": [],
+    "assets/tarot/ATTRIBUTION.md": [],
+    "chart.py": [],
+    "history.md": [],
+    "interpret.py": [
+      "report_export.py"
+    ],
+    "README.md": [],
+    "report_export.py": [
+      "chart.py"
+    ],
+    "requirements.txt": [],
+    "SHIP.md": [],
+    "tarot_ui.py": [
+      "tarot.py"
+    ],
+    "tarot.py": []
+  }
+}

@@ -18,13 +18,14 @@ Reversible Streamlit spike: natal chart (kerykeion) + MBTI → streamed Chinese 
 
 | Layer | Choice |
 |---|---|
-| UI + deploy | Streamlit (`app.py`) + dark theme CSS via `st.html` |
+| UI + deploy | Streamlit (`app.py`) + theme CSS via `st.html` |
+| Visual tokens | `design_system.py` (`COLORS`, font stacks, `css_variables`) — keep app / HTML export / tarot in sync |
 | Chart + SVG | kerykeion wheel-only, `theme="dark"`, `chart_language="CN"` |
 | LLM context | `to_context` XML + MBTI — do not hand-roll chart JSON |
 | LLM | OpenAI-compatible client (`OPENAI_*` secrets); DeepSeek via `OPENAI_BASE_URL` is fine |
 | Tarot logic | `tarot.py` stdlib `random` only — **do not change draw logic for UI** |
-| Tarot UI | `tarot_ui.py` + `components.html` flip stage; LuciellaES assets |
-| Export | `report_export.py` — full HTML snapshot + text PDF (`fpdf2`) |
+| Tarot UI | `tarot_ui.py` + inline `st.html` flip fragment; LuciellaES assets |
+| Export | `report_export.py` — full HTML snapshot + text PDF (`fpdf2`); §6 via `split_main_and_extensions` |
 
 ## Implementation rules
 
@@ -33,17 +34,19 @@ Reversible Streamlit spike: natal chart (kerykeion) + MBTI → streamed Chinese 
 3. **Place:** pinyin/English city; country dropdown → ISO (default China=`CN`);「其他」shows 2-letter code field.
 4. **MBTI:** 16-type select;「不确定」skips cross-analysis.
 5. **Optional `user_question`:** form field「最近在纠结的事」; included in fingerprint; passed to `stream_main_report(..., user_question=)`; prefills tarot question on success.
-6. **MAIN_SYSTEM:** psychological-astrology persona; ground-truth + anti-Barnum; sections = 画像 / 金钱与事业 / 关系 / 纠结(optional) / 一句话建议 (no §6); length budget ~1000–1300 Chinese chars; hooks = open with a concrete personality contradiction that is also the section thesis (not offensive one-liners, not teaser CTAs). `sanitize_main_report` strips any model-invented「延伸探索」. Edit only when the human asks.
+6. **MAIN_SYSTEM:** sections 1–5 + **§6 延伸探索** (exactly 3 `###` items with short answers, not teaser CTAs). UI/HTML render §6 as collapsed expanders/`<details>`. Length: §§1–5 ~1000–1300 chars; each §6 body 80–120. Edit prompts only when the human asks.
 7. **TAROT_SYSTEM:** past / present / future / 三张牌共同指向; ~500–650 chars; closing is a hammer (one core tension + one self-question), not more analysis. Red lines: no transit/timing invention, no fabricated trauma origins.
 8. **Streaming:** `stream_main_report` / `stream_tarot_report` + `st.write_stream`; cache then `st.rerun()`.
-9. **Theme CSS:** `st.html` once. **Never** `font-family` on all `span` (breaks expander `.arrow_`).
-10. **Chart display:** wheel-only + CJK font injection; square iframe.
-11. **Disclaimer / privacy** footer always present.
-12. **License:** MIT app code; kerykeion AGPL-3.0 while imported.
+9. **Theme CSS:** inject once via `st.html`. Tokens only from `design_system` — do not hardcode old gold `#c9a46c` / cream stacks. **Never** `font-family` on all `span` (breaks expander `.arrow_`). Keep `prefers-reduced-motion` + focus-visible.
+10. **Chart display:** wheel-only + CJK font injection; `st.iframe(..., height="content")` (not fixed tall iframes).
+11. **Tarot display:** inline HTML fragment (no full `<!DOCTYPE html>` document); responsive grid; reduced-motion safe.
+12. **Disclaimer / privacy** footer always present.
+13. **License:** MIT app code; kerykeion AGPL-3.0 while imported.
+14. **Tests:** `tests/test_design_system.py` covers tokens ↔ config.toml, export tokens, tarot fragment, no remote fonts.
 
 ## Code status
 
-Implemented end-to-end locally (including optional life-question section). Human path: [SHIP.md](SHIP.md) → Cloud → canary → quiet two weeks.
+Implemented end-to-end locally: optional life-question, foldable §6 answers, shared design system, HTML/PDF export. Human path: [SHIP.md](SHIP.md) → Cloud → canary → quiet two weeks.
 
 ## Docs to read before coding
 

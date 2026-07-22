@@ -1,0 +1,14 @@
+{
+  "fixedSectionOk": true,
+  "nodesRecovered": 0,
+  "edgesRestored": 0,
+  "crossBatchEdgesAdded": 0,
+  "typesRemapped": 0,
+  "complexityRemapped": 0,
+  "notes": [
+    "合并日志未报告需要复核的 Fixed 或 Could not fix 项；三批输入的 71 个节点、161 条边与组装输出数量完全一致，没有发生丢弃或去重收缩。",
+    "assembled graph 中所有节点均有有效 ID，节点类型和复杂度均属于允许枚举；未发现重复节点 ID、悬空边或自引用边。",
+    "scan-result 的 importMap 含 20 个文件条目和 9 条实际项目内导入关系；组装图中 9 条 imports 边全部存在且一一匹配，无需补充跨批次边。",
+    "调度中指定的 .understand-anything/scan-result.json 不存在；本次使用同一次扫描产出的 .understand-anything/intermediate/scan-result.json 完成导入映射核对。"
+  ]
+}

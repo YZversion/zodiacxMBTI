@@ -1,0 +1,26 @@
+{
+  "projectRoot": "C:/Users/14390/Desktop/Code/zodiacxMBTI",
+  "sourceFilePaths": [
+    "_inspect_chart.py",
+    "_inspect_wheel.py",
+    ".streamlit/config.toml",
+    ".streamlit/secrets.toml.example",
+    "今日日志_2026-07-21.md",
+    "星盘MBTI解读spike需求与实施方案.md",
+    "agent.md",
+    "app.py",
+    "architecture.md",
+    "assets/fonts/README.md",
+    "assets/tarot/ATTRIBUTION.md",
+    "chart.py",
+    "history.md",
+    "interpret.py",
+    "README.md",
+    "report_export.py",
+    "requirements.txt",
+    "SHIP.md",
+    "tarot_ui.py",
+    "tarot.py"
+  ],
+  "gitCommitHash": "d32fb08da775e2153db74b8ce75cf8fbcba7733f"
+}

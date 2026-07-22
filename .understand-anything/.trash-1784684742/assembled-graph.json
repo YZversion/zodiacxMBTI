@@ -1,0 +1,2510 @@
+{
+  "version": "1.0.0",
+  "project": {
+    "name": "zodiacxMBTI",
+    "languages": [
+      "Python",
+      "Markdown",
+      "TOML"
+    ],
+    "frameworks": [
+      "Streamlit"
+    ],
+    "description": "面向约 10 名朋友圈用户的中文 Streamlit 可逆实验：输入出生信息与 MBTI，生成星盘、LLM 解读和可选三张塔罗牌报告。",
+    "analyzedAt": "2026-07-22T01:44:19.0255734Z",
+    "gitCommitHash": "d32fb08da775e2153db74b8ce75cf8fbcba7733f"
+  },
+  "nodes": [
+    {
+      "id": "file:app.py",
+      "type": "file",
+      "name": "app.py",
+      "filePath": "app.py",
+      "summary": "Streamlit 应用入口，串联出生信息表单、星盘计算、LLM 流式解读、报告导出与可选三张塔罗牌流程。它同时负责 session_state 缓存、错误呈现和移动端暗色界面渲染。",
+      "tags": [
+        "入口点",
+        "streamlit-ui",
+        "工作流编排",
+        "会话状态",
+        "报告生成"
+      ],
+      "complexity": "complex",
+      "languageNotes": "采用 Streamlit 的脚本重跑模型，以 session_state 和输入指纹维持跨重跑状态，并通过 st.write_stream 消费 LLM 流式输出。"
+    },
+    {
+      "id": "function:app.py:_inject_theme",
+      "type": "function",
+      "name": "_inject_theme",
+      "filePath": "app.py",
+      "lineRange": [
+        256,
+        258
+      ],
+      "summary": "通过 st.html 注入项目级主题 CSS，避免样式文本出现在可见 Markdown 中。",
+      "tags": [
+        "界面主题",
+        "css-注入",
+        "streamlit"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:app.py:_secret",
+      "type": "function",
+      "name": "_secret",
+      "filePath": "app.py",
+      "lineRange": [
+        261,
+        265
+      ],
+      "summary": "安全读取 Streamlit Secrets 中的字符串配置；配置文件缺失或读取异常时返回调用方提供的默认值。",
+      "tags": [
+        "配置读取",
+        "容错",
+        "secrets"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:app.py:_require_api_key",
+      "type": "function",
+      "name": "_require_api_key",
+      "filePath": "app.py",
+      "lineRange": [
+        268,
+        276
+      ],
+      "summary": "校验 OPENAI_API_KEY 是否存在；缺失时向用户显示配置提示并终止当前 Streamlit 执行。",
+      "tags": [
+        "配置校验",
+        "api-key",
+        "错误处理"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:app.py:_init_state",
+      "type": "function",
+      "name": "_init_state",
+      "filePath": "app.py",
+      "lineRange": [
+        279,
+        292
+      ],
+      "summary": "为主报告、星盘、塔罗结果、输入指纹和流式状态初始化 session_state 默认值，且不会覆盖已有会话数据。",
+      "tags": [
+        "会话状态",
+        "状态初始化",
+        "缓存"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:app.py:_fingerprint",
+      "type": "function",
+      "name": "_fingerprint",
+      "filePath": "app.py",
+      "lineRange": [
+        295,
+        313
+      ],
+      "summary": "将出生日期时间、地点、国家、MBTI 和用户问题规范化为可比较元组，用于判断表单变化并使旧报告缓存失效。",
+      "tags": [
+        "输入规范化",
+        "缓存失效",
+        "状态管理"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:app.py:_resolve_nation",
+      "type": "function",
+      "name": "_resolve_nation",
+      "filePath": "app.py",
+      "lineRange": [
+        316,
+        322
+      ],
+      "summary": "把预设国家标签映射为 ISO 代码，或规范化并校验用户输入的两位字母国家代码。",
+      "tags": [
+        "输入校验",
+        "国家代码",
+        "规范化"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:app.py:_render_summary_card",
+      "type": "function",
+      "name": "_render_summary_card",
+      "filePath": "app.py",
+      "lineRange": [
+        325,
+        337
+      ],
+      "summary": "从星盘和主报告提取摘要标题及阶段建议，经 HTML 转义后渲染为摘要卡片。",
+      "tags": [
+        "摘要渲染",
+        "html-转义",
+        "报告展示"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:app.py:_render_svg",
+      "type": "function",
+      "name": "_render_svg",
+      "filePath": "app.py",
+      "lineRange": [
+        340,
+        355
+      ],
+      "summary": "把星盘 SVG 包装在固定比例的暗色响应式容器中，并设置中文字体回退后嵌入 Streamlit 组件。",
+      "tags": [
+        "svg-渲染",
+        "响应式布局",
+        "中文字体"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:app.py:_render_tarot_cards",
+      "type": "function",
+      "name": "_render_tarot_cards",
+      "filePath": "app.py",
+      "lineRange": [
+        358,
+        360
+      ],
+      "summary": "调用塔罗展示层生成自包含翻牌 HTML，并以固定高度嵌入 Streamlit 页面。",
+      "tags": [
+        "塔罗展示",
+        "组件嵌入",
+        "翻牌动画"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:app.py:_footer",
+      "type": "function",
+      "name": "_footer",
+      "filePath": "app.py",
+      "lineRange": [
+        363,
+        366
+      ],
+      "summary": "在页面底部统一展示隐私说明与免责条款。",
+      "tags": [
+        "页脚",
+        "隐私提示",
+        "免责声明"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:app.py:main",
+      "type": "function",
+      "name": "main",
+      "filePath": "app.py",
+      "lineRange": [
+        369,
+        638
+      ],
+      "summary": "编排完整交互漏斗：校验表单、按输入指纹刷新状态、生成星盘与流式主报告、提供 HTML/PDF 导出，并管理可选塔罗抽取和二次解读。",
+      "tags": [
+        "入口函数",
+        "工作流编排",
+        "streamlit",
+        "流式输出",
+        "错误处理"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:tarot.py",
+      "type": "file",
+      "name": "tarot.py",
+      "filePath": "tarot.py",
+      "summary": "定义完整 78 张 Rider–Waite 牌组、不可变抽牌结果模型，以及过去/现在/未来三张牌的随机抽取逻辑。展示资源和动画被刻意留在独立模块中。",
+      "tags": [
+        "领域模型",
+        "随机抽样",
+        "塔罗牌组",
+        "数据模型"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "使用 frozen dataclass 表达不可变抽牌结果，并通过注入 random.Random 支持可复现抽样。"
+    },
+    {
+      "id": "function:tarot.py:_full_deck",
+      "type": "function",
+      "name": "_full_deck",
+      "filePath": "tarot.py",
+      "lineRange": [
+        61,
+        67
+      ],
+      "summary": "组合 22 张大阿卡纳与四花色各 14 张小阿卡纳，并断言最终牌组恰好包含 78 张牌。",
+      "tags": [
+        "牌组构建",
+        "数据初始化",
+        "完整性校验"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:tarot.py:DrawnCard",
+      "type": "class",
+      "name": "DrawnCard",
+      "filePath": "tarot.py",
+      "lineRange": [
+        74,
+        81
+      ],
+      "summary": "不可变的抽牌结果模型，记录牌名、时间位置与正逆位，并提供面向中文界面的格式化标签。",
+      "tags": [
+        "数据模型",
+        "不可变对象",
+        "中文格式化"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tarot.py:draw_three",
+      "type": "function",
+      "name": "draw_three",
+      "filePath": "tarot.py",
+      "lineRange": [
+        84,
+        92
+      ],
+      "summary": "从完整牌组无放回抽取三张牌，依次赋予过去、现在、未来位置，并为每张牌独立随机决定正逆位。",
+      "tags": [
+        "随机抽样",
+        "三牌阵",
+        "领域逻辑"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:tarot_ui.py",
+      "type": "file",
+      "name": "tarot_ui.py",
+      "filePath": "tarot_ui.py",
+      "summary": "塔罗展示适配层，负责中文牌名到素材文件的映射、图片 data URI 缓存，以及自包含的响应式 3D 翻牌 HTML/CSS 生成。它只处理展示，不改变抽牌逻辑。",
+      "tags": [
+        "展示层",
+        "html-生成",
+        "资源映射",
+        "翻牌动画",
+        "缓存"
+      ],
+      "complexity": "complex",
+      "languageNotes": "通过 lru_cache 缓存图片的 base64 编码，并生成可直接嵌入 iframe 的自包含 HTML。"
+    },
+    {
+      "id": "function:tarot_ui.py:_build_name_to_file",
+      "type": "function",
+      "name": "_build_name_to_file",
+      "filePath": "tarot_ui.py",
+      "lineRange": [
+        33,
+        40
+      ],
+      "summary": "依据大阿卡纳序号和小阿卡纳花色/点数规则，构建中文牌名到 JPG 文件名的完整映射。",
+      "tags": [
+        "资源映射",
+        "牌名规范",
+        "数据初始化"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tarot_ui.py:_image_data_uri",
+      "type": "function",
+      "name": "_image_data_uri",
+      "filePath": "tarot_ui.py",
+      "lineRange": [
+        47,
+        57
+      ],
+      "summary": "读取牌面图片、检测 PNG/JPEG 签名并编码为 base64 data URI；结果由 LRU 缓存避免重复磁盘读取和编码。",
+      "tags": [
+        "图片编码",
+        "资源缓存",
+        "data-uri",
+        "文件读取"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tarot_ui.py:card_face_data_uri",
+      "type": "function",
+      "name": "card_face_data_uri",
+      "filePath": "tarot_ui.py",
+      "lineRange": [
+        60,
+        64
+      ],
+      "summary": "解析指定牌名对应的素材文件并返回其 data URI；缺少映射时显式抛出 KeyError。",
+      "tags": [
+        "资源解析",
+        "错误处理",
+        "牌面图片"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tarot_ui.py:build_flip_html",
+      "type": "function",
+      "name": "build_flip_html",
+      "filePath": "tarot_ui.py",
+      "lineRange": [
+        67,
+        223
+      ],
+      "summary": "把三张抽牌结果转换为自包含 HTML/CSS：内联牌面、转义动态文本，并按顺序执行淡入和 3D 翻转动画，同时适配窄屏布局。",
+      "tags": [
+        "html-生成",
+        "3d-动画",
+        "响应式布局",
+        "html-转义",
+        "组件"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "document:README.md",
+      "type": "document",
+      "name": "README.md",
+      "filePath": "README.md",
+      "summary": "项目入口文档，概述星盘、MBTI、LLM 报告与可选塔罗组成的一次性 Streamlit 实验，并覆盖本地运行、部署、目录结构、隐私和许可证边界。",
+      "tags": [
+        "项目-概览",
+        "快速-开始",
+        "部署-指南",
+        "隐私-说明",
+        "许可-边界"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "以中文 Markdown 编写，结合流程列表、能力表格和工程目录树呈现用户路径与实现状态。"
+    },
+    {
+      "id": "document:SHIP.md",
+      "type": "document",
+      "name": "SHIP.md",
+      "filePath": "SHIP.md",
+      "summary": "面向发群前最后检查的发布清单，集中验证密钥、成本上限、四条关键交互路径、移动端体验、云端冷启动以及两周静默观察规则。",
+      "tags": [
+        "发布-清单",
+        "验收-检查",
+        "成本-控制",
+        "移动端-验证",
+        "实验-观察"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:agent.md",
+      "type": "document",
+      "name": "agent.md",
+      "filePath": "agent.md",
+      "summary": "供 AI 编码代理使用的仓库协作规范，锁定 spike 范围、首选技术栈、会话缓存与生时降级等实现约束，并明确密钥、隐私、许可和提交纪律。",
+      "tags": [
+        "代理-指南",
+        "开发-约束",
+        "技术栈-约定",
+        "隐私-安全",
+        "范围-控制"
+      ],
+      "complexity": "simple",
+      "languageNotes": "正文以英文规范条款为主，但保留中文字段名和产品术语，适合作为跨语言编码代理的操作契约。"
+    },
+    {
+      "id": "document:architecture.md",
+      "type": "document",
+      "name": "architecture.md",
+      "filePath": "architecture.md",
+      "summary": "描述无持久化单链路架构：Streamlit 收集输入，kerykeion 生成星盘与 XML 上下文，LLM 流式产出报告，结果页再提供塔罗与 HTML/PDF 导出。文档同时定义模块职责、表单契约、生时降级、部署方式和依赖许可边界。",
+      "tags": [
+        "系统-架构",
+        "模块-职责",
+        "数据-流",
+        "降级-策略",
+        "部署-边界"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "采用 ASCII 流程图与 Markdown 表格表达运行时数据流、模块映射和接口契约。"
+    },
+    {
+      "id": "document:history.md",
+      "type": "document",
+      "name": "history.md",
+      "filePath": "history.md",
+      "summary": "记录项目在 2026-07-21 从方案封版到完整 spike 的关键决策、功能演进和修复历史，并归档保留、删除与简化的范围选择以及验收和终止标准。",
+      "tags": [
+        "决策-记录",
+        "版本-历史",
+        "范围-归档",
+        "验收-标准",
+        "终止-条件"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "document:requirements.txt",
+      "type": "document",
+      "name": "requirements.txt",
+      "filePath": "requirements.txt",
+      "summary": "声明运行 spike 所需的四个 Python 依赖及最低版本：Streamlit、kerykeion、OpenAI 客户端与 fpdf2。依赖仅设下限而未锁定精确版本或哈希。",
+      "tags": [
+        "依赖-清单",
+        "运行时-环境",
+        "版本-下限",
+        "python-生态"
+      ],
+      "complexity": "simple",
+      "languageNotes": "采用 pip requirements 的最小版本约束语法，允许解析到未来更高版本。"
+    },
+    {
+      "id": "document:今日日志_2026-07-21.md",
+      "type": "document",
+      "name": "今日日志_2026-07-21.md",
+      "filePath": "今日日志_2026-07-21.md",
+      "summary": "汇总 2026-07-21 的 Obsidian 笔记产出与 zodiacxMBTI 仓库开发记录，详细列出项目方案形成、六次提交、阶段性成果和当日总结。它是个人工作日志，不是应用运行所需文档。",
+      "tags": [
+        "工作-日志",
+        "提交-记录",
+        "方案-追溯",
+        "阶段-总结",
+        "个人-归档"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "按时间顺序组织中文 Markdown 日志，并用表格保留外部笔记路径和提交摘要。"
+    },
+    {
+      "id": "document:星盘MBTI解读spike需求与实施方案.md",
+      "type": "document",
+      "name": "星盘MBTI解读spike需求与实施方案.md",
+      "filePath": "星盘MBTI解读spike需求与实施方案.md",
+      "summary": "v1.4 封版的需求与实施方案，通过需求审查、删除清单和时间盒锁定约十名朋友使用的可逆实验，并细化星盘、MBTI、LLM、塔罗、生时降级、隐私、成本、许可、实施排期与终止条件。",
+      "tags": [
+        "需求-方案",
+        "技术-决策",
+        "实验-设计",
+        "风险-清单",
+        "实施-计划"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "以决策记录式 Markdown 编写，通过多张权衡表明确需求来源、取舍理由、风险对策与验收信号。"
+    },
+    {
+      "id": "file:_inspect_chart.py",
+      "type": "file",
+      "name": "_inspect_chart.py",
+      "filePath": "_inspect_chart.py",
+      "summary": "临时星盘检查脚本：生成预览图，统计矢量图中的文字、字体与字号，并比较中英文图表的文本密度。",
+      "tags": [
+        "调试脚本",
+        "星盘渲染",
+        "矢量图检查"
+      ],
+      "complexity": "simple",
+      "languageNotes": "以顶层过程式代码执行检查，运行时会调用在线地点解析并写出预览文件。"
+    },
+    {
+      "id": "file:_inspect_wheel.py",
+      "type": "file",
+      "name": "_inspect_wheel.py",
+      "filePath": "_inspect_wheel.py",
+      "summary": "用于比较完整星盘与仅轮盘图的矢量图尺寸及文本数量，并将轮盘版本写入本地供人工检查。",
+      "tags": [
+        "调试脚本",
+        "轮盘渲染",
+        "输出检查"
+      ],
+      "complexity": "simple",
+      "languageNotes": "采用一次性顶层脚本直接构造第三方星盘对象，没有封装为可复用函数。"
+    },
+    {
+      "id": "config:.streamlit/config.toml",
+      "type": "config",
+      "name": "config.toml",
+      "filePath": ".streamlit/config.toml",
+      "summary": "配置 Streamlit 前端：关闭匿名使用统计，并定义深色背景、金色主色与浅色文字的主题。",
+      "tags": [
+        "配置",
+        "界面主题",
+        "隐私设置"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:.streamlit/secrets.toml.example",
+      "type": "file",
+      "name": "secrets.toml.example",
+      "filePath": ".streamlit/secrets.toml.example",
+      "summary": "提供可复制的密钥配置模板，列出兼容接口的模型服务地址、访问密钥与地点解析用户名等运行参数。",
+      "tags": [
+        "配置示例",
+        "密钥模板",
+        "外部服务"
+      ],
+      "complexity": "simple",
+      "languageNotes": "文件虽被扫描为代码，但内容实际是带注释的配置示例，不包含真实凭据。"
+    },
+    {
+      "id": "document:assets/fonts/README.md",
+      "type": "document",
+      "name": "README.md",
+      "filePath": "assets/fonts/README.md",
+      "summary": "说明随项目打包的中文字体用途、许可证与来源，并区分导出字体和运行时加载的网页字体。",
+      "tags": [
+        "文档",
+        "字体资源",
+        "许可证"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:assets/tarot/ATTRIBUTION.md",
+      "type": "document",
+      "name": "ATTRIBUTION.md",
+      "filePath": "assets/tarot/ATTRIBUTION.md",
+      "summary": "记录塔罗牌面素材包的作者、来源、公有领域声明、文件命名规则及与中文牌名映射的关系。",
+      "tags": [
+        "文档",
+        "素材署名",
+        "塔罗资源",
+        "许可证"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:chart.py",
+      "type": "file",
+      "name": "chart.py",
+      "filePath": "chart.py",
+      "summary": "封装本命盘计算、地点解析、中文星座名、星盘上下文和轮盘图生成，并对出生时间未知场景实施宫位降级与月亮换座提示。",
+      "tags": [
+        "星盘计算",
+        "领域服务",
+        "地点解析",
+        "数据建模",
+        "矢量图生成"
+      ],
+      "complexity": "complex",
+      "languageNotes": "使用数据类承载结果，并通过显式降级逻辑防止未知出生时间产生虚假的上升与宫位信息。"
+    },
+    {
+      "id": "class:chart.py:PlaceLookupError",
+      "type": "class",
+      "name": "PlaceLookupError",
+      "filePath": "chart.py",
+      "lineRange": [
+        45,
+        46
+      ],
+      "summary": "统一表示地点解析或星盘主体构造失败，便于界面向用户展示可操作的城市输入提示。",
+      "tags": [
+        "异常类型",
+        "地点解析",
+        "错误处理"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:chart.py:MoonAmbiguity",
+      "type": "class",
+      "name": "MoonAmbiguity",
+      "filePath": "chart.py",
+      "lineRange": [
+        50,
+        61
+      ],
+      "summary": "记录未知出生时间当天月亮可能跨越的两个星座，并生成面向用户的中文不确定性说明。",
+      "tags": [
+        "数据模型",
+        "月亮换座",
+        "不确定性处理"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:chart.py:ChartResult",
+      "type": "class",
+      "name": "ChartResult",
+      "filePath": "chart.py",
+      "lineRange": [
+        65,
+        81
+      ],
+      "summary": "聚合一次星盘计算的输入、解析地点、星座摘要、结构化上下文、轮盘图和降级提示，作为解释与导出模块的传输对象。",
+      "tags": [
+        "数据模型",
+        "计算结果",
+        "模块契约",
+        "序列化载荷"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:chart.py:sign_to_zh",
+      "type": "function",
+      "name": "sign_to_zh",
+      "filePath": "chart.py",
+      "lineRange": [
+        84,
+        85
+      ],
+      "summary": "把第三方库可能返回的英文星座全名或缩写映射为中文名称，未知值保持原样。",
+      "tags": [
+        "映射工具",
+        "本地化",
+        "星座名称"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:chart.py:_subject",
+      "type": "function",
+      "name": "_subject",
+      "filePath": "chart.py",
+      "lineRange": [
+        88,
+        117
+      ],
+      "summary": "规范化城市与国家参数后调用第三方工厂创建星盘主体，并将底层异常统一包装成地点解析错误。",
+      "tags": [
+        "对象工厂",
+        "地点解析",
+        "错误包装",
+        "参数规范化"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:chart.py:_moon_signs_for_day",
+      "type": "function",
+      "name": "_moon_signs_for_day",
+      "filePath": "chart.py",
+      "lineRange": [
+        120,
+        151
+      ],
+      "summary": "分别计算出生日期零点和次日零点的月亮星座，用于判断未知出生时间当天是否发生换座。",
+      "tags": [
+        "星盘计算",
+        "月亮换座",
+        "边界检测",
+        "降级逻辑"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:chart.py:_strip_houses_and_angles",
+      "type": "function",
+      "name": "_strip_houses_and_angles",
+      "filePath": "chart.py",
+      "lineRange": [
+        154,
+        171
+      ],
+      "summary": "从星盘上下文中移除宫位、四轴点和剩余天体的宫位属性，避免未知出生时间误导后续模型。",
+      "tags": [
+        "数据清洗",
+        "上下文约束",
+        "正则处理",
+        "降级逻辑"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:chart.py:_prepare_chart_svg",
+      "type": "function",
+      "name": "_prepare_chart_svg",
+      "filePath": "chart.py",
+      "lineRange": [
+        174,
+        187
+      ],
+      "summary": "向星盘矢量图根节点注入中文字体回退样式，减少中文标签因拉丁字体度量产生的重叠。",
+      "tags": [
+        "矢量图处理",
+        "字体兼容",
+        "中文渲染",
+        "样式注入"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:chart.py:_svg_for_subject",
+      "type": "function",
+      "name": "_svg_for_subject",
+      "filePath": "chart.py",
+      "lineRange": [
+        190,
+        204
+      ],
+      "summary": "根据星盘主体构造中文深色轮盘图，关闭移动端易拥挤的信息项后补充中文字体样式。",
+      "tags": [
+        "矢量图生成",
+        "轮盘渲染",
+        "中文界面",
+        "移动适配"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:chart.py:build_chart",
+      "type": "function",
+      "name": "build_chart",
+      "filePath": "chart.py",
+      "lineRange": [
+        207,
+        292
+      ],
+      "summary": "编排完整星盘构建流程：校验地点、处理未知时刻、检测月亮换座、生成受约束的上下文与轮盘图，并返回统一结果对象。",
+      "tags": [
+        "核心服务",
+        "流程编排",
+        "星盘计算",
+        "输入校验",
+        "降级策略"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:interpret.py",
+      "type": "file",
+      "name": "interpret.py",
+      "filePath": "interpret.py",
+      "summary": "集中定义主报告与塔罗补充的中文提示词约束，并通过兼容接口以流式或聚合方式生成解释文本。",
+      "tags": [
+        "模型调用",
+        "提示词工程",
+        "流式生成",
+        "报告生成",
+        "内容约束"
+      ],
+      "complexity": "complex",
+      "languageNotes": "类型检查分支用于避免运行时循环导入，生成接口同时提供迭代器和完整字符串两种消费方式。"
+    },
+    {
+      "id": "function:interpret.py:_client",
+      "type": "function",
+      "name": "_client",
+      "filePath": "interpret.py",
+      "lineRange": [
+        63,
+        67
+      ],
+      "summary": "根据访问密钥和可选服务地址创建兼容接口客户端。",
+      "tags": [
+        "客户端工厂",
+        "模型接口",
+        "连接配置"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:interpret.py:_stream_chat",
+      "type": "function",
+      "name": "_stream_chat",
+      "filePath": "interpret.py",
+      "lineRange": [
+        70,
+        93
+      ],
+      "summary": "发起流式聊天补全请求，过滤空选项与空增量后逐段产出正文内容。",
+      "tags": [
+        "流式生成",
+        "模型调用",
+        "生成器",
+        "响应过滤"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:interpret.py:build_main_user_prompt",
+      "type": "function",
+      "name": "build_main_user_prompt",
+      "filePath": "interpret.py",
+      "lineRange": [
+        96,
+        134
+      ],
+      "summary": "把星盘上下文、出生时间降级说明、人格类型、用户问题、地点与时区组装为主报告用户提示词。",
+      "tags": [
+        "提示词构建",
+        "上下文组装",
+        "主报告",
+        "输入适配"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:interpret.py:_tarot_user_prompt",
+      "type": "function",
+      "name": "_tarot_user_prompt",
+      "filePath": "interpret.py",
+      "lineRange": [
+        137,
+        158
+      ],
+      "summary": "将三张牌、用户问题、人格类型和缓存星盘上下文组装成塔罗补充解读提示词。",
+      "tags": [
+        "提示词构建",
+        "塔罗解读",
+        "上下文组装",
+        "输入适配"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:interpret.py:stream_main_report",
+      "type": "function",
+      "name": "stream_main_report",
+      "filePath": "interpret.py",
+      "lineRange": [
+        161,
+        175
+      ],
+      "summary": "绑定主报告系统约束与用户提示词，并把底层模型响应作为文本流转发。",
+      "tags": [
+        "主报告",
+        "流式生成",
+        "服务封装",
+        "提示词绑定"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:interpret.py:stream_tarot_report",
+      "type": "function",
+      "name": "stream_tarot_report",
+      "filePath": "interpret.py",
+      "lineRange": [
+        178,
+        193
+      ],
+      "summary": "绑定塔罗系统约束与牌面用户提示词，并流式转发模型生成的补充解读。",
+      "tags": [
+        "塔罗解读",
+        "流式生成",
+        "服务封装",
+        "提示词绑定"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:interpret.py:generate_main_report",
+      "type": "function",
+      "name": "generate_main_report",
+      "filePath": "interpret.py",
+      "lineRange": [
+        196,
+        216
+      ],
+      "summary": "聚合主报告文本流、执行报告规范化，并在模型返回空内容时抛出面向上层的运行错误。",
+      "tags": [
+        "主报告",
+        "响应聚合",
+        "内容清洗",
+        "错误处理"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:interpret.py:generate_tarot_report",
+      "type": "function",
+      "name": "generate_tarot_report",
+      "filePath": "interpret.py",
+      "lineRange": [
+        219,
+        240
+      ],
+      "summary": "聚合塔罗解读文本流并校验结果非空，为非流式调用方提供完整文本。",
+      "tags": [
+        "塔罗解读",
+        "响应聚合",
+        "非流式接口",
+        "错误处理"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:report_export.py",
+      "type": "file",
+      "name": "report_export.py",
+      "filePath": "report_export.py",
+      "summary": "负责解析模型报告结构、生成星盘摘要，并输出包含星盘与塔罗内容的自包含网页快照或中文文档字节。",
+      "tags": [
+        "报告导出",
+        "网页快照",
+        "文档生成",
+        "内容解析",
+        "中文字体"
+      ],
+      "complexity": "complex",
+      "languageNotes": "同一模块同时承担标记文本解析、网页模板和文档排版，网页输出会转义模型文本并清除星盘图中的脚本标签。"
+    },
+    {
+      "id": "class:report_export.py:FontNotFoundError",
+      "type": "class",
+      "name": "FontNotFoundError",
+      "filePath": "report_export.py",
+      "lineRange": [
+        30,
+        31
+      ],
+      "summary": "表示导出中文文档时无法找到任何候选中文字体。",
+      "tags": [
+        "异常类型",
+        "字体解析",
+        "文档导出"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:report_export.py:resolve_cjk_font",
+      "type": "function",
+      "name": "resolve_cjk_font",
+      "filePath": "report_export.py",
+      "lineRange": [
+        34,
+        40
+      ],
+      "summary": "按项目资源和常见操作系统路径依次查找可用中文字体，全部失败时给出明确的安装提示。",
+      "tags": [
+        "字体解析",
+        "跨平台兼容",
+        "资源查找",
+        "错误处理"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:report_export.py:extract_section_4_advice",
+      "type": "function",
+      "name": "extract_section_4_advice",
+      "filePath": "report_export.py",
+      "lineRange": [
+        43,
+        54
+      ],
+      "summary": "从新旧编号兼容的报告标题中提取“当前阶段的一句话建议”正文，供摘要卡片和导出页复用。",
+      "tags": [
+        "内容解析",
+        "兼容处理",
+        "正则提取",
+        "报告摘要"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:report_export.py:sanitize_main_report",
+      "type": "function",
+      "name": "sanitize_main_report",
+      "filePath": "report_export.py",
+      "lineRange": [
+        57,
+        59
+      ],
+      "summary": "规范化主报告首尾空白，同时保留延伸探索章节供后续折叠渲染。",
+      "tags": [
+        "内容清洗",
+        "报告规范化",
+        "文本处理"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:report_export.py:split_extension_section",
+      "type": "function",
+      "name": "split_extension_section",
+      "filePath": "report_export.py",
+      "lineRange": [
+        62,
+        74
+      ],
+      "summary": "识别报告末尾第六节的延伸或衍生探索标题，将主报告和扩展正文分离。",
+      "tags": [
+        "内容解析",
+        "章节拆分",
+        "正则处理",
+        "兼容处理"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:report_export.py:parse_extension_items",
+      "type": "function",
+      "name": "parse_extension_items",
+      "filePath": "report_export.py",
+      "lineRange": [
+        77,
+        113
+      ],
+      "summary": "优先解析带三级标题的延伸项目，并兼容旧版列表式追问，统一返回标题与正文对。",
+      "tags": [
+        "内容解析",
+        "向后兼容",
+        "标记文本",
+        "折叠内容"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:report_export.py:split_main_and_extensions",
+      "type": "function",
+      "name": "split_main_and_extensions",
+      "filePath": "report_export.py",
+      "lineRange": [
+        116,
+        118
+      ],
+      "summary": "组合章节拆分和延伸项目解析，返回可直接渲染的主报告与扩展项目列表。",
+      "tags": [
+        "流程组合",
+        "内容解析",
+        "报告结构"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:report_export.py:summary_headline",
+      "type": "function",
+      "name": "summary_headline",
+      "filePath": "report_export.py",
+      "lineRange": [
+        121,
+        134
+      ],
+      "summary": "根据太阳、月亮、可用的上升星座与人格类型生成报告顶部的一行中文摘要，并保留月亮换座的不确定性。",
+      "tags": [
+        "摘要生成",
+        "星座本地化",
+        "展示格式",
+        "不确定性处理"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:report_export.py:_clean_md",
+      "type": "function",
+      "name": "_clean_md",
+      "filePath": "report_export.py",
+      "lineRange": [
+        137,
+        150
+      ],
+      "summary": "把有限的标记文本逐行归类为标题、正文或空行，并去除常见的行内标记符号。",
+      "tags": [
+        "标记文本",
+        "内容清洗",
+        "块解析",
+        "格式归一"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:report_export.py:_ReportPDF",
+      "type": "class",
+      "name": "_ReportPDF",
+      "filePath": "report_export.py",
+      "lineRange": [
+        153,
+        164
+      ],
+      "summary": "扩展文档生成器以注册中文字体、启用自动分页，并在每页底部绘制免责声明。",
+      "tags": [
+        "文档生成",
+        "中文字体",
+        "页脚",
+        "自动分页"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:report_export.py:_write",
+      "type": "function",
+      "name": "_write",
+      "filePath": "report_export.py",
+      "lineRange": [
+        167,
+        168
+      ],
+      "summary": "以统一行高和换行定位向文档写入多行文本。",
+      "tags": [
+        "文档排版",
+        "写入工具",
+        "文本布局"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:report_export.py:_md_to_html",
+      "type": "function",
+      "name": "_md_to_html",
+      "filePath": "report_export.py",
+      "lineRange": [
+        171,
+        182
+      ],
+      "summary": "将内部标记文本块转换为经过转义的标题、段落和换行网页片段。",
+      "tags": [
+        "网页生成",
+        "标记文本",
+        "内容转义",
+        "序列化"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:report_export.py:_extensions_to_html",
+      "type": "function",
+      "name": "_extensions_to_html",
+      "filePath": "report_export.py",
+      "lineRange": [
+        185,
+        205
+      ],
+      "summary": "把延伸探索项目渲染为可折叠网页区块，并为缺失正文提供占位说明。",
+      "tags": [
+        "网页生成",
+        "折叠组件",
+        "延伸探索",
+        "内容转义"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:report_export.py:build_report_html",
+      "type": "function",
+      "name": "build_report_html",
+      "filePath": "report_export.py",
+      "lineRange": [
+        208,
+        503
+      ],
+      "summary": "构建自包含的深色报告网页，整合元数据、轮盘图、解读正文、延伸探索、塔罗牌面与隐私说明，并对动态文本执行转义。",
+      "tags": [
+        "网页快照",
+        "报告导出",
+        "模板渲染",
+        "安全转义",
+        "塔罗展示"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:report_export.py:build_report_pdf",
+      "type": "function",
+      "name": "build_report_pdf",
+      "filePath": "report_export.py",
+      "lineRange": [
+        506,
+        617
+      ],
+      "summary": "使用中文字体排版报告摘要、元数据、说明、正文和可选塔罗解读，并返回内存中的文档字节。",
+      "tags": [
+        "文档导出",
+        "中文排版",
+        "内存输出",
+        "塔罗报告",
+        "分页布局"
+      ],
+      "complexity": "moderate"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:app.py",
+      "target": "file:chart.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:app.py",
+      "target": "file:interpret.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:app.py",
+      "target": "file:report_export.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:app.py",
+      "target": "file:tarot_ui.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:app.py",
+      "target": "file:tarot.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:tarot_ui.py",
+      "target": "file:tarot.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:app.py",
+      "target": "function:app.py:_inject_theme",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:app.py",
+      "target": "function:app.py:_secret",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:app.py",
+      "target": "function:app.py:_require_api_key",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:app.py",
+      "target": "function:app.py:_init_state",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:app.py",
+      "target": "function:app.py:_fingerprint",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:app.py",
+      "target": "function:app.py:_resolve_nation",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:app.py",
+      "target": "function:app.py:_render_summary_card",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:app.py",
+      "target": "function:app.py:_render_svg",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:app.py",
+      "target": "function:app.py:_render_tarot_cards",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:app.py",
+      "target": "function:app.py:_footer",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:app.py",
+      "target": "function:app.py:main",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tarot.py",
+      "target": "function:tarot.py:_full_deck",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tarot.py",
+      "target": "class:tarot.py:DrawnCard",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tarot.py",
+      "target": "function:tarot.py:draw_three",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tarot_ui.py",
+      "target": "function:tarot_ui.py:_build_name_to_file",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tarot_ui.py",
+      "target": "function:tarot_ui.py:_image_data_uri",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tarot_ui.py",
+      "target": "function:tarot_ui.py:card_face_data_uri",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tarot_ui.py",
+      "target": "function:tarot_ui.py:build_flip_html",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:app.py",
+      "target": "function:app.py:_inject_theme",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:app.py",
+      "target": "function:app.py:_secret",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:app.py",
+      "target": "function:app.py:_require_api_key",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:app.py",
+      "target": "function:app.py:_init_state",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:app.py",
+      "target": "function:app.py:_fingerprint",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:app.py",
+      "target": "function:app.py:_resolve_nation",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:app.py",
+      "target": "function:app.py:_render_summary_card",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:app.py",
+      "target": "function:app.py:_render_svg",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:app.py",
+      "target": "function:app.py:_render_tarot_cards",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:app.py",
+      "target": "function:app.py:_footer",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:app.py",
+      "target": "function:app.py:main",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:tarot.py",
+      "target": "function:tarot.py:_full_deck",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:tarot.py",
+      "target": "class:tarot.py:DrawnCard",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:tarot.py",
+      "target": "function:tarot.py:draw_three",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:tarot_ui.py",
+      "target": "function:tarot_ui.py:_build_name_to_file",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:tarot_ui.py",
+      "target": "function:tarot_ui.py:_image_data_uri",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:tarot_ui.py",
+      "target": "function:tarot_ui.py:card_face_data_uri",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:tarot_ui.py",
+      "target": "function:tarot_ui.py:build_flip_html",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:app.py:_require_api_key",
+      "target": "function:app.py:_secret",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:app.py:_render_summary_card",
+      "target": "function:report_export.py:extract_section_4_advice",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:app.py:_render_summary_card",
+      "target": "function:report_export.py:summary_headline",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:app.py:_render_tarot_cards",
+      "target": "function:tarot_ui.py:build_flip_html",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:app.py:main",
+      "target": "function:app.py:_init_state",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:app.py:main",
+      "target": "function:app.py:_inject_theme",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:app.py:main",
+      "target": "function:app.py:_resolve_nation",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:app.py:main",
+      "target": "function:app.py:_fingerprint",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:app.py:main",
+      "target": "function:app.py:_require_api_key",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:app.py:main",
+      "target": "function:app.py:_secret",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:app.py:main",
+      "target": "function:app.py:_render_summary_card",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:app.py:main",
+      "target": "function:app.py:_render_svg",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:app.py:main",
+      "target": "function:app.py:_render_tarot_cards",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:app.py:main",
+      "target": "function:app.py:_footer",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:app.py:main",
+      "target": "function:chart.py:build_chart",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:app.py:main",
+      "target": "function:interpret.py:stream_main_report",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:app.py:main",
+      "target": "function:interpret.py:stream_tarot_report",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:app.py:main",
+      "target": "function:report_export.py:sanitize_main_report",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:app.py:main",
+      "target": "function:report_export.py:build_report_html",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:app.py:main",
+      "target": "function:report_export.py:build_report_pdf",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:app.py:main",
+      "target": "function:report_export.py:split_main_and_extensions",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:app.py:main",
+      "target": "function:tarot.py:draw_three",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:tarot.py:draw_three",
+      "target": "class:tarot.py:DrawnCard",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:tarot_ui.py:card_face_data_uri",
+      "target": "function:tarot_ui.py:_image_data_uri",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:tarot_ui.py:build_flip_html",
+      "target": "function:tarot_ui.py:card_face_data_uri",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "document:README.md",
+      "target": "document:architecture.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:README.md",
+      "target": "document:history.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:README.md",
+      "target": "document:SHIP.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:README.md",
+      "target": "document:agent.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:README.md",
+      "target": "document:requirements.txt",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:README.md",
+      "target": "document:星盘MBTI解读spike需求与实施方案.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:SHIP.md",
+      "target": "document:README.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:SHIP.md",
+      "target": "document:architecture.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:agent.md",
+      "target": "document:星盘MBTI解读spike需求与实施方案.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:agent.md",
+      "target": "document:architecture.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:agent.md",
+      "target": "document:history.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:agent.md",
+      "target": "document:SHIP.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:architecture.md",
+      "target": "document:requirements.txt",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:architecture.md",
+      "target": "document:星盘MBTI解读spike需求与实施方案.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:history.md",
+      "target": "document:星盘MBTI解读spike需求与实施方案.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:今日日志_2026-07-21.md",
+      "target": "document:星盘MBTI解读spike需求与实施方案.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:今日日志_2026-07-21.md",
+      "target": "document:history.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:星盘MBTI解读spike需求与实施方案.md",
+      "target": "document:SHIP.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:星盘MBTI解读spike需求与实施方案.md",
+      "target": "document:history.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:星盘MBTI解读spike需求与实施方案.md",
+      "target": "document:architecture.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:星盘MBTI解读spike需求与实施方案.md",
+      "target": "document:README.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:_inspect_chart.py",
+      "target": "file:chart.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:interpret.py",
+      "target": "file:report_export.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:report_export.py",
+      "target": "file:chart.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:chart.py",
+      "target": "class:chart.py:PlaceLookupError",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:chart.py",
+      "target": "class:chart.py:MoonAmbiguity",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:chart.py",
+      "target": "class:chart.py:ChartResult",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:chart.py",
+      "target": "function:chart.py:sign_to_zh",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:chart.py",
+      "target": "function:chart.py:_subject",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:chart.py",
+      "target": "function:chart.py:_moon_signs_for_day",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:chart.py",
+      "target": "function:chart.py:_strip_houses_and_angles",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:chart.py",
+      "target": "function:chart.py:_prepare_chart_svg",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:chart.py",
+      "target": "function:chart.py:_svg_for_subject",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:chart.py",
+      "target": "function:chart.py:build_chart",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:chart.py",
+      "target": "class:chart.py:PlaceLookupError",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:chart.py",
+      "target": "class:chart.py:MoonAmbiguity",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:chart.py",
+      "target": "class:chart.py:ChartResult",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:chart.py",
+      "target": "function:chart.py:sign_to_zh",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:chart.py",
+      "target": "function:chart.py:_subject",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:chart.py",
+      "target": "function:chart.py:_moon_signs_for_day",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:chart.py",
+      "target": "function:chart.py:_strip_houses_and_angles",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:chart.py",
+      "target": "function:chart.py:_prepare_chart_svg",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:chart.py",
+      "target": "function:chart.py:_svg_for_subject",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:chart.py",
+      "target": "function:chart.py:build_chart",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:interpret.py",
+      "target": "function:interpret.py:_client",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:interpret.py",
+      "target": "function:interpret.py:_stream_chat",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:interpret.py",
+      "target": "function:interpret.py:build_main_user_prompt",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:interpret.py",
+      "target": "function:interpret.py:_tarot_user_prompt",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:interpret.py",
+      "target": "function:interpret.py:stream_main_report",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:interpret.py",
+      "target": "function:interpret.py:stream_tarot_report",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:interpret.py",
+      "target": "function:interpret.py:generate_main_report",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:interpret.py",
+      "target": "function:interpret.py:generate_tarot_report",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:interpret.py",
+      "target": "function:interpret.py:_client",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:interpret.py",
+      "target": "function:interpret.py:_stream_chat",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:interpret.py",
+      "target": "function:interpret.py:build_main_user_prompt",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:interpret.py",
+      "target": "function:interpret.py:_tarot_user_prompt",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:interpret.py",
+      "target": "function:interpret.py:stream_main_report",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:interpret.py",
+      "target": "function:interpret.py:stream_tarot_report",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:interpret.py",
+      "target": "function:interpret.py:generate_main_report",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:interpret.py",
+      "target": "function:interpret.py:generate_tarot_report",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:report_export.py",
+      "target": "class:report_export.py:FontNotFoundError",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:report_export.py",
+      "target": "function:report_export.py:resolve_cjk_font",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:report_export.py",
+      "target": "function:report_export.py:extract_section_4_advice",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:report_export.py",
+      "target": "function:report_export.py:sanitize_main_report",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:report_export.py",
+      "target": "function:report_export.py:split_extension_section",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:report_export.py",
+      "target": "function:report_export.py:parse_extension_items",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:report_export.py",
+      "target": "function:report_export.py:split_main_and_extensions",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:report_export.py",
+      "target": "function:report_export.py:summary_headline",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:report_export.py",
+      "target": "function:report_export.py:_clean_md",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:report_export.py",
+      "target": "class:report_export.py:_ReportPDF",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:report_export.py",
+      "target": "function:report_export.py:_write",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:report_export.py",
+      "target": "function:report_export.py:_md_to_html",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:report_export.py",
+      "target": "function:report_export.py:_extensions_to_html",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:report_export.py",
+      "target": "function:report_export.py:build_report_html",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:report_export.py",
+      "target": "function:report_export.py:build_report_pdf",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:report_export.py",
+      "target": "class:report_export.py:FontNotFoundError",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:report_export.py",
+      "target": "function:report_export.py:resolve_cjk_font",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:report_export.py",
+      "target": "function:report_export.py:extract_section_4_advice",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:report_export.py",
+      "target": "function:report_export.py:sanitize_main_report",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:report_export.py",
+      "target": "function:report_export.py:split_extension_section",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:report_export.py",
+      "target": "function:report_export.py:parse_extension_items",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:report_export.py",
+      "target": "function:report_export.py:split_main_and_extensions",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:report_export.py",
+      "target": "function:report_export.py:summary_headline",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:report_export.py",
+      "target": "function:report_export.py:_clean_md",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:report_export.py",
+      "target": "class:report_export.py:_ReportPDF",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:report_export.py",
+      "target": "function:report_export.py:_write",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:report_export.py",
+      "target": "function:report_export.py:_md_to_html",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:report_export.py",
+      "target": "function:report_export.py:_extensions_to_html",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:report_export.py",
+      "target": "function:report_export.py:build_report_html",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:report_export.py",
+      "target": "function:report_export.py:build_report_pdf",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:interpret.py:generate_main_report",
+      "target": "function:report_export.py:sanitize_main_report",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:report_export.py:summary_headline",
+      "target": "function:chart.py:sign_to_zh",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "config:.streamlit/config.toml",
+      "target": "file:app.py",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "document:assets/fonts/README.md",
+      "target": "file:report_export.py",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    }
+  ],
+  "layers": [
+    {
+      "id": "layer:ui",
+      "name": "UI 与应用编排层",
+      "description": "承接 Streamlit 表单、会话状态和结果页交互，并把星盘、LLM 报告、导出与塔罗翻牌串成一条用户链路。",
+      "nodeIds": [
+        "file:app.py",
+        "file:tarot_ui.py"
+      ]
+    },
+    {
+      "id": "layer:domain",
+      "name": "核心领域层",
+      "description": "实现星盘计算与生时降级等占星规则，同时定义完整塔罗牌组、抽牌结果和三牌阵随机逻辑。",
+      "nodeIds": [
+        "file:chart.py",
+        "file:tarot.py"
+      ]
+    },
+    {
+      "id": "layer:service",
+      "name": "解读与报告服务层",
+      "description": "封装 LLM 提示词和流式生成，并将结构化解读转换为可下载的 HTML/PDF 报告。",
+      "nodeIds": [
+        "file:interpret.py",
+        "file:report_export.py"
+      ]
+    },
+    {
+      "id": "layer:development-tools",
+      "name": "开发诊断工具层",
+      "description": "提供星盘和轮盘 SVG 的一次性预览、尺寸、文本与字体检查脚本，辅助人工验证渲染效果。",
+      "nodeIds": [
+        "file:_inspect_chart.py",
+        "file:_inspect_wheel.py"
+      ]
+    },
+    {
+      "id": "layer:config",
+      "name": "运行配置层",
+      "description": "集中保存 Streamlit 主题与隐私选项，并提供模型服务、访问密钥和地点解析账号的配置模板。",
+      "nodeIds": [
+        "config:.streamlit/config.toml",
+        "file:.streamlit/secrets.toml.example"
+      ]
+    },
+    {
+      "id": "layer:documentation",
+      "name": "文档与项目治理层",
+      "description": "覆盖项目入口、架构与需求方案、发布验收、协作约束、依赖、决策历史、工作日志及素材许可证。",
+      "nodeIds": [
+        "document:README.md",
+        "document:SHIP.md",
+        "document:agent.md",
+        "document:architecture.md",
+        "document:assets/fonts/README.md",
+        "document:assets/tarot/ATTRIBUTION.md",
+        "document:history.md",
+        "document:requirements.txt",
+        "document:今日日志_2026-07-21.md",
+        "document:星盘MBTI解读spike需求与实施方案.md"
+      ]
+    }
+  ],
+  "tour": [
+    {
+      "order": 1,
+      "title": "项目与实验边界",
+      "description": "先从项目入口文档理解这不是长期产品，而是面向约十位朋友、持续两周的可逆验证。它概括了从出生信息到星盘、中文解读、可选塔罗和导出的完整体验，也交代了无账号、无数据库、免费试用和许可证边界。",
+      "nodeIds": [
+        "document:README.md",
+        "document:星盘MBTI解读spike需求与实施方案.md"
+      ]
+    },
+    {
+      "order": 2,
+      "title": "单链路架构全景",
+      "description": "在明确实验目标后，架构文档给出一条无持久化的直线数据流：界面收集输入，星盘模块产生结构化事实，模型生成解读，结果页再追加塔罗与导出。阅读这一层可以先建立模块边界，避免把页面编排、领域计算和展示代码混为一谈。",
+      "nodeIds": [
+        "document:architecture.md"
+      ]
+    },
+    {
+      "order": 3,
+      "title": "应用入口与状态",
+      "description": "应用入口把上一层的直线架构落实为 Streamlit 表单和结果页，统一调度星盘、模型、报告与塔罗模块。它还用会话状态保存星盘、主报告和塔罗结果，使用户追加抽牌时不必重新执行昂贵的主报告调用，并集中处理错误与移动端深色界面。",
+      "nodeIds": [
+        "file:app.py"
+      ],
+      "languageLesson": "Streamlit 会在交互后从头重新执行脚本；会话状态是在这种执行模型下跨重跑保存结果、控制幂等操作和避免重复外部调用的关键机制。"
+    },
+    {
+      "order": 4,
+      "title": "运行配置与依赖",
+      "description": "理解入口后，再看它赖以启动的最小运行环境：主题配置关闭匿名统计并统一暗色视觉，密钥示例约定模型服务和地点解析参数，依赖清单声明四个核心库。这里体现了 spike 的轻量选择，但依赖只设最低版本而未完全锁定，复现环境时需要格外留意版本漂移。",
+      "nodeIds": [
+        "config:.streamlit/config.toml",
+        "file:.streamlit/secrets.toml.example",
+        "document:requirements.txt"
+      ],
+      "languageLesson": "TOML 用分节键值表达配置；示例密钥文件只定义配置契约，真实凭据应由部署环境注入并始终留在版本控制之外。"
+    },
+    {
+      "order": 5,
+      "title": "星盘领域核心",
+      "description": "星盘模块是入口最重要的领域依赖，负责地点解析、本命盘计算、中文名称和轮盘图生成。它的关键设计是对未知出生时间显式降级：删除不可靠的上升与宫位信息，并在月亮当天换座时保留双重可能，从源头约束后续模型不要制造伪精确结论。",
+      "nodeIds": [
+        "file:chart.py"
+      ]
+    },
+    {
+      "order": 6,
+      "title": "提示词与流式解读",
+      "description": "星盘模块产出结构化事实后，解读服务把事实、人格类型、用户问题和降级说明装配进两套中文提示词。它同时提供流式与聚合接口，让页面可以即时展示主报告或塔罗补充，又能在非流式场景获得完整文本并处理空响应。",
+      "nodeIds": [
+        "file:interpret.py"
+      ],
+      "languageLesson": "Python 生成器可以逐段产出模型响应，而不必等待完整结果进入内存；上层既可直接迭代显示，也可拼接成一次性字符串。"
+    },
+    {
+      "order": 7,
+      "title": "报告解析与导出",
+      "description": "报告服务承接第 6 步的模型文本，识别固定章节与延伸项目，再生成包含星盘、塔罗、隐私说明的自包含网页或中文文档。它还负责中文字体查找、动态文本转义和星盘图脚本清理，因此既是展示出口，也是内容安全与跨平台排版的集中边界。",
+      "nodeIds": [
+        "file:report_export.py",
+        "document:assets/fonts/README.md"
+      ],
+      "languageLesson": "把模型文本嵌入网页前必须进行字符转义；只有受信任的应用生成片段可以作为标记内容保留，同时仍应删除脚本等可执行元素。"
+    },
+    {
+      "order": 8,
+      "title": "塔罗领域与展示",
+      "description": "可选塔罗功能被拆成两个清晰部分：领域模块定义完整牌组、不可变抽牌结果和三牌阵随机逻辑，展示模块负责中文牌名、图片缓存与三维翻牌页面。素材署名文档补足牌面来源和命名映射，使随机业务逻辑、视觉资源和许可责任彼此独立。",
+      "nodeIds": [
+        "file:tarot.py",
+        "file:tarot_ui.py",
+        "document:assets/tarot/ATTRIBUTION.md"
+      ],
+      "languageLesson": "将纯抽牌逻辑与网页动画分离，能让领域规则独立测试，也避免图片编码、缓存和样式细节反向污染随机模型。"
+    },
+    {
+      "order": 9,
+      "title": "星盘渲染诊断",
+      "description": "核心链路之外的两个一次性脚本用于人工验证第三方星盘图输出：一个比较中英文文本密度与字体，另一个比较完整图和仅轮盘图。它们解释了正式实现为何选择移动端更稳定的轮盘版本，也为字体重叠和矢量图结构问题提供快速复现入口。",
+      "nodeIds": [
+        "file:_inspect_chart.py",
+        "file:_inspect_wheel.py"
+      ]
+    },
+    {
+      "order": 10,
+      "title": "发布与范围治理",
+      "description": "最后回到 spike 的交付纪律：发布清单验证密钥、成本、关键路径、移动端和云端冷启动，历史文档解释哪些功能被保留、删除或简化。协作规范进一步约束隐私、许可、提交方式和范围扩张，确保两周观察结束后能基于真实信号继续或停止，而不是把实验悄然演变成长期项目。",
+      "nodeIds": [
+        "document:SHIP.md",
+        "document:history.md",
+        "document:agent.md"
+      ]
+    }
+  ]
+}

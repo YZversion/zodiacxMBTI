@@ -1,0 +1,1079 @@
+{
+  "version": "1.0.0",
+  "gitCommitHash": "d32fb08da775e2153db74b8ce75cf8fbcba7733f",
+  "generatedAt": "2026-07-22T01:44:54.377Z",
+  "files": {
+    "_inspect_chart.py": {
+      "filePath": "_inspect_chart.py",
+      "contentHash": "a3683b1de411f028e814ba6bf1d69254723426feb891f94961e3c3d0728856c1",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "datetime",
+          "specifiers": [
+            "date",
+            "time"
+          ]
+        },
+        {
+          "source": "re",
+          "specifiers": [
+            "re"
+          ]
+        },
+        {
+          "source": "chart",
+          "specifiers": [
+            "build_chart"
+          ]
+        },
+        {
+          "source": "kerykeion",
+          "specifiers": [
+            "AstrologicalSubjectFactory",
+            "ChartDataFactory"
+          ]
+        },
+        {
+          "source": "kerykeion.charts.chart_drawer",
+          "specifiers": [
+            "ChartDrawer"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 36,
+      "hasStructuralAnalysis": true
+    },
+    "_inspect_wheel.py": {
+      "filePath": "_inspect_wheel.py",
+      "contentHash": "443847ac248fa1d8ee955809769d98ef503d950aaa79bbfd3640df104fdd2cd4",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "datetime",
+          "specifiers": [
+            "date"
+          ]
+        },
+        {
+          "source": "re",
+          "specifiers": [
+            "re"
+          ]
+        },
+        {
+          "source": "kerykeion",
+          "specifiers": [
+            "AstrologicalSubjectFactory",
+            "ChartDataFactory"
+          ]
+        },
+        {
+          "source": "kerykeion.charts.chart_drawer",
+          "specifiers": [
+            "ChartDrawer"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 27,
+      "hasStructuralAnalysis": true
+    },
+    ".streamlit/config.toml": {
+      "filePath": ".streamlit/config.toml",
+      "contentHash": "9ece4771642bb453258a0c20aa27a3bfd58dff210ae86a894017e8dbbed0044e",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 11,
+      "hasStructuralAnalysis": true
+    },
+    ".streamlit/secrets.toml.example": {
+      "filePath": ".streamlit/secrets.toml.example",
+      "contentHash": "e0d14467f72a6ab77c7ae7ff5958bf8063abdaf564e85140d2d249d21b34165a",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 15,
+      "hasStructuralAnalysis": false
+    },
+    "今日日志_2026-07-21.md": {
+      "filePath": "今日日志_2026-07-21.md",
+      "contentHash": "742c8e3c350dcf8f90a81138698938f0826ad18b5d2d721b231f30b12b5e92fa",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 97,
+      "hasStructuralAnalysis": true
+    },
+    "星盘MBTI解读spike需求与实施方案.md": {
+      "filePath": "星盘MBTI解读spike需求与实施方案.md",
+      "contentHash": "6802f67526858f22d2f07bbb1bca731be680a9c286eaa4b798bb56bf32ef30af",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 192,
+      "hasStructuralAnalysis": true
+    },
+    "agent.md": {
+      "filePath": "agent.md",
+      "contentHash": "93505476a28adb4eea75471f115b7459b42b47855a8a02d7ac5eeb643fae0911",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 63,
+      "hasStructuralAnalysis": true
+    },
+    "app.py": {
+      "filePath": "app.py",
+      "contentHash": "0af8e711444df6eba930db4981829b8eb5e12f4f2b779aa03a727fc494b43c9c",
+      "functions": [
+        {
+          "name": "_inject_theme",
+          "params": [],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "_secret",
+          "params": [
+            "key",
+            "default"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "_require_api_key",
+          "params": [],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 9
+        },
+        {
+          "name": "_init_state",
+          "params": [],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 14
+        },
+        {
+          "name": "_fingerprint",
+          "params": [
+            "birth_date",
+            "birth_time",
+            "time_unknown",
+            "city",
+            "nation",
+            "mbti",
+            "user_question"
+          ],
+          "returnType": "tuple",
+          "exported": true,
+          "lineCount": 19
+        },
+        {
+          "name": "_resolve_nation",
+          "params": [
+            "country_label",
+            "other_code"
+          ],
+          "returnType": "str | None",
+          "exported": true,
+          "lineCount": 7
+        },
+        {
+          "name": "_render_summary_card",
+          "params": [
+            "chart",
+            "report_text"
+          ],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 13
+        },
+        {
+          "name": "_render_svg",
+          "params": [
+            "svg"
+          ],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 16
+        },
+        {
+          "name": "_render_tarot_cards",
+          "params": [
+            "cards"
+          ],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "_footer",
+          "params": [],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "main",
+          "params": [],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 270
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "html",
+          "specifiers": [
+            "html"
+          ]
+        },
+        {
+          "source": "datetime",
+          "specifiers": [
+            "date",
+            "time"
+          ]
+        },
+        {
+          "source": "streamlit",
+          "specifiers": [
+            "st"
+          ]
+        },
+        {
+          "source": "streamlit.components.v1",
+          "specifiers": [
+            "components"
+          ]
+        },
+        {
+          "source": "chart",
+          "specifiers": [
+            "PLACE_HINT",
+            "PlaceLookupError",
+            "build_chart"
+          ]
+        },
+        {
+          "source": "interpret",
+          "specifiers": [
+            "stream_main_report",
+            "stream_tarot_report"
+          ]
+        },
+        {
+          "source": "report_export",
+          "specifiers": [
+            "DISCLAIMER",
+            "FontNotFoundError",
+            "PRIVACY",
+            "build_report_html",
+            "build_report_pdf",
+            "extract_section_4_advice",
+            "sanitize_main_report",
+            "split_main_and_extensions",
+            "summary_headline"
+          ]
+        },
+        {
+          "source": "tarot",
+          "specifiers": [
+            "DrawnCard",
+            "draw_three"
+          ]
+        },
+        {
+          "source": "tarot_ui",
+          "specifiers": [
+            "build_flip_html"
+          ]
+        }
+      ],
+      "exports": [
+        "_inject_theme",
+        "_secret",
+        "_require_api_key",
+        "_init_state",
+        "_fingerprint",
+        "_resolve_nation",
+        "_render_summary_card",
+        "_render_svg",
+        "_render_tarot_cards",
+        "_footer",
+        "main"
+      ],
+      "totalLines": 643,
+      "hasStructuralAnalysis": true
+    },
+    "architecture.md": {
+      "filePath": "architecture.md",
+      "contentHash": "6fe88112f81f2250218745bdc972fa6513649ab4fbda33264f146ba80ba1839f",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 128,
+      "hasStructuralAnalysis": true
+    },
+    "assets/fonts/README.md": {
+      "filePath": "assets/fonts/README.md",
+      "contentHash": "e1c2dcfab48e4f54cc10cddb5602b731a0084171e263b7d1beab207dac3bbde8",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 11,
+      "hasStructuralAnalysis": true
+    },
+    "assets/tarot/ATTRIBUTION.md": {
+      "filePath": "assets/tarot/ATTRIBUTION.md",
+      "contentHash": "f0ecac379065134aa0209e4508c8db89d57621569aa6e4069e1ccb6d89f0e7de",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 21,
+      "hasStructuralAnalysis": true
+    },
+    "chart.py": {
+      "filePath": "chart.py",
+      "contentHash": "d9e620b7c3665c433c835a8033d5e3d421852a47647237af040a43c166b70c3a",
+      "functions": [
+        {
+          "name": "sign_to_zh",
+          "params": [
+            "sign"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "_subject",
+          "params": [
+            "name",
+            "year",
+            "month",
+            "day",
+            "hour",
+            "minute",
+            "city",
+            "nation",
+            "geonames_username"
+          ],
+          "exported": true,
+          "lineCount": 30
+        },
+        {
+          "name": "_moon_signs_for_day",
+          "params": [
+            "birth_date",
+            "city",
+            "nation",
+            "geonames_username"
+          ],
+          "returnType": "tuple[str, str]",
+          "exported": true,
+          "lineCount": 32
+        },
+        {
+          "name": "_strip_houses_and_angles",
+          "params": [
+            "xml"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 18
+        },
+        {
+          "name": "_prepare_chart_svg",
+          "params": [
+            "svg"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 14
+        },
+        {
+          "name": "_svg_for_subject",
+          "params": [
+            "subject"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 15
+        },
+        {
+          "name": "build_chart",
+          "params": [
+            "birth_date",
+            "birth_time",
+            "time_unknown",
+            "city",
+            "nation",
+            "mbti",
+            "geonames_username",
+            "subject_name"
+          ],
+          "returnType": "ChartResult",
+          "exported": true,
+          "lineCount": 86
+        }
+      ],
+      "classes": [
+        {
+          "name": "PlaceLookupError",
+          "methods": [],
+          "properties": [],
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "MoonAmbiguity",
+          "methods": [
+            "message_zh"
+          ],
+          "properties": [
+            "sign_at_start",
+            "sign_at_end"
+          ],
+          "exported": true,
+          "lineCount": 12
+        },
+        {
+          "name": "ChartResult",
+          "methods": [],
+          "properties": [
+            "subject_name",
+            "birth_date",
+            "birth_time",
+            "time_unknown",
+            "city",
+            "nation",
+            "mbti",
+            "context_xml",
+            "svg",
+            "moon_ambiguity",
+            "preface_notes",
+            "resolved_city",
+            "resolved_tz",
+            "sun_sign",
+            "moon_sign",
+            "asc_sign"
+          ],
+          "exported": true,
+          "lineCount": 17
+        }
+      ],
+      "imports": [
+        {
+          "source": "re",
+          "specifiers": [
+            "re"
+          ]
+        },
+        {
+          "source": "dataclasses",
+          "specifiers": [
+            "dataclass",
+            "field"
+          ]
+        },
+        {
+          "source": "datetime",
+          "specifiers": [
+            "date",
+            "time",
+            "timedelta"
+          ]
+        },
+        {
+          "source": "typing",
+          "specifiers": [
+            "Optional"
+          ]
+        },
+        {
+          "source": "kerykeion",
+          "specifiers": [
+            "AstrologicalSubjectFactory",
+            "ChartDataFactory",
+            "to_context"
+          ]
+        },
+        {
+          "source": "kerykeion.charts.chart_drawer",
+          "specifiers": [
+            "ChartDrawer"
+          ]
+        }
+      ],
+      "exports": [
+        "PlaceLookupError",
+        "MoonAmbiguity",
+        "ChartResult",
+        "sign_to_zh",
+        "_subject",
+        "_moon_signs_for_day",
+        "_strip_houses_and_angles",
+        "_prepare_chart_svg",
+        "_svg_for_subject",
+        "build_chart"
+      ],
+      "totalLines": 293,
+      "hasStructuralAnalysis": true
+    },
+    "history.md": {
+      "filePath": "history.md",
+      "contentHash": "5e63709b1e19e3c0243bcf556606feb392b0f7455c03b865c12683ef2779da29",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 75,
+      "hasStructuralAnalysis": true
+    },
+    "interpret.py": {
+      "filePath": "interpret.py",
+      "contentHash": "757bd0bcdb5e277d710d86ef6ed8ef26c9f5be09dd5ac0274380152c29f87b33",
+      "functions": [
+        {
+          "name": "_client",
+          "params": [
+            "api_key",
+            "base_url"
+          ],
+          "returnType": "OpenAI",
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "_stream_chat",
+          "params": [
+            "api_key",
+            "model",
+            "system",
+            "user",
+            "base_url"
+          ],
+          "returnType": "Iterator[str]",
+          "exported": true,
+          "lineCount": 24
+        },
+        {
+          "name": "build_main_user_prompt",
+          "params": [
+            "chart",
+            "user_question"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 39
+        },
+        {
+          "name": "_tarot_user_prompt",
+          "params": [
+            "chart",
+            "cards",
+            "question"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 22
+        },
+        {
+          "name": "stream_main_report",
+          "params": [
+            "chart",
+            "api_key",
+            "model",
+            "base_url",
+            "user_question"
+          ],
+          "returnType": "Iterator[str]",
+          "exported": true,
+          "lineCount": 15
+        },
+        {
+          "name": "stream_tarot_report",
+          "params": [
+            "chart",
+            "cards",
+            "question",
+            "api_key",
+            "model",
+            "base_url"
+          ],
+          "returnType": "Iterator[str]",
+          "exported": true,
+          "lineCount": 16
+        },
+        {
+          "name": "generate_main_report",
+          "params": [
+            "chart",
+            "api_key",
+            "model",
+            "base_url",
+            "user_question"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 21
+        },
+        {
+          "name": "generate_tarot_report",
+          "params": [
+            "chart",
+            "cards",
+            "question",
+            "api_key",
+            "model",
+            "base_url"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 22
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "collections.abc",
+          "specifiers": [
+            "Iterator"
+          ]
+        },
+        {
+          "source": "typing",
+          "specifiers": [
+            "TYPE_CHECKING",
+            "Optional"
+          ]
+        },
+        {
+          "source": "openai",
+          "specifiers": [
+            "OpenAI"
+          ]
+        },
+        {
+          "source": "report_export",
+          "specifiers": [
+            "sanitize_main_report"
+          ]
+        }
+      ],
+      "exports": [
+        "_client",
+        "_stream_chat",
+        "build_main_user_prompt",
+        "_tarot_user_prompt",
+        "stream_main_report",
+        "stream_tarot_report",
+        "generate_main_report",
+        "generate_tarot_report"
+      ],
+      "totalLines": 241,
+      "hasStructuralAnalysis": true
+    },
+    "README.md": {
+      "filePath": "README.md",
+      "contentHash": "76dc1298c6d9342c017d043542163a3bafe2a7511cbc6a5625531fecc4be9be7",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 110,
+      "hasStructuralAnalysis": true
+    },
+    "report_export.py": {
+      "filePath": "report_export.py",
+      "contentHash": "54c69c48f019e228d4cb817d66fca7c9098013ccb025d31011f1fdaaa92e6808",
+      "functions": [
+        {
+          "name": "resolve_cjk_font",
+          "params": [],
+          "returnType": "Path",
+          "exported": true,
+          "lineCount": 7
+        },
+        {
+          "name": "extract_section_4_advice",
+          "params": [
+            "report"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 12
+        },
+        {
+          "name": "sanitize_main_report",
+          "params": [
+            "report"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "split_extension_section",
+          "params": [
+            "report"
+          ],
+          "returnType": "tuple[str, str]",
+          "exported": true,
+          "lineCount": 13
+        },
+        {
+          "name": "parse_extension_items",
+          "params": [
+            "extension_body"
+          ],
+          "returnType": "list[tuple[str, str]]",
+          "exported": true,
+          "lineCount": 37
+        },
+        {
+          "name": "split_main_and_extensions",
+          "params": [
+            "report"
+          ],
+          "returnType": "tuple[str, list[tuple[str, str]]]",
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "summary_headline",
+          "params": [
+            "chart"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 14
+        },
+        {
+          "name": "_clean_md",
+          "params": [
+            "text"
+          ],
+          "returnType": "list[tuple[str, str]]",
+          "exported": true,
+          "lineCount": 14
+        },
+        {
+          "name": "_write",
+          "params": [
+            "pdf",
+            "text",
+            "h"
+          ],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "_md_to_html",
+          "params": [
+            "text"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 12
+        },
+        {
+          "name": "_extensions_to_html",
+          "params": [
+            "items"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 21
+        },
+        {
+          "name": "build_report_html",
+          "params": [
+            "chart",
+            "report_text",
+            "tarot_cards",
+            "tarot_text"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 296
+        },
+        {
+          "name": "build_report_pdf",
+          "params": [
+            "chart",
+            "report_text",
+            "tarot_cards",
+            "tarot_text"
+          ],
+          "returnType": "bytes",
+          "exported": true,
+          "lineCount": 112
+        }
+      ],
+      "classes": [
+        {
+          "name": "FontNotFoundError",
+          "methods": [],
+          "properties": [],
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "_ReportPDF",
+          "methods": [
+            "__init__",
+            "footer"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 12
+        }
+      ],
+      "imports": [
+        {
+          "source": "io",
+          "specifiers": [
+            "io"
+          ]
+        },
+        {
+          "source": "re",
+          "specifiers": [
+            "re"
+          ]
+        },
+        {
+          "source": "pathlib",
+          "specifiers": [
+            "Path"
+          ]
+        },
+        {
+          "source": "typing",
+          "specifiers": [
+            "Optional",
+            "Sequence"
+          ]
+        },
+        {
+          "source": "fpdf",
+          "specifiers": [
+            "FPDF"
+          ]
+        },
+        {
+          "source": "chart",
+          "specifiers": [
+            "sign_to_zh"
+          ]
+        }
+      ],
+      "exports": [
+        "FontNotFoundError",
+        "resolve_cjk_font",
+        "extract_section_4_advice",
+        "sanitize_main_report",
+        "split_extension_section",
+        "parse_extension_items",
+        "split_main_and_extensions",
+        "summary_headline",
+        "_clean_md",
+        "_ReportPDF",
+        "_write",
+        "_md_to_html",
+        "_extensions_to_html",
+        "build_report_html",
+        "build_report_pdf"
+      ],
+      "totalLines": 618,
+      "hasStructuralAnalysis": true
+    },
+    "requirements.txt": {
+      "filePath": "requirements.txt",
+      "contentHash": "ef9affab2dc494420be173894fd892cd83b0a2bd234614af139496637a26cc9b",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 5,
+      "hasStructuralAnalysis": false
+    },
+    "SHIP.md": {
+      "filePath": "SHIP.md",
+      "contentHash": "aab55141926ec7c391b1459b132ae978637ee5df9f38338ce645922efd895b70",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 30,
+      "hasStructuralAnalysis": true
+    },
+    "tarot_ui.py": {
+      "filePath": "tarot_ui.py",
+      "contentHash": "2c6cf6e511f8d58a7c03341940d53c2bbf5a67643cb8ca7269a9bf0d5da5b654",
+      "functions": [
+        {
+          "name": "_build_name_to_file",
+          "params": [],
+          "returnType": "dict[str, str]",
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "_image_data_uri",
+          "params": [
+            "filename"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 11
+        },
+        {
+          "name": "card_face_data_uri",
+          "params": [
+            "card_name"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "build_flip_html",
+          "params": [
+            "cards"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 157
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "base64",
+          "specifiers": [
+            "base64"
+          ]
+        },
+        {
+          "source": "html",
+          "specifiers": [
+            "html"
+          ]
+        },
+        {
+          "source": "functools",
+          "specifiers": [
+            "lru_cache"
+          ]
+        },
+        {
+          "source": "pathlib",
+          "specifiers": [
+            "Path"
+          ]
+        },
+        {
+          "source": "tarot",
+          "specifiers": [
+            "MAJOR",
+            "DrawnCard"
+          ]
+        }
+      ],
+      "exports": [
+        "_build_name_to_file",
+        "_image_data_uri",
+        "card_face_data_uri",
+        "build_flip_html"
+      ],
+      "totalLines": 224,
+      "hasStructuralAnalysis": true
+    },
+    "tarot.py": {
+      "filePath": "tarot.py",
+      "contentHash": "5a7996863ff2b38a4290e685ec5f52633918df7b0ca423fbee45a2b4df77d90e",
+      "functions": [
+        {
+          "name": "_full_deck",
+          "params": [],
+          "returnType": "list[str]",
+          "exported": true,
+          "lineCount": 7
+        },
+        {
+          "name": "draw_three",
+          "params": [
+            "rng"
+          ],
+          "returnType": "list[DrawnCard]",
+          "exported": true,
+          "lineCount": 9
+        }
+      ],
+      "classes": [
+        {
+          "name": "DrawnCard",
+          "methods": [
+            "label_zh"
+          ],
+          "properties": [
+            "name",
+            "position",
+            "reversed"
+          ],
+          "exported": true,
+          "lineCount": 8
+        }
+      ],
+      "imports": [
+        {
+          "source": "random",
+          "specifiers": [
+            "random"
+          ]
+        },
+        {
+          "source": "dataclasses",
+          "specifiers": [
+            "dataclass"
+          ]
+        },
+        {
+          "source": "typing",
+          "specifiers": [
+            "Literal"
+          ]
+        }
+      ],
+      "exports": [
+        "_full_deck",
+        "DrawnCard",
+        "draw_three"
+      ],
+      "totalLines": 93,
+      "hasStructuralAnalysis": true
+    }
+  }
+}

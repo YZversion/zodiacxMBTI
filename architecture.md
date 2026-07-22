@@ -5,7 +5,7 @@ Spike architecture for **zodiacxMBTI**: one straight pipeline, no persistent sta
 ## System diagram
 
 ```
-Streamlit form (dark starfield UI, mobile Chinese)
+Streamlit form (night-sky coordinate UI + hero, mobile Chinese)
         │
         ▼
 kerykeion (Swiss Ephemeris + GeoNames)
@@ -21,11 +21,12 @@ LLM API stream  (XML + MBTI + optional user_question → Chinese report)
 Result page
   • glass summary card (Sun / Moon / Asc × MBTI + §5 advice)
   • expandable wheel chart
-  • full report markdown
-  • export: full HTML page | text PDF
+  • report §§1–5 markdown
+  • §6 延伸探索 → collapsed expanders (title + short answer each)
+  • export: full HTML page | text PDF  (same design_system tokens)
         │
         └── optional tarot
-              draw_three() → CSS 3D flip (components.html)
+              draw_three() → CSS 3D flip (st.html fragment)
               → one extra streamed LLM call (cached chart + MBTI + question)
 ```
 
@@ -36,6 +37,7 @@ Result page
 | One-shot report | No accounts, history, or database |
 | One Python surface | Streamlit only |
 | One chart library | kerykeion for math + SVG + serializer |
+| Shared visuals | `design_system.py` tokens for app / HTML export / tarot stage |
 | Cache across reruns | session_state prevents double LLM billing |
 | Honest degradation | Unknown time / moon sign-change explained |
 | Secrets outside git | `.streamlit/secrets.toml` / Cloud Secrets; spend cap |
@@ -44,16 +46,18 @@ Result page
 ## Modules
 
 ```
-app.py                 # UI, theme CSS (st.html), orchestration, downloads
+app.py                 # UI, THEME_CSS via st.html, hero, coordinate strip, orchestration
+design_system.py       # COLORS, font stacks, css_variables() → --zx-*
 chart.py               # GeoNames subject, moon ambiguity, wheel SVG prep
 interpret.py           # MAIN_SYSTEM / TAROT_SYSTEM, stream_* generators
 tarot.py               # 78-card deck + draw_three (logic only)
-tarot_ui.py            # name→asset map, flip HTML, base64 faces
-report_export.py       # build_report_html, build_report_pdf
+tarot_ui.py            # name→asset map, flip HTML fragment, base64 faces
+report_export.py       # build_report_html / pdf; split_main_and_extensions
+tests/test_design_system.py
 assets/tarot/rws/      # 78 LuciellaES CC0 faces
 assets/fonts/          # NotoSansSC-Regular.ttf for PDF
 .streamlit/
-  config.toml          # dark theme colors
+  config.toml          # dark theme aligned to COLORS; toolbarMode=minimal
   secrets.toml         # gitignored
   secrets.toml.example
 requirements.txt       # streamlit, kerykeion, openai, fpdf2
@@ -80,35 +84,41 @@ requirements.txt       # streamlit, kerykeion, openai, fpdf2
 
 **Input:** `to_context` XML (+ moon_ambiguity if needed) + MBTI + optional `user_question`.
 
-**MAIN_SYSTEM highlights:** psychological-astrology persona; ground truth only; anti-Barnum; section-open hooks = concrete personality contradictions (thesis of the section); money section = 2nd/6th/10th + Saturn/Jupiter behavior (no fortune predictions); length ~1000–1300 Chinese chars. Headings:
+**MAIN_SYSTEM highlights:** psychological-astrology persona; ground truth only; anti-Barnum; section-open hooks = concrete personality contradictions (thesis of the section); money section = 2nd/6th/10th + Saturn/Jupiter behavior (no fortune predictions); origin + exit red lines. Headings:
 
 1. 核心性格画像（180–250）  
 2. 金钱与事业风格（220–300）  
 3. 关系与沟通风格（220–300）  
 4. 关于你正在纠结的事（only if `user_question` set; 350–450）  
 5. 当前阶段的一句话建议（30–45）  
+6. 延伸探索 — exactly 3 `###` items (title + 80–120 字解析 each): relationship / money-career tension / synastry sketch. No「想知道吗」teasers.
 
-If no question: skip §4 entirely (heading omitted); still emit §5. Any model-invented「延伸探索」is stripped by `sanitize_main_report`.
+If no question: skip §4 entirely (heading omitted); still emit §5 and §6.  
+UI/HTML: `split_main_and_extensions` keeps §§1–5 in the main prose and renders §6 as collapsed expanders / `<details>`.
 
-**Streaming:** OpenAI-compatible `stream=True` → `st.write_stream` → sanitize → cache full string.
+**Streaming:** OpenAI-compatible `stream=True` → `st.write_stream` → cache full string → rerun.
 
-**Tarot:** past / present / future / 三张牌共同指向 (~500–650 chars); closing hammer = one core tension + one self-question; optional question (prefilled from main form); weave chart + MBTI. No transit invention.
+**Tarot:** past / present / future / 三张牌共同指向 (~500–650 chars); closing hammer = one core tension + one self-question; optional question (prefilled from main form); weave chart + MBTI. No transit invention. Do not append a main-report-style「延伸探索」block to tarot text.
 
 ## UI / export
 
 | Piece | Mechanism |
 |---|---|
-| Atmosphere | CSS starfield + vignette + grain on `stAppViewContainer` |
-| Fonts | Instrument Serif + Noto Serif SC (titles); Space Grotesk + Noto Sans SC (body) |
-| Summary card | glassmorphism HTML via `st.html` |
-| Chart | wheel-only SVG in expander iframe; CJK font injection |
-| Tarot stage | `components.html` flip animation; interpretation below iframe |
-| Full page download | self-contained HTML (SVG + card images + report) |
+| Tokens | `design_system.COLORS` — night navy `#0b1626`, parchment text `#e7ddc9`, mint CTA `#c7d9d2`, copper/coordinate accents |
+| Atmosphere | CSS grid + deep gradient on `stAppViewContainer` (no remote fonts; grain animation removed) |
+| Fonts | Display = Kaiti / Noto Serif SC; body = Noto Sans SC; data = Space Grotesk / mono |
+| Hero | Brand-first first viewport: eyebrow + title + one lede |
+| Coordinate strip | Live summary of country / date / city / MBTI while filling the form |
+| A11y | `prefers-reduced-motion`, `button:focus-visible`, CTA text contrast |
+| Summary card | glass HTML via `st.html` |
+| Chart | wheel-only SVG in expander; `st.iframe(..., height="content")` + CJK font injection |
+| Tarot stage | inline `st.html` fragment (not full document); responsive grid; reduced-motion safe |
+| Full page download | self-contained HTML using same `--zx-*` tokens; §6 as closed `<details>` |
 | Text PDF | fpdf2 + bundled Noto Sans SC |
 
 ## Deployment
 
-- **Dev:** `streamlit run app.py`
+- **Dev:** `.\.venv\Scripts\streamlit.exe run app.py` (Windows) / `streamlit run app.py`
 - **Prod:** Streamlit Community Cloud, entry `app.py`, Secrets mirrored from local
 - **Observability:** Cloud visits + LLM dashboard counts (chart vs tarot)
 
