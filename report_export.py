@@ -17,6 +17,11 @@ DISCLAIMER = (
     "本报告由 AI 生成，内容仅供娱乐与自我探索，不构成心理、医疗或重大决策建议。"
 )
 
+QUESTION_SECTION_HEADING = "## 4. 关于你正在纠结的事"
+_QUESTION_SECTION_RE = re.compile(
+    r"(?ms)^\s*##\s*4(?:[.、．]|\s).*?(?=^\s*##\s+|\Z)"
+)
+
 FONT_CANDIDATES = [
     Path(__file__).resolve().parent / "assets" / "fonts" / "NotoSansSC-Regular.ttf",
     Path(r"C:\Windows\Fonts\NotoSansSC-Regular.ttf"),
@@ -58,6 +63,46 @@ def extract_section_4_advice(report: str) -> str:
 def sanitize_main_report(report: str) -> str:
     """Normalize whitespace; keep §6 for collapsible rendering."""
     return (report or "").strip()
+
+
+def has_complete_question_section(report: str) -> bool:
+    """Return whether §4 exists and contains a substantive answer."""
+    match = _QUESTION_SECTION_RE.search(report or "")
+    if not match:
+        return False
+    lines = match.group(0).strip().splitlines()
+    body = "\n".join(lines[1:]).strip()
+    return len(re.sub(r"\s+", "", body)) >= 80
+
+
+def upsert_question_section(report: str, section: str) -> str:
+    """Normalize a generated §4 and place it before §5 without duplicates."""
+    base = sanitize_main_report(report)
+    addition = sanitize_main_report(section)
+    if not addition:
+        raise ValueError("针对用户问题的分析为空。")
+
+    generated_match = _QUESTION_SECTION_RE.search(addition)
+    if generated_match:
+        addition = generated_match.group(0).strip()
+    else:
+        addition = f"{QUESTION_SECTION_HEADING}\n{addition}"
+
+    existing_match = _QUESTION_SECTION_RE.search(base)
+    if existing_match:
+        before = base[: existing_match.start()].rstrip()
+        after = base[existing_match.end() :].lstrip()
+        return "\n\n".join(part for part in (before, addition, after) if part)
+
+    next_section = re.search(
+        r"(?m)^\s*##\s*(?:5|6)(?:[.、．]|\s)",
+        base,
+    )
+    if next_section:
+        before = base[: next_section.start()].rstrip()
+        after = base[next_section.start() :].lstrip()
+        return "\n\n".join(part for part in (before, addition, after) if part)
+    return "\n\n".join(part for part in (base, addition) if part)
 
 
 def split_extension_section(report: str) -> tuple[str, str]:

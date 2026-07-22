@@ -10,7 +10,7 @@ import streamlit as st
 
 from chart import PLACE_HINT, PlaceLookupError, build_chart
 from design_system import COLORS, css_variables
-from interpret import stream_main_report, stream_tarot_report
+from interpret import generate_question_section, stream_main_report, stream_tarot_report
 from report_export import (
     DISCLAIMER,
     FontNotFoundError,
@@ -18,9 +18,11 @@ from report_export import (
     build_report_html,
     build_report_pdf,
     extract_section_4_advice,
+    has_complete_question_section,
     sanitize_main_report,
     split_main_and_extensions,
     summary_headline,
+    upsert_question_section,
 )
 from tarot import DrawnCard, draw_three
 from tarot_ui import build_flip_html
@@ -370,6 +372,31 @@ summary:focus-visible {
   color: var(--zx-text);
 }
 
+.zx-question-card {
+  border-left: 3px solid var(--zx-accent-strong);
+  border-radius: 0 12px 12px 0;
+  background: rgba(18, 31, 49, 0.72);
+  padding: 0.9rem 1rem;
+  margin: 0.35rem 0 1rem;
+  box-shadow: 0 14px 36px rgba(2, 8, 16, 0.22);
+}
+.zx-question-card small {
+  display: block;
+  margin-bottom: 0.28rem;
+  color: var(--zx-accent-strong);
+  font-family: var(--zx-data);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+.zx-question-card p {
+  margin: 0;
+  color: var(--zx-text);
+  font-family: var(--zx-body);
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
 @media (max-width: 520px) {
   .zx-hero {
     padding-top: 1.3rem;
@@ -400,8 +427,9 @@ summary:focus-visible {
 
 
 def _inject_theme() -> None:
-    # st.html keeps <style> out of visible markdown text
-    st.html(THEME_CSS)
+    # Markdown's HTML path keeps global styles attached to the app DOM across
+    # Streamlit reruns and is stable in the pinned Cloud runtime.
+    st.markdown(THEME_CSS, unsafe_allow_html=True)
 
 
 def _secret(key: str, default: str = "") -> str:
@@ -480,6 +508,18 @@ def _render_summary_card(chart, report_text: str) -> None:
         )
     st.html(
         f'<div class="zx-summary-card">{body}</div>',
+    )
+
+
+def _render_question_card(question: str) -> None:
+    value = (question or "").strip()
+    if not value:
+        return
+    st.html(
+        '<aside class="zx-question-card" aria-label="本次提交的问题">'
+        "<small>本次问题</small>"
+        f"<p>{html.escape(value)}</p>"
+        "</aside>"
     )
 
 
@@ -766,6 +806,20 @@ def main() -> None:
             if not text:
                 st.error("LLM 返回空内容，请稍后重试。")
                 st.stop()
+            if q and not has_complete_question_section(text):
+                try:
+                    with st.spinner("正在补全针对你问题的分析…"):
+                        section = generate_question_section(
+                            chart,
+                            user_question=q,
+                            api_key=api_key,
+                            model=model,
+                            base_url=base_url,
+                        )
+                    text = upsert_question_section(text, section)
+                except Exception as exc:  # noqa: BLE001
+                    st.error(f"针对你问题的分析补全失败，本次结果未保存：{exc}")
+                    st.stop()
             st.session_state.report_text = text
             st.session_state.main_user_question = q
             # Prefill tarot question box with the same text (user can edit)
@@ -778,6 +832,7 @@ def main() -> None:
         report_text = sanitize_main_report(st.session_state.report_text or "")
 
         st.subheader("解读摘要")
+        _render_question_card(st.session_state.main_user_question)
         _render_summary_card(chart, report_text)
 
         try:

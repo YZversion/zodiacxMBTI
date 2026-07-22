@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING, Optional
 
 from openai import OpenAI
 
-from report_export import sanitize_main_report
+from report_export import QUESTION_SECTION_HEADING, sanitize_main_report
 
 if TYPE_CHECKING:
     from chart import ChartResult
@@ -58,6 +58,17 @@ TAROT_SYSTEM = """你是一位结合星盘与 MBTI 做塔罗补充解读的中�
 9. 严禁给出时间预测（如「X 个月内会发生」「时间窗口在……」）；「未来」位置的牌只解读趋势与当事人可采取的行动方向，不断言事件与时点。
 10. 严禁编造星盘数据之外的心理成因（童年、原生家庭、创伤等）；可描述模式，不可虚构模式的来历。
 11. 禁止在塔罗正文末尾追加「延伸探索」「想知道更多吗」等主报告式追问块。"""
+
+QUESTION_SECTION_SYSTEM = f"""你是一位以现代心理占星和 MBTI 做决策模式分析的中文写作者。
+用户的完整报告漏掉了针对具体问题的章节。请只补写这一节，不要输出前言、代码围栏或其他章节。
+
+硬性规则：
+1. 第一行必须原样输出标题：{QUESTION_SECTION_HEADING}
+2. 第一段必须明确写出用户的原话，让用户能确认问题已被收到。
+3. 正文 350–450 字，依次覆盖：此人面对该问题时的典型决策模式、最可能的自我欺骗方式、一个可执行的判断框架。
+4. 只使用给出的星盘 ground truth 和 MBTI；不得编造童年、原生家庭、创伤、行运或未来事件。
+5. 不替用户做决定，不预测哪个选择会成功；重大人生决定应鼓励用户结合现实条件、伴侣沟通和专业意见自行判断。
+6. 语气具体、克制、简体中文；避免套话和宿命论。"""
 
 
 def _client(api_key: str, base_url: Optional[str] = None) -> OpenAI:
@@ -134,6 +145,32 @@ def build_main_user_prompt(
     return "\n".join(parts)
 
 
+def build_question_section_prompt(
+    chart: "ChartResult",
+    *,
+    user_question: str,
+) -> str:
+    question = (user_question or "").strip()
+    if not question:
+        raise ValueError("缺少需要分析的具体问题。")
+
+    notes = "\n".join(f"- {note}" for note in chart.preface_notes) or "- 无额外说明"
+    return "\n".join(
+        [
+            f'用户正在纠结的事（请在正文中原样写出）："{question}"',
+            f"MBTI：{chart.mbti or '不确定'}",
+            f"解析地点：{chart.resolved_city or chart.city}（{chart.nation}）",
+            f"时区：{chart.resolved_tz or '未知'}",
+            "",
+            "【前置说明】",
+            notes,
+            "",
+            "【星盘 XML】",
+            chart.context_xml,
+        ]
+    )
+
+
 def _tarot_user_prompt(
     chart: "ChartResult",
     cards: list["DrawnCard"],
@@ -191,6 +228,32 @@ def stream_tarot_report(
         user=_tarot_user_prompt(chart, cards, question),
         base_url=base_url,
     )
+
+
+def generate_question_section(
+    chart: "ChartResult",
+    *,
+    user_question: str,
+    api_key: str,
+    model: str = "gpt-4o-mini",
+    base_url: Optional[str] = None,
+) -> str:
+    """Generate only §4 when the main response omitted or truncated it."""
+    text = "".join(
+        _stream_chat(
+            api_key=api_key,
+            model=model,
+            system=QUESTION_SECTION_SYSTEM,
+            user=build_question_section_prompt(
+                chart,
+                user_question=user_question,
+            ),
+            base_url=base_url,
+        )
+    ).strip()
+    if not text:
+        raise RuntimeError("针对具体问题的分析返回了空内容，请重试。")
+    return text
 
 
 def generate_main_report(

@@ -20,6 +20,20 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class DesignSystemTests(unittest.TestCase):
+    def test_submitted_question_is_rendered_visibly_and_escaped(self) -> None:
+        code = """
+from app import _render_question_card
+
+_render_question_card('要不要生孩子哈哈哈 <script>alert(1)</script>')
+"""
+        app = AppTest.from_string(code).run(timeout=20)
+        self.assertEqual(len(app.exception), 0)
+        self.assertEqual(len(app.get("html")), 1)
+        body = app.get("html")[0].proto.body
+        self.assertIn("本次问题", body)
+        self.assertIn("要不要生孩子哈哈哈", body)
+        self.assertNotIn("<script>", body)
+
     def test_empty_date_is_rendered_and_fingerprinted_safely(self) -> None:
         code = """
 from app import _render_coordinate_strip
@@ -62,6 +76,7 @@ _render_coordinate_strip(
         self.assertEqual(config["theme"]["backgroundColor"], COLORS["bg"])
         self.assertEqual(config["theme"]["secondaryBackgroundColor"], COLORS["surface"])
         self.assertEqual(config["theme"]["textColor"], COLORS["text"])
+        self.assertEqual(config["theme"]["headingFont"], "serif")
         self.assertEqual(config["client"]["toolbarMode"], "minimal")
 
     def test_tarot_fragment_is_inline_responsive_and_reduced_motion_safe(self) -> None:
@@ -115,7 +130,10 @@ _render_tarot_cards([
 """
         app = AppTest.from_string(code).run(timeout=20)
         self.assertEqual(len(app.exception), 0)
-        self.assertEqual(len(app.get("html")), 2)
+        self.assertEqual(len(app.get("html")), 1)
+        self.assertEqual(len(app.markdown), 1)
+        self.assertIn("<style>", app.markdown[0].value)
+        self.assertIn("stAppViewContainer", app.markdown[0].value)
         self.assertEqual(len(app.get("iframe")), 1)
         self.assertIn('height="content"', inspect.getsource(_render_svg))
 

@@ -20,6 +20,10 @@ Source of truth for the sealed plan: [`星盘MBTI解读spike需求与实施方�
 | 2026-07-21 | Report craft: contradiction hooks in-body; compress main ~1000–1300 / tarot ~500–650; tarot closing = 三张牌共同指向 hammer. |
 | 2026-07-21 | §6 延伸探索 restored as 3 titled short answers (not teaser CTAs); UI/HTML render as collapsed expanders/`<details>`. |
 | 2026-07-22 | Visual system: `design_system.py` shared tokens; night-sky palette + Kaiti display; hero + coordinate strip; drop Google Fonts/grain; a11y (reduced-motion, focus, CTA contrast); tarot/chart `st.html`/`height="content"`; `tests/test_design_system.py`; Streamlit `toolbarMode=minimal`. |
+| 2026-07-22 | Ship: Streamlit Community Cloud app live (`*.streamlit.app`); `prepare friend beta` removes mis-committed `.understand-anything` / `.workbuddy` / daily logs from git tracking + `.gitignore`. |
+| 2026-07-22 | Fix: mobile expander `_arrow_right` overlap — hide Material toggle glyphs; §6 uses native HTML `<details>` (not `st.expander`). Causes: CJK font override on icon spans + China CDN flaky Material Symbols. Commit `15fe5c5`. |
+| 2026-07-22 | Fix: Cloud empty birth date — tolerate `None` from date/time widgets; validate before build; coordinate strip shows `DATE REQUIRED` / `TIME REQUIRED`. Pin `streamlit==1.59.2`. Commit `aec3551`. |
+| 2026-07-22 | (WIP, uncommitted) Question-section repair: if user filled「想问的事」but model skipped/short §4, call `generate_question_section` + `upsert_question_section`; show `_render_question_card`; tests in `tests/test_question_flow.py`. |
 
 ## Watch list (not in spike)
 
