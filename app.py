@@ -257,24 +257,61 @@ summary:focus-visible {
   white-space: nowrap;
 }
 
-/* Expander header: body font + room for the toggle arrow */
-[data-testid="stExpander"] details summary,
-[data-testid="stExpander"] [data-testid="stExpanderDetails"],
-[data-testid="stExpander"] summary p,
-[data-testid="stExpander"] summary span:not([class*="icon"]):not([class*="arrow"]) {
+/* Expander arrows are Material Symbol ligatures (`_arrow_right`).
+   Two failure modes produce the same mess:
+   1) Our CJK font-family on summary spans breaks ligatures even if font loads.
+   2) fonts.gstatic.com / Material CDN blocked or slow on China mobile.
+   Fix: never restyle icon spans; hide the toggle glyph (label stays clickable). */
+[data-testid="stExpander"] summary p {
+  font-family: var(--zx-body) !important;
+}
+[data-testid="stExpander"] [data-testid="stExpanderDetails"] {
   font-family: var(--zx-body) !important;
 }
 [data-testid="stExpander"] summary {
   gap: 0.65rem !important;
   align-items: center !important;
 }
-[data-testid="stExpander"] span[class*="arrow"],
-[data-testid="stExpander"] span[class*="icon"],
+[data-testid="stExpander"] summary svg,
 [data-testid="stExpander"] [data-testid="stExpanderToggleIcon"],
-span[class*="arrow_"] {
-  font-family: "Material Symbols Rounded", "Material Icons", sans-serif !important;
-  flex: 0 0 auto !important;
-  line-height: 1 !important;
+[data-testid="stExpander"] [data-testid="stIconMaterial"] {
+  display: none !important;
+}
+
+/* §6 延伸探索: custom <details> — no Streamlit material-icon toggle */
+.zx-ext-folds {
+  display: grid;
+  gap: 0.55rem;
+  margin: 0.35rem 0 1rem;
+}
+.zx-ext-fold {
+  border: 1px solid var(--zx-border);
+  border-radius: 12px;
+  background: var(--zx-glass);
+  padding: 0.15rem 0.85rem 0.55rem;
+}
+.zx-ext-fold > summary {
+  cursor: pointer;
+  list-style: none;
+  font-family: var(--zx-display);
+  font-size: 1.02rem;
+  color: var(--zx-accent-strong);
+  padding: 0.7rem 0.1rem;
+  line-height: 1.45;
+}
+.zx-ext-fold > summary::-webkit-details-marker { display: none; }
+.zx-ext-fold > summary::after {
+  content: " ▸";
+  opacity: 0.7;
+  font-size: 0.85em;
+}
+.zx-ext-fold[open] > summary::after { content: " ▾"; }
+.zx-ext-body {
+  color: var(--zx-text);
+  font-family: var(--zx-body);
+  font-size: 0.95rem;
+  line-height: 1.65;
+  padding: 0 0.1rem 0.55rem;
 }
 
 .zx-summary-card {
@@ -444,6 +481,22 @@ def _render_summary_card(chart, report_text: str) -> None:
     st.html(
         f'<div class="zx-summary-card">{body}</div>',
     )
+
+
+def _render_extension_folds(items: list[tuple[str, str]]) -> None:
+    """Render §6 as HTML <details> to avoid Streamlit expander icon-font collisions."""
+    blocks = ['<div class="zx-ext-folds">']
+    for title, body in items:
+        safe_title = html.escape(title)
+        safe_body = html.escape(body or "（暂无解析）").replace("\n", "<br>")
+        blocks.append(
+            f'<details class="zx-ext-fold">'
+            f"<summary>{safe_title}</summary>"
+            f'<div class="zx-ext-body">{safe_body}</div>'
+            f"</details>"
+        )
+    blocks.append("</div>")
+    st.html("".join(blocks))
 
 
 def _render_hero() -> None:
@@ -765,7 +818,7 @@ def main() -> None:
             f"地点解析为 {chart.resolved_city or chart.city}"
             + (f" · {chart.resolved_tz}" if chart.resolved_tz else "")
         )
-        with st.expander("展开查看完整星盘", expanded=False):
+        with st.expander("▸ 展开查看完整星盘", expanded=False):
             st.caption("本命盘轮盘（暗色）。行星过密时度数可能仍会靠近，属排盘图常态。")
             _render_svg(chart.svg)
 
@@ -775,9 +828,7 @@ def main() -> None:
         if ext_items:
             st.markdown("##### 延伸探索")
             st.caption("点开查看短解析（默认折叠）")
-            for i, (title, body) in enumerate(ext_items):
-                with st.expander(title, expanded=False):
-                    st.markdown(body or "（暂无解析）")
+            _render_extension_folds(ext_items)
 
         st.subheader("再抽三张牌（可选）")
         st.caption("默认收起主漏斗之外的第二步；不想用可直接忽略。")
