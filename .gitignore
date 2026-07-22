@@ -52,3 +52,9 @@ tmp/
 temp/
 charts_output/
 _smoke_*.py
+
+# Local tooling / personal notes — never publish
+.understand-anything/
+.workbuddy/
+今日日志*.md
+*_日志_*.md
