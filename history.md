@@ -24,6 +24,9 @@ Source of truth for the sealed plan: [`星盘MBTI解读spike需求与实施方�
 | 2026-07-22 | Fix: mobile expander `_arrow_right` overlap — hide Material toggle glyphs; §6 uses native HTML `<details>` (not `st.expander`). Causes: CJK font override on icon spans + China CDN flaky Material Symbols. Commit `15fe5c5`. |
 | 2026-07-22 | Fix: Cloud empty birth date — tolerate `None` from date/time widgets; validate before build; coordinate strip shows `DATE REQUIRED` / `TIME REQUIRED`. Pin `streamlit==1.59.2`. Commit `aec3551`. |
 | 2026-07-22 | Persona cards: full **192** pool in `persona_cards/persona_cards.json`; pct rule = `MBTI_midpoint / 12`; design doc `人设卡_设计稿.md` updated (seeds kept as examples). |
+| 2026-07-22 | Question-section repair: if user filled「想问的事」but model skipped/short §4, call `generate_question_section` + `upsert_question_section`; show `_render_question_card`; tests in `tests/test_question_flow.py`. Commit `bcb0c66`. |
+| 2026-07-23 | Docs: `architecture.md` / `agent.md` catch up on §4 repair, §6 `<details>`, persona-card side assets (offline, not in app). |
+| 2026-07-23 | Persona card in-app: `persona_cards.py` lookup → result page after summary + HTML/PDF export; 12 zodiac masters + 192 JSON copy; MBTI unknown → hint. |
 
 ## Watch list (not in spike)
 

@@ -11,6 +11,12 @@ import streamlit as st
 from chart import PLACE_HINT, PlaceLookupError, build_chart
 from design_system import COLORS, css_variables
 from interpret import generate_question_section, stream_main_report, stream_tarot_report
+from persona_cards import (
+    PERSONA_CARD_CSS,
+    build_persona_card_html,
+    build_persona_missing_html,
+    lookup_persona_card,
+)
 from report_export import (
     DISCLAIMER,
     FontNotFoundError,
@@ -397,6 +403,8 @@ summary:focus-visible {
   line-height: 1.65;
 }
 
+__ZX_PERSONA_CARD_CSS__
+
 @media (max-width: 520px) {
   .zx-hero {
     padding-top: 1.3rem;
@@ -423,7 +431,9 @@ summary:focus-visible {
   }
 }
 </style>
-""".replace("__ZX_DESIGN_TOKENS__", css_variables())
+""".replace("__ZX_DESIGN_TOKENS__", css_variables()).replace(
+    "__ZX_PERSONA_CARD_CSS__", PERSONA_CARD_CSS
+)
 
 
 def _inject_theme() -> None:
@@ -521,6 +531,14 @@ def _render_question_card(question: str) -> None:
         f"<p>{html.escape(value)}</p>"
         "</aside>"
     )
+
+
+def _render_persona_card(chart) -> None:
+    card = lookup_persona_card(mbti=chart.mbti, sun_sign=chart.sun_sign)
+    if card is None:
+        st.html(build_persona_missing_html())
+        return
+    st.html(build_persona_card_html(card))
 
 
 def _render_extension_folds(items: list[tuple[str, str]]) -> None:
@@ -834,6 +852,8 @@ def main() -> None:
         st.subheader("解读摘要")
         _render_question_card(st.session_state.main_user_question)
         _render_summary_card(chart, report_text)
+        st.subheader("你的隐藏人格")
+        _render_persona_card(chart)
 
         try:
             page_html = build_report_html(
@@ -849,7 +869,7 @@ def main() -> None:
                 mime="text/html; charset=utf-8",
                 use_container_width=True,
                 type="primary",
-                help="含摘要、星盘图、报告与塔罗牌面。用浏览器打开后可「打印 → 另存为 PDF」。",
+                help="含摘要、人设卡、星盘图、报告与塔罗牌面。用浏览器打开后可「打印 → 另存为 PDF」。",
                 key="dl_full_html",
             )
         except Exception as exc:  # noqa: BLE001

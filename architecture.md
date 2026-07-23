@@ -15,14 +15,19 @@ kerykeion (Swiss Ephemeris + GeoNames)
         │
         ▼
 LLM API stream  (XML + MBTI + optional user_question → Chinese report)
+  • if user_question set but §4 missing/short:
+      generate_question_section (extra non-stream call)
+      → upsert_question_section before §5
   • cached in st.session_state.report_text
         │
         ▼
 Result page
+  • optional「本次问题」echo card
   • glass summary card (Sun / Moon / Asc × MBTI + §5 advice)
+  • persona card: 192 JSON copy + 12 zodiac master art (HTML)
   • expandable wheel chart
   • report §§1–5 markdown
-  • §6 延伸探索 → collapsed expanders (title + short answer each)
+  • §6 延伸探索 → native HTML <details> folds (not st.expander)
   • export: full HTML page | text PDF  (same design_system tokens)
         │
         └── optional tarot
@@ -49,18 +54,33 @@ Result page
 app.py                 # UI, THEME_CSS via st.html, hero, coordinate strip, orchestration
 design_system.py       # COLORS, font stacks, css_variables() → --zx-*
 chart.py               # GeoNames subject, moon ambiguity, wheel SVG prep
-interpret.py           # MAIN_SYSTEM / TAROT_SYSTEM, stream_* generators
+interpret.py           # MAIN_SYSTEM / TAROT_SYSTEM / QUESTION_SECTION_SYSTEM;
+                       # stream_* + generate_question_section (§4 repair)
+persona_cards.py       # load 192 JSON; lookup MBTI×sun; HTML + zodiac master URI
 tarot.py               # 78-card deck + draw_three (logic only)
 tarot_ui.py            # name→asset map, flip HTML fragment, base64 faces
-report_export.py       # build_report_html / pdf; split_main_and_extensions
+report_export.py       # build_report_html / pdf; split_main_and_extensions;
+                       # sanitize / has_complete_question_section / upsert_question_section
 tests/test_design_system.py
+tests/test_question_flow.py
+tests/test_persona_cards.py
 assets/tarot/rws/      # 78 LuciellaES CC0 faces
 assets/fonts/          # NotoSansSC-Regular.ttf for PDF
+persona_cards/         # persona_cards.json (192 truth source)
+personapicture/zodiac_masters/v1/  # 12 shared sun-sign master PNGs
 .streamlit/
   config.toml          # dark theme aligned to COLORS; toolbarMode=minimal
   secrets.toml         # gitignored
   secrets.toml.example
-requirements.txt       # streamlit, kerykeion, openai, fpdf2
+requirements.txt       # streamlit==1.59.2, kerykeion, openai, fpdf2
+```
+
+### Adjacent (offline art / prompts; not required at runtime)
+
+```
+personapicture/persona_card_img_prompts.json  # 192 unique-art prompts (not generated yet)
+personapicture/example/                       # style samples only
+人设卡_设计稿.md
 ```
 
 ## Form contract
@@ -96,7 +116,9 @@ requirements.txt       # streamlit, kerykeion, openai, fpdf2
 If no question: skip §4 entirely (heading omitted); still emit §5 and §6.  
 UI/HTML: `split_main_and_extensions` keeps §§1–5 in the main prose and renders §6 as collapsed expanders / `<details>`.
 
-**Streaming:** OpenAI-compatible `stream=True` → `st.write_stream` → cache full string → rerun.
+**Streaming:** OpenAI-compatible `stream=True` → `st.write_stream` → sanitize → optional §4 repair → cache full string → rerun.
+
+**§4 repair:** If `user_question` is set and `has_complete_question_section` fails (missing or body under 80 chars), one extra non-stream `generate_question_section` call fills §4 via `upsert_question_section` (inserted before §5). Failure aborts without caching a partial report.
 
 **Tarot:** past / present / future / 三张牌共同指向 (~500–650 chars); closing hammer = one core tension + one self-question; optional question (prefilled from main form); weave chart + MBTI. No transit invention. Do not append a main-report-style「延伸探索」block to tarot text.
 
@@ -110,8 +132,11 @@ UI/HTML: `split_main_and_extensions` keeps §§1–5 in the main prose and rende
 | Hero | Brand-first first viewport: eyebrow + title + one lede |
 | Coordinate strip | Live summary of country / date / city / MBTI while filling the form |
 | A11y | `prefers-reduced-motion`, `button:focus-visible`, CTA text contrast |
+| Question echo | `_render_question_card` when life question was submitted |
+| Persona card | `persona_cards.lookup` → HTML (master art + nickname/definition/paradox/exit/pct); MBTI unknown → hint only |
 | Summary card | glass HTML via `st.html` |
 | Chart | wheel-only SVG in expander; `st.iframe(..., height="content")` + CJK font injection |
+| §6 folds | native HTML `<details>` via `st.html` (avoid Streamlit material-icon expander collision) |
 | Tarot stage | inline `st.html` fragment (not full document); responsive grid; reduced-motion safe |
 | Full page download | self-contained HTML using same `--zx-*` tokens; §6 as closed `<details>` |
 | Text PDF | fpdf2 + bundled Noto Sans SC |
@@ -134,4 +159,4 @@ UI/HTML: `split_main_and_extensions` keeps §§1–5 in the main prose and rende
 
 ## Explicitly not in the architecture
 
-Scrapers, generative chart images, MBTI quiz banks, user tables, React SPAs, CI/cron/APM, Bloom-style scroll-video shell inside Streamlit.
+Scrapers, generative chart images, MBTI quiz banks, user tables, React SPAs, CI/cron/APM, Bloom-style scroll-video shell inside Streamlit, runtime generation of 192 unique persona illustrations (12 masters + text overlay only).

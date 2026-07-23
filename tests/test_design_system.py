@@ -114,6 +114,8 @@ _render_coordinate_strip(
         self.assertIn(f"--zx-bg: {COLORS['bg']}", page)
         self.assertIn("var(--zx-coordinate)", page)
         self.assertNotIn("#c9a46c", page.lower())
+        self.assertIn("zx-persona-card", page)
+        self.assertIn("你的隐藏人格", page)
 
     def test_chart_and_tarot_render_without_fixed_height_iframes(self) -> None:
         code = """

@@ -11,6 +11,12 @@ from fpdf import FPDF
 
 from chart import sign_to_zh
 from design_system import BODY_FONT_STACK, DATA_FONT_STACK, DISPLAY_FONT_STACK, css_variables
+from persona_cards import (
+    PERSONA_CARD_CSS,
+    build_persona_card_html,
+    build_persona_missing_html,
+    lookup_persona_card,
+)
 
 PRIVACY = "出生信息仅用于本次计算，不存储、不留日志。"
 DISCLAIMER = (
@@ -345,6 +351,22 @@ def build_report_html(
     report_html = _md_to_html(report_main)
     extension_block = _extensions_to_html(ext_items)
 
+    persona = lookup_persona_card(mbti=chart.mbti, sun_sign=chart.sun_sign)
+    if persona is not None:
+        persona_block = (
+            '<section class="section persona-section">'
+            "<h1>你的隐藏人格</h1>"
+            f"{build_persona_card_html(persona)}"
+            "</section>"
+        )
+    else:
+        persona_block = (
+            '<section class="section persona-section">'
+            "<h1>你的隐藏人格</h1>"
+            f"{build_persona_missing_html()}"
+            "</section>"
+        )
+
     return f"""<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -422,6 +444,8 @@ def build_report_html(
     font-weight: 400;
     margin: 28px 0 12px;
   }}
+  .persona-section .zx-persona-card {{ margin-left: 0; margin-right: auto; }}
+  __ZX_PERSONA_CARD_CSS__
   .chart-box {{
     width: min(520px, 100%);
     margin: 0 auto 8px;
@@ -524,6 +548,7 @@ def build_report_html(
       <p class="headline">{headline}</p>
       {advice_html}
     </div>
+    {persona_block}
     {notes_html}
     <section class="section">
       <h1>本命盘</h1>
@@ -542,7 +567,7 @@ def build_report_html(
   </div>
 </body>
 </html>
-"""
+""".replace("__ZX_PERSONA_CARD_CSS__", PERSONA_CARD_CSS)
 
 
 def build_report_pdf(
@@ -575,6 +600,27 @@ def build_report_pdf(
         pdf.set_text_color(28, 27, 25)
         pdf.set_font("ReportCJK", size=11)
         _write(pdf, advice, h=7)
+        pdf.ln(2)
+
+    persona = lookup_persona_card(mbti=chart.mbti, sun_sign=chart.sun_sign)
+    if persona is not None:
+        pdf.set_font("ReportCJK", size=13)
+        pdf.set_text_color(44, 74, 110)
+        _write(pdf, "你的隐藏人格", h=8)
+        pdf.set_text_color(28, 27, 25)
+        pdf.set_font("ReportCJK", size=14)
+        _write(pdf, f"「{persona.nickname}」", h=8)
+        pdf.set_font("ReportCJK", size=10)
+        _write(pdf, f"{persona.mbti} × {persona.sun_zh}", h=6)
+        pdf.ln(1)
+        pdf.set_font("ReportCJK", size=11)
+        _write(pdf, f"人设定义：{persona.definition}", h=7)
+        _write(pdf, f"具体矛盾：{persona.paradox}", h=7)
+        _write(pdf, f"出口：{persona.exit}", h=7)
+        pdf.set_font("ReportCJK", size=9)
+        pdf.set_text_color(107, 101, 92)
+        _write(pdf, persona.pct_line, h=6)
+        pdf.set_text_color(28, 27, 25)
         pdf.ln(2)
 
     meta_bits = [
