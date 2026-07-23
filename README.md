@@ -66,7 +66,6 @@ GEONAMES_USERNAME = "your_geonames_username"
 # macOS / Linux
 streamlit run app.py
 ```
-website：https://zodiacxmbti-ydpwplvynjy5tvxexxyjws.streamlit.app
 
 部署：推送到 GitHub 后，在 [Streamlit Community Cloud](https://streamlit.io/cloud) 绑定本仓库，入口填 `app.py`，Secrets 粘贴与本地相同的键。
 
