@@ -1,0 +1,1613 @@
+{
+  "version": "1.0",
+  "generated": "2026-07-23",
+  "note": "img_prompt 独立于 persona_cards.json，用 id 关联。画面原则：把 paradox 画进同一帧（表面元素 + 泄露真相的细节，以 yet 转折），星座符号/配色/氛围按 sign_style 统一。角色统一为 sorceress（受 LoRA 触发词 girl 约束）。",
+  "params": {
+    "steps": 20,
+    "size": "768x1344",
+    "sampler": "Euler",
+    "cfg_scale": 1,
+    "seed": "random",
+    "negative_prompt": ""
+  },
+  "sign_style": {
+    "白羊座": {
+      "sigil": "Aries ram",
+      "array_color": "molten red and orange",
+      "ambience": "heat haze and drifting embers"
+    },
+    "狮子座": {
+      "sigil": "Leo lion",
+      "array_color": "radiant gold",
+      "ambience": "stage-like beams of sunlight and floating gold dust"
+    },
+    "射手座": {
+      "sigil": "Sagittarius arrow",
+      "array_color": "amber and violet horizon fire",
+      "ambience": "an endless sky with far roads fading into light"
+    },
+    "金牛座": {
+      "sigil": "Taurus bull",
+      "array_color": "deep emerald and antique gold",
+      "ambience": "warm earth-light, embedded gemstones and slow golden pollen"
+    },
+    "处女座": {
+      "sigil": "Virgo maiden",
+      "array_color": "pale jade and porcelain white",
+      "ambience": "immaculate fine lines of light and drifting measurement runes"
+    },
+    "摩羯座": {
+      "sigil": "Capricorn sea-goat",
+      "array_color": "cold slate blue and bronze",
+      "ambience": "austere mountain stone and long disciplined shadows"
+    },
+    "双子座": {
+      "sigil": "Gemini twins",
+      "array_color": "silver and cyan wind-light",
+      "ambience": "swirling script ribbons and mirrored after-images"
+    },
+    "天秤座": {
+      "sigil": "Libra scales",
+      "array_color": "rose gold and ivory",
+      "ambience": "perfectly symmetric light and suspended balance beams"
+    },
+    "水瓶座": {
+      "sigil": "Aquarius water-bearer",
+      "array_color": "electric blue and violet",
+      "ambience": "floating constellations and weightless glass-like shards"
+    },
+    "巨蟹座": {
+      "sigil": "Cancer crab",
+      "array_color": "moonlit silver and tide blue",
+      "ambience": "soft lunar glow, gentle tides and warm window light"
+    },
+    "天蝎座": {
+      "sigil": "Scorpio scorpion",
+      "array_color": "deep crimson and abyssal black",
+      "ambience": "still dark water concealing immense depth"
+    },
+    "双鱼座": {
+      "sigil": "Pisces twin fish",
+      "array_color": "iridescent teal and lavender",
+      "ambience": "dreamlike mist and slow drifting bubbles"
+    }
+  },
+  "prompts": [
+    {
+      "id": "ISTJ_Aries",
+      "nickname": "规矩火药桶",
+      "mbti": "ISTJ",
+      "sun_zh": "白羊座",
+      "sun_en": "Aries",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a stern sorceress in a strictly buttoned uniform robe with precise gold trim, at the exact center of a perfectly symmetrical grid-rune platform, floating rulebooks and seal stamps hovering in flawless formation, yet cracks of molten fire burst through the neat array beneath her feet and embers escape her clenched fist while her face stays composed and only her eyes burn. A glowing Aries ram sigil flares at the crown of the molten red and orange magic array beneath her, heat haze and drifting embers, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ISFJ_Aries",
+      "nickname": "暴躁小棉袄",
+      "mbti": "ISFJ",
+      "sun_zh": "白羊座",
+      "sun_en": "Aries",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a gentle sorceress in a soft cream apron-style robe serving floating cups of warm tea to grateful spectral guests with a kind smile, yet every cup is quietly boiling over into open flame and one thin vein of fire snakes up her sleeve as her smile tightens. A glowing Aries ram sigil flares at the crown of the molten red and orange magic array beneath her, heat haze and drifting embers, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "INFJ_Aries",
+      "nickname": "温柔炮仗",
+      "mbti": "INFJ",
+      "sun_zh": "白羊座",
+      "sun_en": "Aries",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a serene counselor sorceress with a calm knowing smile and folded hands beside a soft candle-like array, yet behind her a colossal dormant volcano rune stands one hairline crack from eruption, a single red fissure already glowing across the gentle circle. A glowing Aries ram sigil flares at the crown of the molten red and orange magic array beneath her, heat haze and drifting embers, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "INTJ_Aries",
+      "nickname": "闪电军师",
+      "mbti": "INTJ",
+      "sun_zh": "白羊座",
+      "sun_en": "Aries",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a strategist sorceress before layered tactical star-charts, three future battle plans projected in fire far ahead of everyone else, yet her boot taps impatiently and a small flame flares each time a slower spectral figure lags behind on the charts, while a hand reaching to hurry her makes her whole aura bristle. A glowing Aries ram sigil flares at the crown of the molten red and orange magic array beneath her, heat haze and drifting embers, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ISTP_Aries",
+      "nickname": "沉默莽夫",
+      "mbti": "ISTP",
+      "sun_zh": "白羊座",
+      "sun_en": "Aries",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a silent mechanic sorceress with rolled sleeves welding a broken construct back to perfection with a blade of flame, no audience needed, yet among dozens of flawlessly repaired machines one small human-shaped bond rune lies cracked at the edge, the only thing she has never tried to fix. A glowing Aries ram sigil flares at the crown of the molten red and orange magic array beneath her, heat haze and drifting embers, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ISFP_Aries",
+      "nickname": "佛系斗士",
+      "mbti": "ISFP",
+      "sun_zh": "白羊座",
+      "sun_en": "Aries",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a relaxed sorceress lounging on warm stone with half-closed eyes and a tiny lazy flame drifting like incense smoke, yet the instant a shadow reaches toward one small treasured object beside her, its quiet protective circle erupts into a roaring wall of fire. A glowing Aries ram sigil flares at the crown of the molten red and orange magic array beneath her, heat haze and drifting embers, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "INFP_Aries",
+      "nickname": "热血小哭包",
+      "mbti": "INFP",
+      "sun_zh": "白羊座",
+      "sun_en": "Aries",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a fierce little sorceress mid-shout with flames flaring bravely around her fists, insisting she is fine, yet a single warm hand-shaped light touches her shoulder and all her fire softens at once into glowing tears she is blinking back. A glowing Aries ram sigil flares at the crown of the molten red and orange magic array beneath her, heat haze and drifting embers, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "INTP_Aries",
+      "nickname": "理论敢死队",
+      "mbti": "INTP",
+      "sun_zh": "白羊座",
+      "sun_en": "Aries",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a scholar sorceress surrounded by floating risk equations and probability arrays all flashing red warnings she herself calculated, yet she is already mid-leap off the platform into the fire below, notes still in hand. A glowing Aries ram sigil flares at the crown of the molten red and orange magic array beneath her, heat haze and drifting embers, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ESTP_Aries",
+      "nickname": "人形加速器",
+      "mbti": "ESTP",
+      "sun_zh": "白羊座",
+      "sun_en": "Aries",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a sprinting sorceress leaving a trail of blazing after-images, her thought, speech and action arrays all firing in the same instant, yet the scorched craters of yesterday behind her are already forgotten, small unhealed burn marks on her arms she never once looks at. A glowing Aries ram sigil flares at the crown of the molten red and orange magic array beneath her, heat haze and drifting embers, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ESFP_Aries",
+      "nickname": "即兴纵火犯",
+      "mbti": "ESFP",
+      "sun_zh": "白羊座",
+      "sun_en": "Aries",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a festival sorceress dancing through the night, every lantern and bonfire igniting at her passing touch while the crowd delights, yet the path behind her is a long string of dying embers she never turns to see. A glowing Aries ram sigil flares at the crown of the molten red and orange magic array beneath her, heat haze and drifting embers, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ENFP_Aries",
+      "nickname": "三秒热心肠",
+      "mbti": "ENFP",
+      "sun_zh": "白羊座",
+      "sun_en": "Aries",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of an eager sorceress rushing forward with arms overflowing with glowing promise-scrolls made to others, yet her own to-do array drags behind her unlit and overloaded, scrolls slipping from her arms on both sides. A glowing Aries ram sigil flares at the crown of the molten red and orange magic array beneath her, heat haze and drifting embers, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ENTP_Aries",
+      "nickname": "杠精突击手",
+      "mbti": "ENTP",
+      "sun_zh": "白羊座",
+      "sun_en": "Aries",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a debater sorceress mid-argument with fire-glyph words exploding across the air and her opponent's array shattering, yet her victorious hand hesitates as a small regret-ember drifts back toward the words she just burned too hot. A glowing Aries ram sigil flares at the crown of the molten red and orange magic array beneath her, heat haze and drifting embers, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ESTJ_Aries",
+      "nickname": "铁腕急先锋",
+      "mbti": "ESTJ",
+      "sun_zh": "白羊座",
+      "sun_en": "Aries",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a commander sorceress charging at the very front with a banner of flame raised high, orders still forming behind her, yet the troops far in her wake squint at an empty map where the destination rune was never drawn. A glowing Aries ram sigil flares at the crown of the molten red and orange magic array beneath her, heat haze and drifting embers, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ESFJ_Aries",
+      "nickname": "热心纠察队",
+      "mbti": "ESFJ",
+      "sun_zh": "白羊座",
+      "sun_en": "Aries",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a bustling warden sorceress handing out protective fire-charms to everyone in a crowded plaza, yet one figure waves the charm away and a hurt storm of sparks crackles around her shoulders while her helpful smile holds firm. A glowing Aries ram sigil flares at the crown of the molten red and orange magic array beneath her, heat haze and drifting embers, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ENFJ_Aries",
+      "nickname": "铁血知心人",
+      "mbti": "ENFJ",
+      "sun_zh": "白羊座",
+      "sun_en": "Aries",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a guardian sorceress diving into a dark pit with a fire-rope of rescue light thrown to a stranger below, yet her own cloak is torn and quietly smoldering with old wounds she has bandaged shut with a casual it-is-nothing rune. A glowing Aries ram sigil flares at the crown of the molten red and orange magic array beneath her, heat haze and drifting embers, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ENTJ_Aries",
+      "nickname": "先斩后奏王",
+      "mbti": "ENTJ",
+      "sun_zh": "白羊座",
+      "sun_en": "Aries",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a warlord sorceress already storming forward while her half-finished battle plan still burns unwritten in the air behind her, yet hidden at her belt hang three secretly redone versions of the same scorched plan that no one is allowed to see. A glowing Aries ram sigil flares at the crown of the molten red and orange magic array beneath her, heat haze and drifting embers, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ISTJ_Taurus",
+      "nickname": "固执保险箱",
+      "mbti": "ISTJ",
+      "sun_zh": "金牛座",
+      "sun_en": "Taurus",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a steadfast sorceress before a colossal ornate vault engraved with the rune for principles, calmly saying anything-works, yet through the keyhole glows a long meticulous list of things she will never accept, its script older than the door. A glowing Taurus bull sigil flares at the crown of the deep emerald and antique gold magic array beneath her, warm earth-light, embedded gemstones and slow golden pollen, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ISFJ_Taurus",
+      "nickname": "老实囤货王",
+      "mbti": "ISFJ",
+      "sun_zh": "金牛座",
+      "sun_en": "Taurus",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a gentle sorceress in a warm storeroom stacked to the ceiling with preserved keepsakes and bottled memories, yet several jars at the back glow with faded friendship-runes long past their season, and she still dusts them tenderly every day. A glowing Taurus bull sigil flares at the crown of the deep emerald and antique gold magic array beneath her, warm earth-light, embedded gemstones and slow golden pollen, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "INFJ_Taurus",
+      "nickname": "慢热预言家",
+      "mbti": "INFJ",
+      "sun_zh": "金牛座",
+      "sun_en": "Taurus",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a quiet seer sorceress whose single glance unfolds a companion's entire nature as drifting glyphs, yet the friendship-bridge rune between them stands only one-third built after three years of careful bricklaying. A glowing Taurus bull sigil flares at the crown of the deep emerald and antique gold magic array beneath her, warm earth-light, embedded gemstones and slow golden pollen, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "INTJ_Taurus",
+      "nickname": "石头军师",
+      "mbti": "INTJ",
+      "sun_zh": "金牛座",
+      "sun_en": "Taurus",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a strategist sorceress beside a monumental stone plan carved a decade ago and still standing firm, openly scorning the trend-chasers below, yet a small new-map rune flickers at the plan's edge and she watches it uneasily from the corner of her eye. A glowing Taurus bull sigil flares at the crown of the deep emerald and antique gold magic array beneath her, warm earth-light, embedded gemstones and slow golden pollen, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ISTP_Taurus",
+      "nickname": "工具箱隐士",
+      "mbti": "ISTP",
+      "sun_zh": "金牛座",
+      "sun_en": "Taurus",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a serene craftswoman sorceress in a perfect self-built homestead, bread baking and tools gleaming in golden light, yet a floating rune quietly asks are-you-happy and her hands pause over the workbench for a very long moment. A glowing Taurus bull sigil flares at the crown of the deep emerald and antique gold magic array beneath her, warm earth-light, embedded gemstones and slow golden pollen, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ISFP_Taurus",
+      "nickname": "安逸美学家",
+      "mbti": "ISFP",
+      "sun_zh": "金牛座",
+      "sun_en": "Taurus",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a leisurely sorceress arranging fruit, linen and afternoon light into a museum-worthy still life, refusing to be hurried, yet an unopened bill-scroll smolders gently at the edge of the beautiful table. A glowing Taurus bull sigil flares at the crown of the deep emerald and antique gold magic array beneath her, warm earth-light, embedded gemstones and slow golden pollen, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "INFP_Taurus",
+      "nickname": "顽固浪漫派",
+      "mbti": "INFP",
+      "sun_zh": "金牛座",
+      "sun_en": "Taurus",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a romantic sorceress replaying the same enchanted music box for the tenth year beneath blossom trees, claiming to leave it all to fate, yet beside her floats an untouched checklist of the perfect person with not one rune ever lowered. A glowing Taurus bull sigil flares at the crown of the deep emerald and antique gold magic array beneath her, warm earth-light, embedded gemstones and slow golden pollen, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "INTP_Taurus",
+      "nickname": "拖延收藏家",
+      "mbti": "INTP",
+      "sun_zh": "金牛座",
+      "sun_en": "Taurus",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a scholar sorceress in a hall of a hundred glowing tutorial tomes, all bookmarked and cross-referenced, yet the workbench at the center holds a single untouched first-step rune, dust-free only where her hand keeps almost landing. A glowing Taurus bull sigil flares at the crown of the deep emerald and antique gold magic array beneath her, warm earth-light, embedded gemstones and slow golden pollen, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ESTP_Taurus",
+      "nickname": "土豪冒险家",
+      "mbti": "ESTP",
+      "sun_zh": "金牛座",
+      "sun_en": "Taurus",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a bold gambler sorceress striding grinning into a dragon's cavern, fear nowhere on her face, yet her coin pouch is triple-knotted with protective runes and every risk she takes has been measured to the last copper. A glowing Taurus bull sigil flares at the crown of the deep emerald and antique gold magic array beneath her, warm earth-light, embedded gemstones and slow golden pollen, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ESFP_Taurus",
+      "nickname": "快乐守财奴",
+      "mbti": "ESFP",
+      "sun_zh": "金牛座",
+      "sun_en": "Taurus",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a generous sorceress conjuring a feast for the whole tavern with a grand flourish, yet behind her back a tiny abacus-rune has been silently recounting the bill for three nights running. A glowing Taurus bull sigil flares at the crown of the deep emerald and antique gold magic array beneath her, warm earth-light, embedded gemstones and slow golden pollen, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ENFP_Taurus",
+      "nickname": "享乐实干家",
+      "mbti": "ENFP",
+      "sun_zh": "金牛座",
+      "sun_en": "Taurus",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a laid-back sorceress lounging in a hammock loudly proclaiming rest, yet beneath the hammock a thriving garden of side-venture runes she secretly planted flourishes wildly, and one midnight anxiety spark flickers in her eyes. A glowing Taurus bull sigil flares at the crown of the deep emerald and antique gold magic array beneath her, warm earth-light, embedded gemstones and slow golden pollen, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ENTP_Taurus",
+      "nickname": "点子貔貅",
+      "mbti": "ENTP",
+      "sun_zh": "金牛座",
+      "sun_en": "Taurus",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a sorceress hoarding a treasure vault of glowing idea-gems, each one labeled mine-to-build-someday, yet the vault door has no exit slot and a single small savings coin sleeps in the corner, five years unspent. A glowing Taurus bull sigil flares at the crown of the deep emerald and antique gold magic array beneath her, warm earth-light, embedded gemstones and slow golden pollen, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ESTJ_Taurus",
+      "nickname": "铁账房先生",
+      "mbti": "ESTJ",
+      "sun_zh": "金牛座",
+      "sun_en": "Taurus",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of an austere sorceress balancing two immaculate ledgers with a hard bargaining face, every copper accounted for, yet one hidden page glows warm with extravagant unrecorded gifts quietly bought for her family. A glowing Taurus bull sigil flares at the crown of the deep emerald and antique gold magic array beneath her, warm earth-light, embedded gemstones and slow golden pollen, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ESFJ_Taurus",
+      "nickname": "饭局大管家",
+      "mbti": "ESFJ",
+      "sun_zh": "金牛座",
+      "sun_en": "Taurus",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a bustling hostess sorceress orchestrating a huge round table where every guest's favorite dish arrives perfectly timed, yet her own plate sits empty and not one dish on the table carries her own taste-rune. A glowing Taurus bull sigil flares at the crown of the deep emerald and antique gold magic array beneath her, warm earth-light, embedded gemstones and slow golden pollen, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ENFJ_Taurus",
+      "nickname": "暖心包工头",
+      "mbti": "ENFJ",
+      "sun_zh": "金牛座",
+      "sun_en": "Taurus",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a caretaker sorceress raising sturdy shelter-arrays over an entire village, warm light spilling from every roof she reinforced, yet behind her cloak her own fatigue meter climbs notch by honest notch, counted daily and shown to no one. A glowing Taurus bull sigil flares at the crown of the deep emerald and antique gold magic array beneath her, warm earth-light, embedded gemstones and slow golden pollen, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ENTJ_Taurus",
+      "nickname": "守成野心家",
+      "mbti": "ENTJ",
+      "sun_zh": "金牛座",
+      "sun_en": "Taurus",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of an empress sorceress laying a vast fortress brick by measured brick, every stone under control, yet a single unpredictable heart-rune drifts loose above the walls, the one variable her blueprints cannot pin down. A glowing Taurus bull sigil flares at the crown of the deep emerald and antique gold magic array beneath her, warm earth-light, embedded gemstones and slow golden pollen, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ISTJ_Gemini",
+      "nickname": "严谨话痨",
+      "mbti": "ISTJ",
+      "sun_zh": "双子座",
+      "sun_en": "Gemini",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a lively sorceress surrounded by streaming ribbons of talk-script, every single ribbon footnoted with source-runes, yet among thousands of flowing words not one heart-glyph has ever slipped out. A glowing Gemini twins sigil flares at the crown of the silver and cyan wind-light magic array beneath her, swirling script ribbons and mirrored after-images, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ISFJ_Gemini",
+      "nickname": "贴心复读机",
+      "mbti": "ISFJ",
+      "sun_zh": "双子座",
+      "sun_en": "Gemini",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a warm listener sorceress catching everyone's word-ribbons gently in both hands late into the night, yet her own unspoken ribbon coils tighter and tighter around her wrist with nowhere to land. A glowing Gemini twins sigil flares at the crown of the silver and cyan wind-light magic array beneath her, swirling script ribbons and mirrored after-images, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "INFJ_Gemini",
+      "nickname": "千人千面猫",
+      "mbti": "INFJ",
+      "sun_zh": "双子座",
+      "sun_en": "Gemini",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a sorceress standing in a circle of mirrors, each reflection wearing a different perfected face for a different person, yet the central mirror directly before her is fogged blank, the original face long forgotten. A glowing Gemini twins sigil flares at the crown of the silver and cyan wind-light magic array beneath her, swirling script ribbons and mirrored after-images, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "INTJ_Gemini",
+      "nickname": "双核处理器",
+      "mbti": "INTJ",
+      "sun_zh": "双子座",
+      "sun_en": "Gemini",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a composed sorceress conversing smoothly while a second translucent self behind her silently runs simulations of the aftermath, yet the drafts-box rune at her hip bulges with unsent true words. A glowing Gemini twins sigil flares at the crown of the silver and cyan wind-light magic array beneath her, swirling script ribbons and mirrored after-images, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ISTP_Gemini",
+      "nickname": "话少手快侠",
+      "mbti": "ISTP",
+      "sun_zh": "双子座",
+      "sun_en": "Gemini",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a silent sorceress surfacing from months of stillness to slap one complete solution-array onto a chaotic problem, already turning to leave, yet a faint wish-to-be-understood rune trails after her like untied string. A glowing Gemini twins sigil flares at the crown of the silver and cyan wind-light magic array beneath her, swirling script ribbons and mirrored after-images, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ISFP_Gemini",
+      "nickname": "氛围变色龙",
+      "mbti": "ISFP",
+      "sun_zh": "双子座",
+      "sun_en": "Gemini",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a chameleon-hued sorceress shifting her palette seamlessly between three different social circles, welcomed warmly in each, yet her own base color-rune has gone pale from disuse, belonging fully to none of them. A glowing Gemini twins sigil flares at the crown of the silver and cyan wind-light magic array beneath her, swirling script ribbons and mirrored after-images, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "INFP_Gemini",
+      "nickname": "碎碎念诗人",
+      "mbti": "INFP",
+      "sun_zh": "双子座",
+      "sun_en": "Gemini",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a sorceress with eighty luminous thought-sprites bursting around her head, each one a whole poem, yet the single message-butterfly she actually releases carries only three flat laughing glyphs. A glowing Gemini twins sigil flares at the crown of the silver and cyan wind-light magic array beneath her, swirling script ribbons and mirrored after-images, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "INTP_Gemini",
+      "nickname": "维基百科精",
+      "mbti": "INTP",
+      "sun_zh": "双子座",
+      "sun_en": "Gemini",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a curious sorceress inside a whirlwind of open knowledge-windows on every conceivable topic, cross-links sparking, yet one simple floating question asking how she has been lately hangs unanswered in front of her. A glowing Gemini twins sigil flares at the crown of the silver and cyan wind-light magic array beneath her, swirling script ribbons and mirrored after-images, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ESTP_Gemini",
+      "nickname": "现挂之王",
+      "mbti": "ESTP",
+      "sun_zh": "双子座",
+      "sun_en": "Gemini",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of an electric sorceress igniting a dull room with one entrance and a spontaneous quip-firework, yet three seconds later her hand is already stretched toward the exploded words, trying to pull them back. A glowing Gemini twins sigil flares at the crown of the silver and cyan wind-light magic array beneath her, swirling script ribbons and mirrored after-images, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ESFP_Gemini",
+      "nickname": "人间弹幕机",
+      "mbti": "ESFP",
+      "sun_zh": "双子座",
+      "sun_en": "Gemini",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a streaming sorceress riding a joyful river of comment-ribbons she generates for everyone's day, yet at three in the morning she scrolls alone through a silent feed, thumb hovering over one name. A glowing Gemini twins sigil flares at the crown of the silver and cyan wind-light magic array beneath her, swirling script ribbons and mirrored after-images, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ENFP_Gemini",
+      "nickname": "话题永动机",
+      "mbti": "ENFP",
+      "sun_zh": "双子座",
+      "sun_en": "Gemini",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a sparkling sorceress leaping across a hundred conversation stepping-stones from lunch talk to the edge of the universe, yet every stone behind her glows only half-lit, not one ever crossed to its far side. A glowing Gemini twins sigil flares at the crown of the silver and cyan wind-light magic array beneath her, swirling script ribbons and mirrored after-images, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ENTP_Gemini",
+      "nickname": "嘴强王者",
+      "mbti": "ENTP",
+      "sun_zh": "双子座",
+      "sun_en": "Gemini",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a champion debater sorceress breathing argument like air, the crowd dazzled whether she wins or not, yet in the quiet corner where a sincere heart-to-heart rune waits, her legendary voice drops to static. A glowing Gemini twins sigil flares at the crown of the silver and cyan wind-light magic array beneath her, swirling script ribbons and mirrored after-images, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ESTJ_Gemini",
+      "nickname": "会议收割机",
+      "mbti": "ESTJ",
+      "sun_zh": "双子座",
+      "sun_en": "Gemini",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a decisive sorceress slicing a rambling meeting-cloud into three crisp conclusion-runes with one motion, yet her own task-briefing scroll unrolls off the table and across the floor, twenty minutes long and growing. A glowing Gemini twins sigil flares at the crown of the silver and cyan wind-light magic array beneath her, swirling script ribbons and mirrored after-images, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ESFJ_Gemini",
+      "nickname": "消息中转站",
+      "mbti": "ESFJ",
+      "sun_zh": "双子座",
+      "sun_en": "Gemini",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a connector sorceress through whom everyone's news-ribbons route and sort themselves, first to know everything, yet her own secret sits sealed in a bottle with no address it trusts. A glowing Gemini twins sigil flares at the crown of the silver and cyan wind-light magic array beneath her, swirling script ribbons and mirrored after-images, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ENFJ_Gemini",
+      "nickname": "金句辅导员",
+      "mbti": "ENFJ",
+      "sun_zh": "双子座",
+      "sun_en": "Gemini",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a mentor sorceress catching falling friends with perfectly timed word-lifelines that glow like scripture, yet whenever she reaches for one of those same lines herself, it drifts back to her as gray ash. A glowing Gemini twins sigil flares at the crown of the silver and cyan wind-light magic array beneath her, swirling script ribbons and mirrored after-images, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ENTJ_Gemini",
+      "nickname": "舌战指挥官",
+      "mbti": "ENTJ",
+      "sun_zh": "双子座",
+      "sun_en": "Gemini",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a negotiator sorceress winning a summit in three sentences with backup script-scrolls fanned like blades, yet the one table labeled her-own-rest sits across from an empty chair she never takes. A glowing Gemini twins sigil flares at the crown of the silver and cyan wind-light magic array beneath her, swirling script ribbons and mirrored after-images, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ISTJ_Cancer",
+      "nickname": "祖传守夜人",
+      "mbti": "ISTJ",
+      "sun_zh": "巨蟹座",
+      "sun_en": "Cancer",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a devoted keeper sorceress guarding shelves of family records, old photographs and heirloom-runes by candlelight, yet at the window she watches a young figure's lantern departing down the road, hands gripping the sill to keep from calling out. A glowing Cancer crab sigil flares at the crown of the moonlit silver and tide blue magic array beneath her, soft lunar glow, gentle tides and warm window light, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ISFJ_Cancer",
+      "nickname": "情绪收纳师",
+      "mbti": "ISFJ",
+      "sun_zh": "巨蟹座",
+      "sun_en": "Cancer",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a soothing sorceress receiving everyone's storm-clouds and folding them neatly into labeled drawers, yet the bottom-most drawer, overstuffed with her own unopened weather, strains visibly against its lock. A glowing Cancer crab sigil flares at the crown of the moonlit silver and tide blue magic array beneath her, soft lunar glow, gentle tides and warm window light, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "INFJ_Cancer",
+      "nickname": "读心管家",
+      "mbti": "INFJ",
+      "sun_zh": "巨蟹座",
+      "sun_en": "Cancer",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of an attentive sorceress who has already set warm soup and a stair of soft light before a troubled guest has said a word, yet her own emotion-sprite waits leashed by the back door, allowed out only for its midnight walk. A glowing Cancer crab sigil flares at the crown of the moonlit silver and tide blue magic array beneath her, soft lunar glow, gentle tides and warm window light, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "INTJ_Cancer",
+      "nickname": "铁壳软心兽",
+      "mbti": "INTJ",
+      "sun_zh": "巨蟹座",
+      "sun_en": "Cancer",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of an armored strategist sorceress reviewing a ten-year plan in which loved ones are marked as assets-to-protect, yet the simple three-glyph message meaning i-miss-you glows warm in her palm, unsent. A glowing Cancer crab sigil flares at the crown of the moonlit silver and tide blue magic array beneath her, soft lunar glow, gentle tides and warm window light, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ISTP_Cancer",
+      "nickname": "闷声护崽匠",
+      "mbti": "ISTP",
+      "sun_zh": "巨蟹座",
+      "sun_en": "Cancer",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a taciturn sorceress repairing a loved one's broken lamp at midnight, uninvited, tools moving with unmistakable tenderness, yet the affection-rune stays sealed inside her chest and the fixed lamp is left to do all the speaking. A glowing Cancer crab sigil flares at the crown of the moonlit silver and tide blue magic array beneath her, soft lunar glow, gentle tides and warm window light, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ISFP_Cancer",
+      "nickname": "家里蹲艺术家",
+      "mbti": "ISFP",
+      "sun_zh": "巨蟹座",
+      "sun_en": "Cancer",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a cozy sorceress in a beautifully arranged sanctuary of lamps, plants and gentle indoor tides with the world shut outside, yet the harbor she built has quietly become a moat, its drawbridge stiff from disuse. A glowing Cancer crab sigil flares at the crown of the moonlit silver and tide blue magic array beneath her, soft lunar glow, gentle tides and warm window light, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "INFP_Cancer",
+      "nickname": "旧事放映员",
+      "mbti": "INFP",
+      "sun_zh": "巨蟹座",
+      "sun_en": "Cancer",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a wistful sorceress alone in a private moonlit cinema replaying scenes that cannot return, ticket stubs saved in careful rows beside her, yet the exit door of daylight stands open behind her, unglanced at. A glowing Cancer crab sigil flares at the crown of the moonlit silver and tide blue magic array beneath her, soft lunar glow, gentle tides and warm window light, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "INTP_Cancer",
+      "nickname": "壳里科学家",
+      "mbti": "INTP",
+      "sun_zh": "巨蟹座",
+      "sun_en": "Cancer",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a rational sorceress annotating her own emotions as specimen diagrams inside a crystal shell, every feeling labeled and cross-referenced, yet one plain unanalyzed teardrop rolls down the outside of the shell where the notes cannot reach. A glowing Cancer crab sigil flares at the crown of the moonlit silver and tide blue magic array beneath her, soft lunar glow, gentle tides and warm window light, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ESTP_Cancer",
+      "nickname": "江湖奶爸",
+      "mbti": "ESTP",
+      "sun_zh": "巨蟹座",
+      "sun_en": "Cancer",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a swaggering sorceress clashing cups with sworn companions in a rowdy tavern, loyal blade within reach, yet her home-mirror rune blinks with a missed family call that was answered only by a busy-glyph. A glowing Cancer crab sigil flares at the crown of the moonlit silver and tide blue magic array beneath her, soft lunar glow, gentle tides and warm window light, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ESFP_Cancer",
+      "nickname": "团宠饲养员",
+      "mbti": "ESFP",
+      "sun_zh": "巨蟹座",
+      "sun_en": "Cancer",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a doting sorceress feeding an entire circle of friends with treats and warm glow until everyone is pampered soft, yet her own small hunger-rune hides behind her back, too shy to ring. A glowing Cancer crab sigil flares at the crown of the moonlit silver and tide blue magic array beneath her, soft lunar glow, gentle tides and warm window light, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ENFP_Cancer",
+      "nickname": "热泪派对王",
+      "mbti": "ENFP",
+      "sun_zh": "巨蟹座",
+      "sun_en": "Cancer",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a jubilant sorceress laughing loudest at the center of a moonlit celebration, yet the confetti caught in her hair is mixed with two-a.m. tear-crystals that none of her daylight friends have ever seen. A glowing Cancer crab sigil flares at the crown of the moonlit silver and tide blue magic array beneath her, soft lunar glow, gentle tides and warm window light, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ENTP_Cancer",
+      "nickname": "嘴硬心软怪",
+      "mbti": "ENTP",
+      "sun_zh": "巨蟹座",
+      "sun_en": "Cancer",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a teasing sorceress firing playful barb-runes at the very person she guards most fiercely, a shield raised quietly behind the banter, yet when one barb lands as real hurt, a small wounded glow retreats up her sleeve. A glowing Cancer crab sigil flares at the crown of the moonlit silver and tide blue magic array beneath her, soft lunar glow, gentle tides and warm window light, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ESTJ_Cancer",
+      "nickname": "家长制暖男",
+      "mbti": "ESTJ",
+      "sun_zh": "巨蟹座",
+      "sun_en": "Cancer",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a stern-warm sorceress ladling soup with one hand while pinning a family schedule to the wall with the other, care and command in the same gesture, yet the schedule casts a heavier shadow across the table than the warm bowl does. A glowing Cancer crab sigil flares at the crown of the moonlit silver and tide blue magic array beneath her, soft lunar glow, gentle tides and warm window light, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ESFJ_Cancer",
+      "nickname": "全村的妈",
+      "mbti": "ESFJ",
+      "sun_zh": "巨蟹座",
+      "sun_en": "Cancer",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a bustling matriarch sorceress whose kitchen-array feeds, warms and mends an entire village, every villager's emergency-charm keyed to her name, yet the emergency-line rune at her own collar hangs blank. A glowing Cancer crab sigil flares at the crown of the moonlit silver and tide blue magic array beneath her, soft lunar glow, gentle tides and warm window light, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ENFJ_Cancer",
+      "nickname": "大家长圣体",
+      "mbti": "ENFJ",
+      "sun_zh": "巨蟹座",
+      "sun_en": "Cancer",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a stalwart sorceress holding up a sheltering dome of moonlight over her whole circle with steady arms, yet a fracture is spreading overhead and she repairs it alone in the dark, letting no one know it ever cracked. A glowing Cancer crab sigil flares at the crown of the moonlit silver and tide blue magic array beneath her, soft lunar glow, gentle tides and warm window light, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ENTJ_Cancer",
+      "nickname": "护犊子暴君",
+      "mbti": "ENTJ",
+      "sun_zh": "巨蟹座",
+      "sun_en": "Cancer",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a fierce commander sorceress ordering her people about with iron words, yet her raised hand is angled as a shield above their heads, and the tyrant-rune on her chest glows the unmistakable soft color of guardianship. A glowing Cancer crab sigil flares at the crown of the moonlit silver and tide blue magic array beneath her, soft lunar glow, gentle tides and warm window light, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ISTJ_Leo",
+      "nickname": "低调王座",
+      "mbti": "ISTJ",
+      "sun_zh": "狮子座",
+      "sun_en": "Leo",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a modest sorceress standing off-stage in plain immaculate robes while another figure bows in the spotlight, yet the floating credit-scroll above the stage misspells her name and a single furious gold spark snaps off her sleeve as her expression stays perfectly polite. A glowing Leo lion sigil flares at the crown of the radiant gold magic array beneath her, stage-like beams of sunlight and floating gold dust, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ISFJ_Leo",
+      "nickname": "幕后女王",
+      "mbti": "ISFJ",
+      "sun_zh": "狮子座",
+      "sun_en": "Leo",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a backstage sorceress managing curtains, props and light-runes so a radiant performer can shine, yet a faint crown of gold light hovers unnoticed above her own head, flickering slightly every time the applause is not for her. A glowing Leo lion sigil flares at the crown of the radiant gold magic array beneath her, stage-like beams of sunlight and floating gold dust, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "INFJ_Leo",
+      "nickname": "加冕隐士",
+      "mbti": "INFJ",
+      "sun_zh": "狮子座",
+      "sun_en": "Leo",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a quiet smiling sorceress at the edge of a grand golden hall, yet her shadow on the wall wears a full crown and royal mantle of light that not one person in the celebrating crowd turns to see. A glowing Leo lion sigil flares at the crown of the radiant gold magic array beneath her, stage-like beams of sunlight and floating gold dust, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "INTJ_Leo",
+      "nickname": "王座工程师",
+      "mbti": "INTJ",
+      "sun_zh": "狮子座",
+      "sun_en": "Leo",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of an architect sorceress silently completing a magnificent golden monument, refusing to advertise it, yet she keeps glancing over her shoulder at the empty plaza, one impatient spark flaring because the work was supposed to speak and no one has come to listen. A glowing Leo lion sigil flares at the crown of the radiant gold magic array beneath her, stage-like beams of sunlight and floating gold dust, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ISTP_Leo",
+      "nickname": "酷盖修理王",
+      "mbti": "ISTP",
+      "sun_zh": "狮子座",
+      "sun_en": "Leo",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a cool detached sorceress fixing a collapsed golden colossus with one precise gesture as the crowd gasps, already walking away from the applause, yet the faint pleased curl at the corner of her mouth is the one thing she is hiding. A glowing Leo lion sigil flares at the crown of the radiant gold magic array beneath her, stage-like beams of sunlight and floating gold dust, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ISFP_Leo",
+      "nickname": "羞涩巨星",
+      "mbti": "ISFP",
+      "sun_zh": "狮子座",
+      "sun_en": "Leo",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a dazzling performer sorceress blazing at center stage under her own light, yet the instant the applause-runes thunder she shrinks behind her sleeve, cheeks glowing brighter than the spotlight itself. A glowing Leo lion sigil flares at the crown of the radiant gold magic array beneath her, stage-like beams of sunlight and floating gold dust, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "INFP_Leo",
+      "nickname": "戏精独角兽",
+      "mbti": "INFP",
+      "sun_zh": "狮子座",
+      "sun_en": "Leo",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a daydreaming sorceress alone in a dim room while her imagination projects a colossal golden stage with herself as the shining lead, yet the real audition scroll on the table beside her remains unsigned and unlit. A glowing Leo lion sigil flares at the crown of the radiant gold magic array beneath her, stage-like beams of sunlight and floating gold dust, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "INTP_Leo",
+      "nickname": "高冷猫王",
+      "mbti": "INTP",
+      "sun_zh": "狮子座",
+      "sun_en": "Leo",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of an aloof scholar sorceress turning away from an admiring crowd with disdain, yet in the mirror behind her a golden crown sits plainly on her head, and one sincere compliment-rune floats toward her while her hand half rises to catch it mid-refusal. A glowing Leo lion sigil flares at the crown of the radiant gold magic array beneath her, stage-like beams of sunlight and floating gold dust, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ESTP_Leo",
+      "nickname": "全场焦点兽",
+      "mbti": "ESTP",
+      "sun_zh": "狮子座",
+      "sun_en": "Leo",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a magnetic sorceress igniting the entire ballroom the moment she enters, every eye locked on her, yet in a sudden three-second pocket of silence her grin falters and all the gold light around her dims with doubt. A glowing Leo lion sigil flares at the crown of the radiant gold magic array beneath her, stage-like beams of sunlight and floating gold dust, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ESFP_Leo",
+      "nickname": "人间镁光灯",
+      "mbti": "ESFP",
+      "sun_zh": "狮子座",
+      "sun_en": "Leo",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a radiant sorceress walking with her own beam of stage light gliding after her, yet she keeps angling the beam with practiced care so it never once illuminates the tired unguarded side of her face. A glowing Leo lion sigil flares at the crown of the radiant gold magic array beneath her, stage-like beams of sunlight and floating gold dust, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ENFP_Leo",
+      "nickname": "彩虹小太阳",
+      "mbti": "ENFP",
+      "sun_zh": "狮子座",
+      "sun_en": "Leo",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a beaming sorceress pouring warm light onto a crowd of glowing figures, energy seemingly endless, yet the power-gauge rune at her back has dropped to a thin red sliver while her smile stays locked at full brightness. A glowing Leo lion sigil flares at the crown of the radiant gold magic array beneath her, stage-like beams of sunlight and floating gold dust, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ENTP_Leo",
+      "nickname": "金句制造机",
+      "mbti": "ENTP",
+      "sun_zh": "狮子座",
+      "sun_en": "Leo",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a showman sorceress conjuring dazzling word-fireworks that spell brilliant phrases across the ceiling while she applauds herself, yet the audience below has drifted into their own conversations and she has not yet noticed. A glowing Leo lion sigil flares at the crown of the radiant gold magic array beneath her, stage-like beams of sunlight and floating gold dust, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ESTJ_Leo",
+      "nickname": "气场管理员",
+      "mbti": "ESTJ",
+      "sun_zh": "狮子座",
+      "sun_en": "Leo",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a commanding sorceress holding an entire golden banquet hall in perfect order with one raised hand, the whole gathering resting on her presence, yet through the tall window behind her, her solitary office lamp burns alone against the night sky. A glowing Leo lion sigil flares at the crown of the radiant gold magic array beneath her, stage-like beams of sunlight and floating gold dust, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ESFJ_Leo",
+      "nickname": "排面担当",
+      "mbti": "ESFJ",
+      "sun_zh": "狮子座",
+      "sun_en": "Leo",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a lavish hostess sorceress conjuring a flawless feast where every guest is crowned with golden garlands, yet beneath the table her own hands quietly fold a small grievance note and press it into ash. A glowing Leo lion sigil flares at the crown of the radiant gold magic array beneath her, stage-like beams of sunlight and floating gold dust, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ENFJ_Leo",
+      "nickname": "灯塔本塔",
+      "mbti": "ENFJ",
+      "sun_zh": "狮子座",
+      "sun_en": "Leo",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a lighthouse sorceress standing tall as her great beam guides dozens of small ships to safety, yet one hairline crack runs down the tower of light and she stares at it sleepless, as if the entire sea depended on no one ever seeing it. A glowing Leo lion sigil flares at the crown of the radiant gold magic array beneath her, stage-like beams of sunlight and floating gold dust, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ENTJ_Leo",
+      "nickname": "王中王",
+      "mbti": "ENTJ",
+      "sun_zh": "狮子座",
+      "sun_en": "Leo",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of an imperial sorceress commanding a vast golden court with effortless gravity, every hall subdued by her presence, yet the midnight mirror beside her throne reflects a smaller uncertain figure that only she can see. A glowing Leo lion sigil flares at the crown of the radiant gold magic array beneath her, stage-like beams of sunlight and floating gold dust, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ISTJ_Virgo",
+      "nickname": "人间校准仪",
+      "mbti": "ISTJ",
+      "sun_zh": "处女座",
+      "sun_en": "Virgo",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a precise sorceress gently rotating a slightly tilted world-model back by half a degree, her instruments immaculate, yet inside her own chest-array a dense fog of unswept worry-runes has never once been cleaned out. A glowing Virgo maiden sigil flares at the crown of the pale jade and porcelain white magic array beneath her, immaculate fine lines of light and drifting measurement runes, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ISFJ_Virgo",
+      "nickname": "隐形保洁员",
+      "mbti": "ISFJ",
+      "sun_zh": "处女座",
+      "sun_en": "Virgo",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a soft-spoken sorceress whose passing touch quietly straightens shelves, mends cracks and polishes light through the whole hall, yet on the grand contribution mural her name-space is blank, and she is polishing the mural too. A glowing Virgo maiden sigil flares at the crown of the pale jade and porcelain white magic array beneath her, immaculate fine lines of light and drifting measurement runes, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "INFJ_Virgo",
+      "nickname": "灵魂质检员",
+      "mbti": "INFJ",
+      "sun_zh": "处女座",
+      "sun_en": "Virgo",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of an examiner sorceress holding an invisible standard-scale over people and works as silent marks appear, endlessly generous in her scoring of others, yet the report card floating above her own head shows a failing grade written in her own hand. A glowing Virgo maiden sigil flares at the crown of the pale jade and porcelain white magic array beneath her, immaculate fine lines of light and drifting measurement runes, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "INTJ_Virgo",
+      "nickname": "细节暴君",
+      "mbti": "INTJ",
+      "sun_zh": "处女座",
+      "sun_en": "Virgo",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a master-planner sorceress whose grand strategy hologram is flawless and who calmly accepts a delayed timeline rune, yet a single crooked punctuation glyph in the corner of a page makes her entire aura bristle. A glowing Virgo maiden sigil flares at the crown of the pale jade and porcelain white magic array beneath her, immaculate fine lines of light and drifting measurement runes, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ISTP_Virgo",
+      "nickname": "强迫症技工",
+      "mbti": "ISTP",
+      "sun_zh": "处女座",
+      "sun_en": "Virgo",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a technician sorceress calibrating a machine down to zero error with perfectly steady hands, yet behind her, her own daily-rhythm dial spins wildly with its hands pointing at three in the morning. A glowing Virgo maiden sigil flares at the crown of the pale jade and porcelain white magic array beneath her, immaculate fine lines of light and drifting measurement runes, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ISFP_Virgo",
+      "nickname": "温柔挑剔鬼",
+      "mbti": "ISFP",
+      "sun_zh": "处女座",
+      "sun_en": "Virgo",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a mild smiling sorceress nodding that everything is lovely, offense given to no one, yet behind her eyes a tiny courtroom array quietly stamps a verdict and one figure fades gently from her aesthetic white-list. A glowing Virgo maiden sigil flares at the crown of the pale jade and porcelain white magic array beneath her, immaculate fine lines of light and drifting measurement runes, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "INFP_Virgo",
+      "nickname": "愧疚永动机",
+      "mbti": "INFP",
+      "sun_zh": "处女座",
+      "sun_en": "Virgo",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a small sorceress trapped in an endless theater of shadow-scenes replaying one tiny mistake, yet in her open palm glows the exact comfort-rune she hands so freely to everyone else, its light pointed away from herself. A glowing Virgo maiden sigil flares at the crown of the pale jade and porcelain white magic array beneath her, immaculate fine lines of light and drifting measurement runes, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "INTP_Virgo",
+      "nickname": "Bug显微镜",
+      "mbti": "INTP",
+      "sun_zh": "处女座",
+      "sun_en": "Virgo",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of an analyst sorceress hovering above the world with a magnifying lens that reveals every flaw as red glyphs, nothing escaping her, yet her own answer-scroll stays clutched to her chest, never once submitted for review. A glowing Virgo maiden sigil flares at the crown of the pale jade and porcelain white magic array beneath her, immaculate fine lines of light and drifting measurement runes, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ESTP_Virgo",
+      "nickname": "精算冒险王",
+      "mbti": "ESTP",
+      "sun_zh": "处女座",
+      "sun_en": "Virgo",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a dashing sorceress improvising a spectacular mid-air maneuver to gasps from the crowd, yet faint rehearsal after-images of the same move, practiced twenty times in private, still shimmer in the air behind her. A glowing Virgo maiden sigil flares at the crown of the pale jade and porcelain white magic array beneath her, immaculate fine lines of light and drifting measurement runes, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ESFP_Virgo",
+      "nickname": "精致场务",
+      "mbti": "ESFP",
+      "sun_zh": "处女座",
+      "sun_en": "Virgo",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a sparkling party sorceress leading the toast in a picture-perfect venue she arranged, yet after the crowd blurs into leaving, she alone remains, wiping the last table with a cloth of soft light. A glowing Virgo maiden sigil flares at the crown of the pale jade and porcelain white magic array beneath her, immaculate fine lines of light and drifting measurement runes, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ENFP_Virgo",
+      "nickname": "精致糊弄怪",
+      "mbti": "ENFP",
+      "sun_zh": "处女座",
+      "sun_en": "Virgo",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a curated sorceress arranging a flawless nine-grid gallery of glowing life moments, yet just outside the frame her actual room swirls with cheerful chaos and a deadline-rune reading close-enough hangs over the desk. A glowing Virgo maiden sigil flares at the crown of the pale jade and porcelain white magic array beneath her, immaculate fine lines of light and drifting measurement runes, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ENTP_Virgo",
+      "nickname": "毒舌校对员",
+      "mbti": "ENTP",
+      "sun_zh": "处女座",
+      "sun_en": "Virgo",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a sharp critic sorceress striking red correction-glyphs onto every flawed argument floating past, citations attached, yet behind her a shelf of her own half-finished projects sinks quietly into next year. A glowing Virgo maiden sigil flares at the crown of the pale jade and porcelain white magic array beneath her, immaculate fine lines of light and drifting measurement runes, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ESTJ_Virgo",
+      "nickname": "流程判官",
+      "mbti": "ESTJ",
+      "sun_zh": "处女座",
+      "sun_en": "Virgo",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a magistrate sorceress enforcing a luminous procedure-diagram with gavel raised at every rule-breaker, yet her other hand is already sweeping up the mess they left behind, alone, as always. A glowing Virgo maiden sigil flares at the crown of the pale jade and porcelain white magic array beneath her, immaculate fine lines of light and drifting measurement runes, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ESFJ_Virgo",
+      "nickname": "操心雷达站",
+      "mbti": "ESFJ",
+      "sun_zh": "处女座",
+      "sun_en": "Virgo",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a vigilant sorceress whose radar array pings umbrella-charms to everyone before the first cloud even forms, yet she herself stands soaked in the rain, waving the storm off with a small-matter rune. A glowing Virgo maiden sigil flares at the crown of the pale jade and porcelain white magic array beneath her, immaculate fine lines of light and drifting measurement runes, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ENFJ_Virgo",
+      "nickname": "完美陪练",
+      "mbti": "ENFJ",
+      "sun_zh": "处女座",
+      "sun_en": "Virgo",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a devoted coach sorceress polishing detailed growth-plans that orbit other people like bright constellations, yet her own plan-scroll lies at the bottom of the pile, its last entry three years old. A glowing Virgo maiden sigil flares at the crown of the pale jade and porcelain white magic array beneath her, immaculate fine lines of light and drifting measurement runes, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ENTJ_Virgo",
+      "nickname": "效率洁癖王",
+      "mbti": "ENTJ",
+      "sun_zh": "处女座",
+      "sun_en": "Virgo",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of an executive sorceress whose day is carved into glowing minute-blocks with zero waste, machine-tight, yet one blank unscheduled space glows softly at the edge of her calendar and she cannot compute what it is worth. A glowing Virgo maiden sigil flares at the crown of the pale jade and porcelain white magic array beneath her, immaculate fine lines of light and drifting measurement runes, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ISTJ_Libra",
+      "nickname": "体面执法官",
+      "mbti": "ISTJ",
+      "sun_zh": "天秤座",
+      "sun_en": "Libra",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of an upright sorceress delivering a rule-verdict with a gracious bow and flawless etiquette-light, yet long after the offender has left, the exchange replays in a floating loop beside her and she winces at it more than they did. A glowing Libra scales sigil flares at the crown of the rose gold and ivory magic array beneath her, perfectly symmetric light and suspended balance beams, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ISFJ_Libra",
+      "nickname": "和平供养人",
+      "mbti": "ISFJ",
+      "sun_zh": "天秤座",
+      "sun_en": "Libra",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a gentle sorceress feeding coins of her own light into the great harmony-lantern that keeps the whole household glowing, yet behind a closed back door her small thundercloud of swallowed anger rumbles alone. A glowing Libra scales sigil flares at the crown of the rose gold and ivory magic array beneath her, perfectly symmetric light and suspended balance beams, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "INFJ_Libra",
+      "nickname": "优雅避战者",
+      "mbti": "INFJ",
+      "sun_zh": "天秤座",
+      "sun_en": "Libra",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a poised sorceress hovering above a battlefield of arguments with clean hands, declaring both sides reasonable, yet the completed verdict-scroll is already written and tucked deep inside her sleeve. A glowing Libra scales sigil flares at the crown of the rose gold and ivory magic array beneath her, perfectly symmetric light and suspended balance beams, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "INTJ_Libra",
+      "nickname": "优雅冷暴力",
+      "mbti": "INTJ",
+      "sun_zh": "天秤座",
+      "sun_en": "Libra",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of an elegant sorceress turning a relationship-orb to mute with one graceful gesture as silence spreads like frost, yet across the frosted orb the ice crystallizes into script reading you-should-have-understood. A glowing Libra scales sigil flares at the crown of the rose gold and ivory magic array beneath her, perfectly symmetric light and suspended balance beams, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ISTP_Libra",
+      "nickname": "冷静端水工",
+      "mbti": "ISTP",
+      "sun_zh": "天秤座",
+      "sun_en": "Libra",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a calm sorceress repairing a fountain while two quarreling spirits shout over her head, her quiet adjustments somehow settling their dispute, yet her own stance-flag stays folded in the toolbox, never once planted. A glowing Libra scales sigil flares at the crown of the rose gold and ivory magic array beneath her, perfectly symmetric light and suspended balance beams, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ISFP_Libra",
+      "nickname": "选择困难美人",
+      "mbti": "ISFP",
+      "sun_zh": "天秤座",
+      "sun_en": "Libra",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a graceful sorceress frozen between two equally beautiful glowing doors while a coin spins undecided in the air, yet behind her a corridor of other unchosen doors stretches back two full years. A glowing Libra scales sigil flares at the crown of the rose gold and ivory magic array beneath her, perfectly symmetric light and suspended balance beams, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "INFP_Libra",
+      "nickname": "纠结调解员",
+      "mbti": "INFP",
+      "sun_zh": "天秤座",
+      "sun_en": "Libra",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a kind sorceress smoothing a peace treaty between two parties at a perfectly balanced table, everyone satisfied, yet the clause written in the smallest script, the one crossed out and sacrificed, bears her own name. A glowing Libra scales sigil flares at the crown of the rose gold and ivory magic array beneath her, perfectly symmetric light and suspended balance beams, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "INTP_Libra",
+      "nickname": "逻辑和事佬",
+      "mbti": "INTP",
+      "sun_zh": "天秤座",
+      "sun_en": "Libra",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a logician sorceress projecting twin proof-trees that validate both sides of the dispute, QED runes shining, yet at the bottom of the equation the variable marked my-position blinks unsolved. A glowing Libra scales sigil flares at the crown of the rose gold and ivory magic array beneath her, perfectly symmetric light and suspended balance beams, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ESTP_Libra",
+      "nickname": "社交特种兵",
+      "mbti": "ESTP",
+      "sun_zh": "天秤座",
+      "sun_en": "Libra",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a charismatic sorceress moving through every circle of the party as if she owns each one, welcomed everywhere, yet her contact constellation overhead is thousands of evenly faint stars with no single bright one. A glowing Libra scales sigil flares at the crown of the rose gold and ivory magic array beneath her, perfectly symmetric light and suspended balance beams, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ESFP_Libra",
+      "nickname": "颜值气氛组",
+      "mbti": "ESFP",
+      "sun_zh": "天秤座",
+      "sun_en": "Libra",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a stunning sorceress arriving lit by her own perfect entrance-glow as the room turns as one, yet the small mirror in her clutch reflects the disheveled version of her that no eye is ever allowed to meet. A glowing Libra scales sigil flares at the crown of the rose gold and ivory magic array beneath her, perfectly symmetric light and suspended balance beams, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ENFP_Libra",
+      "nickname": "好感发射塔",
+      "mbti": "ENFP",
+      "sun_zh": "天秤座",
+      "sun_en": "Libra",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a warm beacon sorceress broadcasting affection-light in every direction, each receiver certain the beam is theirs alone, yet not one cable of deep connection runs from the tower down into the ground. A glowing Libra scales sigil flares at the crown of the rose gold and ivory magic array beneath her, perfectly symmetric light and suspended balance beams, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ENTP_Libra",
+      "nickname": "双面辩护人",
+      "mbti": "ENTP",
+      "sun_zh": "天秤座",
+      "sun_en": "Libra",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a dazzling advocate sorceress arguing both sides of the court so well the scales swing to her rhythm, yet when asked for her own true belief, her twin masks pause and three blank seconds hang in the air. A glowing Libra scales sigil flares at the crown of the rose gold and ivory magic array beneath her, perfectly symmetric light and suspended balance beams, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ESTJ_Libra",
+      "nickname": "铁腕公关",
+      "mbti": "ESTJ",
+      "sun_zh": "天秤座",
+      "sun_en": "Libra",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a formidable sorceress commanding a banquet crisis with iron composure so that every face is saved, yet behind her back one message-scroll hovers mid-edit, its wording rewritten for the eighth time. A glowing Libra scales sigil flares at the crown of the rose gold and ivory magic array beneath her, perfectly symmetric light and suspended balance beams, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ESFJ_Libra",
+      "nickname": "人情会计师",
+      "mbti": "ESFJ",
+      "sun_zh": "天秤座",
+      "sun_en": "Libra",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a meticulous sorceress maintaining a beautiful ledger of favors, gifts and returns balanced to the last decimal, yet the final page asking what she herself truly wants is the one page she never turns to. A glowing Libra scales sigil flares at the crown of the rose gold and ivory magic array beneath her, perfectly symmetric light and suspended balance beams, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ENFJ_Libra",
+      "nickname": "端水艺术家",
+      "mbti": "ENFJ",
+      "sun_zh": "天秤座",
+      "sun_en": "Libra",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a graceful sorceress balancing a dozen brimming bowls of light so that every guest is served and no one is ever awkward, not a drop spilled, yet her own preference-bowl sits empty at the end of the tray, never filled. A glowing Libra scales sigil flares at the crown of the rose gold and ivory magic array beneath her, perfectly symmetric light and suspended balance beams, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ENTJ_Libra",
+      "nickname": "微笑操盘手",
+      "mbti": "ENTJ",
+      "sun_zh": "天秤座",
+      "sun_en": "Libra",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a smiling sorceress closing a grand accord where every delegate departs feeling like the winner, yet her personal wish-ledger lies open beside her with its last selfish entry dated years ago, the ink faded. A glowing Libra scales sigil flares at the crown of the rose gold and ivory magic array beneath her, perfectly symmetric light and suspended balance beams, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ISTJ_Scorpio",
+      "nickname": "记仇档案馆",
+      "mbti": "ISTJ",
+      "sun_zh": "天蝎座",
+      "sun_en": "Scorpio",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of an impeccable archivist sorceress declaring the past forgiven with a placid face, yet behind her stretches a vault of grievance-files indexed by year, their spines dusted and freshly maintained. A glowing Scorpio scorpion sigil flares at the crown of the deep crimson and abyssal black magic array beneath her, still dark water concealing immense depth, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ISFJ_Scorpio",
+      "nickname": "刀鞘型好人",
+      "mbti": "ISFJ",
+      "sun_zh": "天蝎座",
+      "sun_en": "Scorpio",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a mild benevolent sorceress bowing gently with patience like still water, yet an ornate sheath hums at her hip, and one name-rune drops silently into a black registry that has no exit gate. A glowing Scorpio scorpion sigil flares at the crown of the deep crimson and abyssal black magic array beneath her, still dark water concealing immense depth, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "INFJ_Scorpio",
+      "nickname": "深渊知己",
+      "mbti": "INFJ",
+      "sun_zh": "天蝎座",
+      "sun_en": "Scorpio",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of an intuitive sorceress drawing a stranger's deepest buried glyph to the surface with three soft questions, yet the moment the stranger steps closer with real warmth, her boot slides one half-step back into shadow. A glowing Scorpio scorpion sigil flares at the crown of the deep crimson and abyssal black magic array beneath her, still dark water concealing immense depth, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "INTJ_Scorpio",
+      "nickname": "深海战略家",
+      "mbti": "INTJ",
+      "sun_zh": "天蝎座",
+      "sun_en": "Scorpio",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a composed sorceress standing on a mirror-calm sea with an unreadable expression, yet beneath the surface three complete endgame-arrays glow in the deep, and a trust-gauge beside her silently runs its thousandth test. A glowing Scorpio scorpion sigil flares at the crown of the deep crimson and abyssal black magic array beneath her, still dark water concealing immense depth, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ISTP_Scorpio",
+      "nickname": "冷面拆弹员",
+      "mbti": "ISTP",
+      "sun_zh": "天蝎座",
+      "sun_en": "Scorpio",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a steel-nerved sorceress defusing a volatile crisis-orb with bare steady fingers while everyone else flees, yet the small ticking rune sealed inside her own ribcage is fenced off with warning-glyphs that no one may cross. A glowing Scorpio scorpion sigil flares at the crown of the deep crimson and abyssal black magic array beneath her, still dark water concealing immense depth, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ISFP_Scorpio",
+      "nickname": "玫瑰刺客",
+      "mbti": "ISFP",
+      "sun_zh": "天蝎座",
+      "sun_en": "Scorpio",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a soft-spoken sorceress tending roses in tranquil shade, everything about her muted and mild, yet the underside of every petal burns saturated crimson, a full gauge of love and hate the surface never shows. A glowing Scorpio scorpion sigil flares at the crown of the deep crimson and abyssal black magic array beneath her, still dark water concealing immense depth, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "INFP_Scorpio",
+      "nickname": "深情卧底",
+      "mbti": "INFP",
+      "sun_zh": "天蝎座",
+      "sun_en": "Scorpio",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a nonchalant sorceress shrugging in a doorway as though none of it matters, yet her shadow on the wall kneels holding an enormous glowing heart, and a hidden test-rune measures the other person's every step. A glowing Scorpio scorpion sigil flares at the crown of the deep crimson and abyssal black magic array beneath her, still dark water concealing immense depth, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "INTP_Scorpio",
+      "nickname": "人性实验员",
+      "mbti": "INTP",
+      "sun_zh": "天蝎座",
+      "sun_en": "Scorpio",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a clinical observer sorceress logging the motives of passersby as neat specimen-glyphs in a floating journal, yet the final page titled why-am-i-alone is the one entry left blank. A glowing Scorpio scorpion sigil flares at the crown of the deep crimson and abyssal black magic array beneath her, still dark water concealing immense depth, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ESTP_Scorpio",
+      "nickname": "危险玩家",
+      "mbti": "ESTP",
+      "sun_zh": "天蝎座",
+      "sun_en": "Scorpio",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a fearless gambler sorceress shoving her entire chip-tower across the high-stakes table with a blazing grin, yet at the smaller side table marked feelings, her cards stay pressed face-down against her chest. A glowing Scorpio scorpion sigil flares at the crown of the deep crimson and abyssal black magic array beneath her, still dark water concealing immense depth, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ESFP_Scorpio",
+      "nickname": "暗黑气氛组",
+      "mbti": "ESFP",
+      "sun_zh": "天蝎座",
+      "sun_en": "Scorpio",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a magnetic party sorceress igniting the dance floor as the whole celebration bends around her, yet in the mirrored corner her second gaze watches it all coldly, and the after-party rune above her head reads hollow. A glowing Scorpio scorpion sigil flares at the crown of the deep crimson and abyssal black magic array beneath her, still dark water concealing immense depth, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ENFP_Scorpio",
+      "nickname": "阳光深水炸弹",
+      "mbti": "ENFP",
+      "sun_zh": "天蝎座",
+      "sun_en": "Scorpio",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a beaming sorceress chatting easily with everyone under bright noon light, yet her shadow pools impossibly deep beneath her feet, and at its bottom a sealed memo-crystal holds every true word, addressed to no one. A glowing Scorpio scorpion sigil flares at the crown of the deep crimson and abyssal black magic array beneath her, still dark water concealing immense depth, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ENTP_Scorpio",
+      "nickname": "诛心辩手",
+      "mbti": "ENTP",
+      "sun_zh": "天蝎座",
+      "sun_en": "Scorpio",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a piercing debater sorceress bypassing an opponent's argument to spotlight the motive-rune hidden behind it as the crowd goes still, yet when one stray beam swings back to light her own hidden rune, her smile freezes a fraction too long. A glowing Scorpio scorpion sigil flares at the crown of the deep crimson and abyssal black magic array beneath her, still dark water concealing immense depth, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ESTJ_Scorpio",
+      "nickname": "铁腕审判长",
+      "mbti": "ESTJ",
+      "sun_zh": "天蝎座",
+      "sun_en": "Scorpio",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of an unbending judge sorceress upon a high bench with loyalty-oaths and penalty-seals arrayed in perfect rows, yet the trust-vault behind her throne has never once issued an advance to anyone. A glowing Scorpio scorpion sigil flares at the crown of the deep crimson and abyssal black magic array beneath her, still dark water concealing immense depth, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ESFJ_Scorpio",
+      "nickname": "知心特工",
+      "mbti": "ESFJ",
+      "sun_zh": "天蝎座",
+      "sun_en": "Scorpio",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a warm confidante sorceress collecting the whole circle's secrets into softly glowing lockets she guards with her life, yet her own secret sits behind three locks, its keyhole rune labeled no-one-qualifies. A glowing Scorpio scorpion sigil flares at the crown of the deep crimson and abyssal black magic array beneath her, still dark water concealing immense depth, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ENFJ_Scorpio",
+      "nickname": "灵魂操盘手",
+      "mbti": "ENFJ",
+      "sun_zh": "天蝎座",
+      "sun_en": "Scorpio",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a masterful mentor sorceress untying knot after knot in other people's heart-threads with luminous ease, yet in her innermost shrine one obsession-knot sits enthroned on an altar, polished daily and never once touched. A glowing Scorpio scorpion sigil flares at the crown of the deep crimson and abyssal black magic array beneath her, still dark water concealing immense depth, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ENTJ_Scorpio",
+      "nickname": "暗夜帝王",
+      "mbti": "ENTJ",
+      "sun_zh": "天蝎座",
+      "sun_en": "Scorpio",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a shadow-throned sorceress moving pieces across a ten-year board with absolute control and a face that betrays nothing, yet one small piece glowing the color of her own heartbeat trembles on the board, the single move she fears. A glowing Scorpio scorpion sigil flares at the crown of the deep crimson and abyssal black magic array beneath her, still dark water concealing immense depth, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ISTJ_Sagittarius",
+      "nickname": "持证流浪汉",
+      "mbti": "ISTJ",
+      "sun_zh": "射手座",
+      "sun_en": "Sagittarius",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a traveler sorceress in a wanderer cloak standing at a wild crossroads, yet her map is annotated to the minute and every spontaneous road has been pre-stamped and approved by her own seal-runes. A glowing Sagittarius arrow sigil flares at the crown of the amber and violet horizon fire magic array beneath her, an endless sky with far roads fading into light, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ISFJ_Sagittarius",
+      "nickname": "靠谱乐天派",
+      "mbti": "ISFJ",
+      "sun_zh": "射手座",
+      "sun_en": "Sagittarius",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of an easygoing sorceress juggling light orbs to make companions laugh around a campfire, keeper of the good mood, yet tucked inside her sleeve a carefully written emergency plan scroll glows faintly, never once shown to anyone. A glowing Sagittarius arrow sigil flares at the crown of the amber and violet horizon fire magic array beneath her, an endless sky with far roads fading into light, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "INFJ_Sagittarius",
+      "nickname": "远方布道者",
+      "mbti": "INFJ",
+      "sun_zh": "射手座",
+      "sun_en": "Sagittarius",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a guide sorceress lighting up dozens of shining roads for a crowd of grateful travelers, yet her own signpost reads a flickering rune of still-deciding, her feet planted exactly where they have always been. A glowing Sagittarius arrow sigil flares at the crown of the amber and violet horizon fire magic array beneath her, an endless sky with far roads fading into light, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "INTJ_Sagittarius",
+      "nickname": "战略浪子",
+      "mbti": "INTJ",
+      "sun_zh": "射手座",
+      "sun_en": "Sagittarius",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a wanderer sorceress beside a magnificent world-route hologram refined and polished over years, yet her boots are spotless and the departure rune at the map's origin has never once been struck. A glowing Sagittarius arrow sigil flares at the crown of the amber and violet horizon fire magic array beneath her, an endless sky with far roads fading into light, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ISTP_Sagittarius",
+      "nickname": "装备党浪人",
+      "mbti": "ISTP",
+      "sun_zh": "射手座",
+      "sun_en": "Sagittarius",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a ranger sorceress beside an immaculately packed expedition rig, every tool gleaming and ready to move in an instant, yet the horizon rune labeled worth-it stays stubbornly gray and she keeps waiting instead of walking. A glowing Sagittarius arrow sigil flares at the crown of the amber and violet horizon fire magic array beneath her, an endless sky with far roads fading into light, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ISFP_Sagittarius",
+      "nickname": "野生散步家",
+      "mbti": "ISFP",
+      "sun_zh": "射手座",
+      "sun_en": "Sagittarius",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a barefoot sorceress drifting through golden fields chasing light and shadow with a soft smile, yet when a floating question rune asks about the future she laughs and gently transfigures it into a butterfly. A glowing Sagittarius arrow sigil flares at the crown of the amber and violet horizon fire magic array beneath her, an endless sky with far roads fading into light, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "INFP_Sagittarius",
+      "nickname": "梦游远行者",
+      "mbti": "INFP",
+      "sun_zh": "射手座",
+      "sun_en": "Sagittarius",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a sorceress asleep in a small rented room while her dream-projection strides across deserts, oceans and auroras, yet on her desk a stack of untouched leave-permit scrolls quietly gathers dust. A glowing Sagittarius arrow sigil flares at the crown of the amber and violet horizon fire magic array beneath her, an endless sky with far roads fading into light, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "INTP_Sagittarius",
+      "nickname": "云端背包客",
+      "mbti": "INTP",
+      "sun_zh": "射手座",
+      "sun_en": "Sagittarius",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a scholar sorceress inside a floating library of maps of every land, cross-references sparking everywhere, yet her own passport-rune is blank and the front door of the library stands slightly, temptingly open. A glowing Sagittarius arrow sigil flares at the crown of the amber and violet horizon fire magic array beneath her, an endless sky with far roads fading into light, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ESTP_Sagittarius",
+      "nickname": "肾上腺素王",
+      "mbti": "ESTP",
+      "sun_zh": "射手座",
+      "sun_en": "Sagittarius",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a daredevil sorceress mid-leap between cliff-top arrays with lightning of pure thrill around her, yet in one forced moment of stillness her fingers drum restlessly and the small calm-rune placed before her cracks in half. A glowing Sagittarius arrow sigil flares at the crown of the amber and violet horizon fire magic array beneath her, an endless sky with far roads fading into light, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ESFP_Sagittarius",
+      "nickname": "快乐窜天猴",
+      "mbti": "ESFP",
+      "sun_zh": "射手座",
+      "sun_en": "Sagittarius",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a firework sorceress bursting joyously above a night festival, every explosion a celebration, yet after the last sparks fall a small hollow silence-rune floats beside her in the dark, and she mentions it to no one. A glowing Sagittarius arrow sigil flares at the crown of the amber and violet horizon fire magic array beneath her, an endless sky with far roads fading into light, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ENFP_Sagittarius",
+      "nickname": "宇宙撒欢王",
+      "mbti": "ENFP",
+      "sun_zh": "射手座",
+      "sun_en": "Sagittarius",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a sorceress standing before eighteen half-open glowing doors of different passions, delighted by all of them, yet every doorway shows shallow footprints that stop a few steps inside, none ever reaching the far room. A glowing Sagittarius arrow sigil flares at the crown of the amber and violet horizon fire magic array beneath her, an endless sky with far roads fading into light, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ENTP_Sagittarius",
+      "nickname": "流浪哲学家",
+      "mbti": "ENTP",
+      "sun_zh": "射手座",
+      "sun_en": "Sagittarius",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a philosopher sorceress walking a long road while her mind projects entire galaxies overhead, handing luminous answer-runes to every passerby, yet her own question trails behind her unanswered like a kite she refuses to reel in. A glowing Sagittarius arrow sigil flares at the crown of the amber and violet horizon fire magic array beneath her, an endless sky with far roads fading into light, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ESTJ_Sagittarius",
+      "nickname": "行军团长",
+      "mbti": "ESTJ",
+      "sun_zh": "射手座",
+      "sun_en": "Sagittarius",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a drill-captain sorceress marching a tour group in strict formation past waterfalls and wonders on a timed checklist, yet every face in the column including her own is bent over the schedule, and no one looks up at the view. A glowing Sagittarius arrow sigil flares at the crown of the amber and violet horizon fire magic array beneath her, an endless sky with far roads fading into light, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ESFJ_Sagittarius",
+      "nickname": "气氛导游",
+      "mbti": "ESFJ",
+      "sun_zh": "射手座",
+      "sun_en": "Sagittarius",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a tireless guide sorceress carrying tickets, snacks and laughter-runes for the whole caravan, solving every hiccup before it lands, yet as the group cheers at the summit she is still at the rear counting heads, the sunset unseen. A glowing Sagittarius arrow sigil flares at the crown of the amber and violet horizon fire magic array beneath her, an endless sky with far roads fading into light, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ENFJ_Sagittarius",
+      "nickname": "人生教练号",
+      "mbti": "ENFJ",
+      "sun_zh": "射手座",
+      "sun_en": "Sagittarius",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a mentor sorceress lighting direction-runes above other travelers as her banner proclaims follow-your-heart, yet her own heart-compass lies buried at the very bottom of her overloaded satchel. A glowing Sagittarius arrow sigil flares at the crown of the amber and violet horizon fire magic array beneath her, an endless sky with far roads fading into light, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ENTJ_Sagittarius",
+      "nickname": "征途永动机",
+      "mbti": "ENTJ",
+      "sun_zh": "射手座",
+      "sun_en": "Sagittarius",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a conqueror sorceress planting a flag on a summit while her gaze already locks onto the next distant peak, yet the sublime sunset blazing directly beside her goes completely unwatched. A glowing Sagittarius arrow sigil flares at the crown of the amber and violet horizon fire magic array beneath her, an endless sky with far roads fading into light, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ISTJ_Capricorn",
+      "nickname": "人形承重墙",
+      "mbti": "ISTJ",
+      "sun_zh": "摩羯座",
+      "sun_en": "Capricorn",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a stoic sorceress physically shouldering a cracking stone beam of the great hall, expression unchanged under the weight, yet the small tired-rune at her throat stays swallowed, glowing faintly, never once spoken. A glowing Capricorn sea-goat sigil flares at the crown of the cold slate blue and bronze magic array beneath her, austere mountain stone and long disciplined shadows, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ISFJ_Capricorn",
+      "nickname": "沉默老黄牛",
+      "mbti": "ISFJ",
+      "sun_zh": "摩羯座",
+      "sun_en": "Capricorn",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a quiet laborer sorceress moving mountains of work-stones through the night without complaint, yet the recognition lantern meant for her has hung unlit for years and she has never once reached up to knock on it. A glowing Capricorn sea-goat sigil flares at the crown of the cold slate blue and bronze magic array beneath her, austere mountain stone and long disciplined shadows, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "INFJ_Capricorn",
+      "nickname": "苦行理想家",
+      "mbti": "INFJ",
+      "sun_zh": "摩羯座",
+      "sun_en": "Capricorn",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of an ascetic sorceress climbing a harsh mountain path with an idealistic star strapped in her pack, gently telling others to rest, yet a three-year ribbon of her own unused rest-permits flutters from her belt. A glowing Capricorn sea-goat sigil flares at the crown of the cold slate blue and bronze magic array beneath her, austere mountain stone and long disciplined shadows, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "INTJ_Capricorn",
+      "nickname": "登山计算器",
+      "mbti": "INTJ",
+      "sun_zh": "摩羯座",
+      "sun_en": "Capricorn",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a planner sorceress whose route up the mountain is projected step by exact step to the summit, yet the space above the peak is blank fog, holding no rune at all for what happens after arrival. A glowing Capricorn sea-goat sigil flares at the crown of the cold slate blue and bronze magic array beneath her, austere mountain stone and long disciplined shadows, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ISTP_Capricorn",
+      "nickname": "独狼工程师",
+      "mbti": "ISTP",
+      "sun_zh": "摩羯座",
+      "sun_en": "Capricorn",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a lone engineer sorceress running an entire fortress of machinery single-handed with meetings crossed off her wall, yet the doorway behind her has quietly grown over with vines, no one daring to enter and help anymore. A glowing Capricorn sea-goat sigil flares at the crown of the cold slate blue and bronze magic array beneath her, austere mountain stone and long disciplined shadows, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ISFP_Capricorn",
+      "nickname": "文艺加班人",
+      "mbti": "ISFP",
+      "sun_zh": "摩羯座",
+      "sun_en": "Capricorn",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a weary clerk sorceress at a desk of duty-stones under cold office light, yet inside her locket a tiny warm studio glows, a soul-lamp she keeps promising an appointment that never arrives. A glowing Capricorn sea-goat sigil flares at the crown of the cold slate blue and bronze magic array beneath her, austere mountain stone and long disciplined shadows, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "INFP_Capricorn",
+      "nickname": "体面摆烂王",
+      "mbti": "INFP",
+      "sun_zh": "摩羯座",
+      "sun_en": "Capricorn",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of an elegant sorceress arranged gracefully on a chaise with an open book, the very picture of productive rest, yet the mind-array above her grinds at furious full speed while her body-rune lies flat and unmoving. A glowing Capricorn sea-goat sigil flares at the crown of the cold slate blue and bronze magic array beneath her, austere mountain stone and long disciplined shadows, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "INTP_Capricorn",
+      "nickname": "学术民工",
+      "mbti": "INTP",
+      "sun_zh": "摩羯座",
+      "sun_en": "Capricorn",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a rigorous scholar sorceress applying laboratory precision to mundane quarry work, contemptuous of the ladder, yet her eyes track a mediocre figure ascending the promotion stairs above, and one indignant spark refuses to be named. A glowing Capricorn sea-goat sigil flares at the crown of the cold slate blue and bronze magic array beneath her, austere mountain stone and long disciplined shadows, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ESTP_Capricorn",
+      "nickname": "务实赌徒",
+      "mbti": "ESTP",
+      "sun_zh": "摩羯座",
+      "sun_en": "Capricorn",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a daring sorceress pushing a massive bet across the table with a wild grin, all recklessness on the surface, yet under the table her boots stand exactly on a painted safety-line of savings-runes. A glowing Capricorn sea-goat sigil flares at the crown of the cold slate blue and bronze magic array beneath her, austere mountain stone and long disciplined shadows, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ESFP_Capricorn",
+      "nickname": "营业型卷王",
+      "mbti": "ESFP",
+      "sun_zh": "摩羯座",
+      "sun_en": "Capricorn",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a cheerful entertainer sorceress mid-laugh among colleagues with her joy worn like a uniform, yet her reflection in the dark window behind shows the same figure alone, sighing where no one can see. A glowing Capricorn sea-goat sigil flares at the crown of the cold slate blue and bronze magic array beneath her, austere mountain stone and long disciplined shadows, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ENFP_Capricorn",
+      "nickname": "戴镣铐的风",
+      "mbti": "ENFP",
+      "sun_zh": "摩羯座",
+      "sun_en": "Capricorn",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a bright-spirited sorceress with wind-light swirling around her ready to fly, yet elegant chain-runes of her own five-year plan anchor her ankles, and she polishes the chains while envying the passing clouds. A glowing Capricorn sea-goat sigil flares at the crown of the cold slate blue and bronze magic array beneath her, austere mountain stone and long disciplined shadows, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ENTP_Capricorn",
+      "nickname": "体制内鬼才",
+      "mbti": "ENTP",
+      "sun_zh": "摩羯座",
+      "sun_en": "Capricorn",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a smirking sorceress juggling the rulebook so skillfully its pages dance, mocking commentary glyphs orbiting her head, yet the framed credentials on her wall are immaculately orthodox with not one seal out of place. A glowing Capricorn sea-goat sigil flares at the crown of the cold slate blue and bronze magic array beneath her, austere mountain stone and long disciplined shadows, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ESTJ_Capricorn",
+      "nickname": "制度化身",
+      "mbti": "ESTJ",
+      "sun_zh": "摩羯座",
+      "sun_en": "Capricorn",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a monumental sorceress whose silhouette merges into the carved legal-code wall behind her as she demands punctuality from all, yet her own office lamp is the last light burning in the entire darkened ministry. A glowing Capricorn sea-goat sigil flares at the crown of the cold slate blue and bronze magic array beneath her, austere mountain stone and long disciplined shadows, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ESFJ_Capricorn",
+      "nickname": "全家CFO",
+      "mbti": "ESFJ",
+      "sun_zh": "摩羯座",
+      "sun_en": "Capricorn",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a guardian sorceress maintaining a glowing family ledger where every member's future is funded and shielded, yet the single row bearing her own name is an empty unlit strip. A glowing Capricorn sea-goat sigil flares at the crown of the cold slate blue and bronze magic array beneath her, austere mountain stone and long disciplined shadows, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ENFJ_Capricorn",
+      "nickname": "责任感教主",
+      "mbti": "ENFJ",
+      "sun_zh": "摩羯座",
+      "sun_en": "Capricorn",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a revered leader sorceress whose promise-runes to others shine fulfilled like a wall of medals, yet her own vacation-promise rune lies snapped at her feet for the third season running. A glowing Capricorn sea-goat sigil flares at the crown of the cold slate blue and bronze magic array beneath her, austere mountain stone and long disciplined shadows, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ENTJ_Capricorn",
+      "nickname": "冰山CEO",
+      "mbti": "ENTJ",
+      "sun_zh": "摩羯座",
+      "sun_en": "Capricorn",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a glacial executive sorceress bearing an immense goal-monolith alone with her face unmoved, yet deep inside the ice a small warm rune of longed-for praise glows, frozen forever mid-reach. A glowing Capricorn sea-goat sigil flares at the crown of the cold slate blue and bronze magic array beneath her, austere mountain stone and long disciplined shadows, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ISTJ_Aquarius",
+      "nickname": "古板革新家",
+      "mbti": "ISTJ",
+      "sun_zh": "水瓶座",
+      "sun_en": "Aquarius",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a proper sorceress in traditional robes conducting an ancient ritual exactly by the book, yet the locked drawer of her desk leaks electric blue light from the three radical blueprint-scrolls hidden inside. A glowing Aquarius water-bearer sigil flares at the crown of the electric blue and violet magic array beneath her, floating constellations and weightless glass-like shards, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ISFJ_Aquarius",
+      "nickname": "温柔外星人",
+      "mbti": "ISFJ",
+      "sun_zh": "水瓶座",
+      "sun_en": "Aquarius",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a caring sorceress anticipating everyone's needs with quiet precision, tea appearing before it is even asked for, yet the thought-channel glowing above her head broadcasts a beautiful signal that no one around her can decode. A glowing Aquarius water-bearer sigil flares at the crown of the electric blue and violet magic array beneath her, floating constellations and weightless glass-like shards, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "INFJ_Aquarius",
+      "nickname": "云端摆渡人",
+      "mbti": "INFJ",
+      "sun_zh": "水瓶座",
+      "sun_en": "Aquarius",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a compassionate sorceress gazing from a high cloud-platform over humanity's glowing map with tears of light in her eyes, yet directly beside her a single friend's small lantern dims, noticed one beat too late. A glowing Aquarius water-bearer sigil flares at the crown of the electric blue and violet magic array beneath her, floating constellations and weightless glass-like shards, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "INTJ_Aquarius",
+      "nickname": "未来建筑师",
+      "mbti": "INTJ",
+      "sun_zh": "水瓶座",
+      "sun_en": "Aquarius",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a visionary sorceress raising a decade-spanning city hologram exact to the last brick, yet every gate in the blueprint is keyed and scheduled, with no unmarked door left anywhere for someone unexpected. A glowing Aquarius water-bearer sigil flares at the crown of the electric blue and violet magic array beneath her, floating constellations and weightless glass-like shards, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ISTP_Aquarius",
+      "nickname": "车库发明家",
+      "mbti": "ISTP",
+      "sun_zh": "水瓶座",
+      "sun_en": "Aquarius",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of an inventor sorceress alone in a workshop where impossible machines assemble themselves under her hands, yet the small help-signal flare on the shelf is the one device she has never built a trigger for. A glowing Aquarius water-bearer sigil flares at the crown of the electric blue and violet magic array beneath her, floating constellations and weightless glass-like shards, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ISFP_Aquarius",
+      "nickname": "离群小美好",
+      "mbti": "ISFP",
+      "sun_zh": "水瓶座",
+      "sun_en": "Aquarius",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a serene sorceress tending a garden on her own small floating island, unbothered by the distant crowd below, yet before releasing a single image-orb of her flowers she quietly edits its glow seven times. A glowing Aquarius water-bearer sigil flares at the crown of the electric blue and violet magic array beneath her, floating constellations and weightless glass-like shards, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "INFP_Aquarius",
+      "nickname": "乌托邦钉子户",
+      "mbti": "INFP",
+      "sun_zh": "水瓶座",
+      "sun_en": "Aquarius",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a dreamer sorceress standing guard over a small luminous utopia-house while gray demolition-runes of reality press in around it, yet the one mundane petition-form that could save the house lies unfilled on her doorstep. A glowing Aquarius water-bearer sigil flares at the crown of the electric blue and violet magic array beneath her, floating constellations and weightless glass-like shards, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "INTP_Aquarius",
+      "nickname": "赛博游民",
+      "mbti": "INTP",
+      "sun_zh": "水瓶座",
+      "sun_en": "Aquarius",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a detached sorceress whose spirit-projection tirelessly contributes to a vast open constellation-network above, caring for all mankind at once, yet the name-rune of the person sitting right beside her still flickers unlearned after three weeks. A glowing Aquarius water-bearer sigil flares at the crown of the electric blue and violet magic array beneath her, floating constellations and weightless glass-like shards, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ESTP_Aquarius",
+      "nickname": "规则越野车",
+      "mbti": "ESTP",
+      "sun_zh": "水瓶座",
+      "sun_en": "Aquarius",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a rebel sorceress veering off the marked light-road to carve her own trail through the wilds as rules scatter behind her, yet she keeps glancing back at the empty road, half hoping someone strong enough to stop her will appear. A glowing Aquarius water-bearer sigil flares at the crown of the electric blue and violet magic array beneath her, floating constellations and weightless glass-like shards, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ESFP_Aquarius",
+      "nickname": "派对怪咖",
+      "mbti": "ESFP",
+      "sun_zh": "水瓶座",
+      "sun_en": "Aquarius",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of an eccentric sorceress dancing at the center of the party in defiantly strange style, adored and alone in the same instant, yet two fear-runes orbit her at equal distance, one reading ordinary and one reading too-strange-to-follow. A glowing Aquarius water-bearer sigil flares at the crown of the electric blue and violet magic array beneath her, floating constellations and weightless glass-like shards, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ENFP_Aquarius",
+      "nickname": "脑洞喷泉",
+      "mbti": "ENFP",
+      "sun_zh": "水瓶座",
+      "sun_en": "Aquarius",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a fountain sorceress erupting a hundred idea-sparks that scatter across the sky to everyone's delight, yet down on the ground not a single spark has been planted into soil by her own hands. A glowing Aquarius water-bearer sigil flares at the crown of the electric blue and violet magic array beneath her, floating constellations and weightless glass-like shards, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ENTP_Aquarius",
+      "nickname": "主义发明家",
+      "mbti": "ENTP",
+      "sun_zh": "水瓶座",
+      "sun_en": "Aquarius",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of an iconoclast sorceress toppling a statue of authority with her new theory-banner raised high, yet the moment one small figure in the crowd raises a hand to question the banner, storm static crackles through her hair. A glowing Aquarius water-bearer sigil flares at the crown of the electric blue and violet magic array beneath her, floating constellations and weightless glass-like shards, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ESTJ_Aquarius",
+      "nickname": "改革监工",
+      "mbti": "ESTJ",
+      "sun_zh": "水瓶座",
+      "sun_en": "Aquarius",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a supervisor sorceress driving a great modernization machine forward on a strict gantt-rail, upgrading everyone in her path, yet her own pocket still carries the same worn old habit-charm, completely untouched. A glowing Aquarius water-bearer sigil flares at the crown of the electric blue and violet magic array beneath her, floating constellations and weightless glass-like shards, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ESFJ_Aquarius",
+      "nickname": "合群独行侠",
+      "mbti": "ESFJ",
+      "sun_zh": "水瓶座",
+      "sun_en": "Aquarius",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a sociable sorceress glowing warmly at the center of a full gathering with perfect attendance, yet her translucent after-image is already walking the quiet street outside, shoulders easing with relief. A glowing Aquarius water-bearer sigil flares at the crown of the electric blue and violet magic array beneath her, floating constellations and weightless glass-like shards, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ENFJ_Aquarius",
+      "nickname": "人间观察员",
+      "mbti": "ENFJ",
+      "sun_zh": "水瓶座",
+      "sun_en": "Aquarius",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a tender sorceress seated just outside the circle of a glowing village, watching every life-script unfold with a soft knowing smile, yet her own script-scroll lies open on her lap at page one, marked still-thinking. A glowing Aquarius water-bearer sigil flares at the crown of the electric blue and violet magic array beneath her, floating constellations and weightless glass-like shards, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ENTJ_Aquarius",
+      "nickname": "理想国CEO",
+      "mbti": "ENTJ",
+      "sun_zh": "水瓶座",
+      "sun_en": "Aquarius",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a founder sorceress commanding a soaring world-changing venture with recruitment-beacons blazing, yet on her windowsill one small ordinary relationship-plant wilts unwatered beside the grand blueprints. A glowing Aquarius water-bearer sigil flares at the crown of the electric blue and violet magic array beneath her, floating constellations and weightless glass-like shards, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ISTJ_Pisces",
+      "nickname": "务实梦想家",
+      "mbti": "ISTJ",
+      "sun_zh": "双鱼座",
+      "sun_en": "Pisces",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a diligent sorceress completing precise ledger-scrolls at a tidy desk under a day-lamp, the picture of practicality, yet the bottom drawer glows with the hidden first chapter of a manuscript no living soul has read. A glowing Pisces twin fish sigil flares at the crown of the iridescent teal and lavender magic array beneath her, dreamlike mist and slow drifting bubbles, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ISFJ_Pisces",
+      "nickname": "暖水袋成精",
+      "mbti": "ISFJ",
+      "sun_zh": "双鱼座",
+      "sun_en": "Pisces",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a warm-hearted sorceress pressing her own gathered heat into one shivering stranger after another, yet her own core-flame rune has dimmed to a pale ember that she has not checked in weeks. A glowing Pisces twin fish sigil flares at the crown of the iridescent teal and lavender magic array beneath her, dreamlike mist and slow drifting bubbles, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "INFJ_Pisces",
+      "nickname": "悲悯透视眼",
+      "mbti": "INFJ",
+      "sun_zh": "双鱼座",
+      "sun_en": "Pisces",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a gentle seer sorceress whose gaze reveals the hidden wound-glyphs glowing on every passerby, her hand already reaching out to heal, yet the old scar on her own arm surfaces only in the retelling, long after it sealed itself. A glowing Pisces twin fish sigil flares at the crown of the iridescent teal and lavender magic array beneath her, dreamlike mist and slow drifting bubbles, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "INTJ_Pisces",
+      "nickname": "清醒造梦师",
+      "mbti": "INTJ",
+      "sun_zh": "双鱼座",
+      "sun_en": "Pisces",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a rigorous architect sorceress engineering an impossibly beautiful dream-structure with cold precise runes, yet the tiny foundation-stone at its base reads simply because-i-want-it, and she keeps a drape over the words. A glowing Pisces twin fish sigil flares at the crown of the iridescent teal and lavender magic array beneath her, dreamlike mist and slow drifting bubbles, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ISTP_Pisces",
+      "nickname": "机械诗人",
+      "mbti": "ISTP",
+      "sun_zh": "双鱼座",
+      "sun_en": "Pisces",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a grease-stained sorceress rebuilding an engine with masterful hands under workshop light, yet a moon-rune through the skylight reflects in her eyes, and a sudden unexplained tide of feeling stalls her wrench mid-turn. A glowing Pisces twin fish sigil flares at the crown of the iridescent teal and lavender magic array beneath her, dreamlike mist and slow drifting bubbles, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ISFP_Pisces",
+      "nickname": "人间水母",
+      "mbti": "ISFP",
+      "sun_zh": "双鱼座",
+      "sun_en": "Pisces",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a translucent-robed sorceress drifting softly along with the crowd-current, luminous and unresisting, yet the small stop-rune resting in her palm has never once been raised, even as the current bends her path. A glowing Pisces twin fish sigil flares at the crown of the iridescent teal and lavender magic array beneath her, dreamlike mist and slow drifting bubbles, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "INFP_Pisces",
+      "nickname": "关系记账员",
+      "mbti": "INFP",
+      "sun_zh": "双鱼座",
+      "sun_en": "Pisces",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of an easygoing sorceress laughing gently among friends, all softness and ease, yet behind her floats a secret ledger of light recording every sweetness given and withheld, one three-year-old unspoken apology still circled. A glowing Pisces twin fish sigil flares at the crown of the iridescent teal and lavender magic array beneath her, dreamlike mist and slow drifting bubbles, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "INTP_Pisces",
+      "nickname": "玄学程序员",
+      "mbti": "INTP",
+      "sun_zh": "双鱼座",
+      "sun_en": "Pisces",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a logician sorceress debugging streams of rational code that dismantle every superstition in sight, yet pinned openly at the top of her interface glows a small koi-charm rune she has never had the heart to delete. A glowing Pisces twin fish sigil flares at the crown of the iridescent teal and lavender magic array beneath her, dreamlike mist and slow drifting bubbles, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ESTP_Pisces",
+      "nickname": "心软亡命徒",
+      "mbti": "ESTP",
+      "sun_zh": "双鱼座",
+      "sun_en": "Pisces",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a reckless brawler sorceress crashing through obstacles without fear of blade or fall, yet one softly spoken word-rune floats up to her and her clenched fists open, weapons dissolving into startled mist. A glowing Pisces twin fish sigil flares at the crown of the iridescent teal and lavender magic array beneath her, dreamlike mist and slow drifting bubbles, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ESFP_Pisces",
+      "nickname": "泡泡机本机",
+      "mbti": "ESFP",
+      "sun_zh": "双鱼座",
+      "sun_en": "Pisces",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a bubbly sorceress filling the plaza with iridescent joy-orbs that pop into laughter around every passerby, yet inside the largest bubble drifting just behind her, a single tear-drop rune hides where the light refracts. A glowing Pisces twin fish sigil flares at the crown of the iridescent teal and lavender magic array beneath her, dreamlike mist and slow drifting bubbles, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ENFP_Pisces",
+      "nickname": "梦境放大器",
+      "mbti": "ENFP",
+      "sun_zh": "双鱼座",
+      "sun_en": "Pisces",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a visionary sorceress projecting a colossal shared dreamscape that pulls friends in awestruck, yet at the projector's base a freshness-gauge ticks down from seven days, and older collapsed dream-sets lie folded in the corner. A glowing Pisces twin fish sigil flares at the crown of the iridescent teal and lavender magic array beneath her, dreamlike mist and slow drifting bubbles, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ENTP_Pisces",
+      "nickname": "诡辩浪漫家",
+      "mbti": "ENTP",
+      "sun_zh": "双鱼座",
+      "sun_en": "Pisces",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a silver-tongued sorceress diagramming a hundred spiraling proofs that romance is a basic necessity while the audience laughs along, yet when a real heart-rune drifts within reach, her legendary voice produces no words at all. A glowing Pisces twin fish sigil flares at the crown of the iridescent teal and lavender magic array beneath her, dreamlike mist and slow drifting bubbles, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ESTJ_Pisces",
+      "nickname": "温柔暴君",
+      "mbti": "ESTJ",
+      "sun_zh": "双鱼座",
+      "sun_en": "Pisces",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a soft-voiced sorceress issuing gentle unbendable directives that arrange everyone's tides just so, yet behind her back her own small wish-lantern floats quietly, hoping someone will someday arrange hers. A glowing Pisces twin fish sigil flares at the crown of the iridescent teal and lavender magic array beneath her, dreamlike mist and slow drifting bubbles, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ESFJ_Pisces",
+      "nickname": "知冷知热精",
+      "mbti": "ESFJ",
+      "sun_zh": "双鱼座",
+      "sun_en": "Pisces",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of an attentive sorceress delivering warmth-charms door to door more accurately than any forecast, yet at her own door a refusal-rune she has practiced for weeks still cannot cross her lips. A glowing Pisces twin fish sigil flares at the crown of the iridescent teal and lavender magic array beneath her, dreamlike mist and slow drifting bubbles, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ENFJ_Pisces",
+      "nickname": "救世主体质",
+      "mbti": "ENFJ",
+      "sun_zh": "双鱼座",
+      "sun_en": "Pisces",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a devoted rescuer sorceress diving into another's dark whirlpool with a lifeline of light, lifting them toward the surface, yet up on the shore the last three she saved walk away dry while she still treads the rain alone. A glowing Pisces twin fish sigil flares at the crown of the iridescent teal and lavender magic array beneath her, dreamlike mist and slow drifting bubbles, hyper-detailed rendering, high fantasy atmosphere."
+    },
+    {
+      "id": "ENTJ_Pisces",
+      "nickname": "柔光野心家",
+      "mbti": "ENTJ",
+      "sun_zh": "双鱼座",
+      "sun_en": "Pisces",
+      "img_prompt": "<lora:FL-bailing-24-0831magic array-000009:0.8>,bailing_magic_circle,The girl was surrounded by magic arrays,A cinematic shot of a poised conqueror sorceress winning a glittering summit wrapped in soft rose light, every decisive stroke elegant, yet in the midnight water's reflection a question-rune ripples beneath her crown, asking whether the winnings weigh true. A glowing Pisces twin fish sigil flares at the crown of the iridescent teal and lavender magic array beneath her, dreamlike mist and slow drifting bubbles, hyper-detailed rendering, high fantasy atmosphere."
+    }
+  ]
+}
