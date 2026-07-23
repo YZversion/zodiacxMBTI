@@ -4,6 +4,8 @@
 
 给朋友圈约 10 人用的中文手机链接：填出生信息 + MBTI → 一次出报告。免费、不推广、不收费、不留账号。
 
+**在线试用：** [https://zodiacxmbti-ydpwplvynjy5tvxexxyjws.streamlit.app](https://zodiacxmbti-ydpwplvynjy5tvxexxyjws.streamlit.app)
+
 ## 这是什么
 
 一条直线链路：
@@ -18,7 +20,8 @@
 
 ## 状态
 
-- **阶段**：本地全链路可用（含 §6 折叠延伸、共享设计系统、导出）；发群前见 [SHIP.md](SHIP.md)。待推送 / Cloud / 静默两周观察
+- **阶段**：Cloud 已上线（含人设卡、§6 折叠延伸、共享设计系统、导出）；发群观察见 [SHIP.md](SHIP.md)
+- **在线**：https://zodiacxmbti-ydpwplvynjy5tvxexxyjws.streamlit.app
 - **时间盒**：两个周末，硬上限
 - **验收**：两周后看 LLM 调用是否有自发增量；定性问朋友是否回访/转发。商业化只认强信号
 
@@ -63,6 +66,7 @@ GEONAMES_USERNAME = "your_geonames_username"
 # macOS / Linux
 streamlit run app.py
 ```
+website：https://zodiacxmbti-ydpwplvynjy5tvxexxyjws.streamlit.app
 
 部署：推送到 GitHub 后，在 [Streamlit Community Cloud](https://streamlit.io/cloud) 绑定本仓库，入口填 `app.py`，Secrets 粘贴与本地相同的键。
 
