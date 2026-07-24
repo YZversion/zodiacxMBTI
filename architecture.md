@@ -67,7 +67,7 @@ tests/test_persona_cards.py
 assets/tarot/rws/      # 78 LuciellaES CC0 faces
 assets/fonts/          # NotoSansSC-Regular.ttf for PDF
 persona_cards/         # persona_cards.json (192 truth source)
-personapicture/zodiac_masters/v1/  # 12 shared sun-sign master PNGs
+personapicture/zodiac_tarot_masters/v1/  # 12 active 3:5 full-card tarot masters
 .streamlit/
   config.toml          # dark theme aligned to COLORS; toolbarMode=minimal
   secrets.toml         # gitignored
@@ -80,6 +80,7 @@ requirements.txt       # streamlit==1.59.2, kerykeion, openai, fpdf2
 ```
 personapicture/persona_card_img_prompts.json  # 192 unique-art prompts (not generated yet)
 personapicture/example/                       # style samples only
+personapicture/zodiac_masters/v1/             # archived former master set; not runtime
 人设卡_设计稿.md
 ```
 

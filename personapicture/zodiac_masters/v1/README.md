@@ -1,4 +1,8 @@
-# Zodiac master artworks v1
+# Zodiac master artworks v1 — archived
+
+> Deprecated on 2026-07-24. Runtime persona cards now use
+> `personapicture/zodiac_tarot_masters/v1/`. Keep this directory only as a
+> visual-history fallback; do not reference it from application code or exports.
 
 Generated with the built-in `imagegen` workflow on 2026-07-23.
 

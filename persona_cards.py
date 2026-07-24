@@ -12,7 +12,7 @@ from typing import Optional
 
 ROOT = Path(__file__).resolve().parent
 CARDS_PATH = ROOT / "persona_cards" / "persona_cards.json"
-MASTERS_DIR = ROOT / "personapicture" / "zodiac_masters" / "v1"
+MASTERS_DIR = ROOT / "personapicture" / "zodiac_tarot_masters" / "v1"
 
 # kerykeion may emit abbr (Ari) or full (Aries); cards use full English.
 _SIGN_TO_EN: dict[str, str] = {
@@ -42,18 +42,18 @@ _SIGN_TO_EN: dict[str, str] = {
 }
 
 _MASTER_FILES: dict[str, str] = {
-    "Aries": "01_aries.png",
-    "Taurus": "02_taurus.png",
-    "Gemini": "03_gemini.png",
-    "Cancer": "04_cancer.png",
-    "Leo": "05_leo.png",
-    "Virgo": "06_virgo.png",
-    "Libra": "07_libra.png",
-    "Scorpio": "08_scorpio.png",
-    "Sagittarius": "09_sagittarius.png",
-    "Capricorn": "10_capricorn.png",
-    "Aquarius": "11_aquarius.png",
-    "Pisces": "12_pisces.png",
+    "Aries": "01_aries_male.png",
+    "Taurus": "02_taurus_female.png",
+    "Gemini": "03_gemini_male.png",
+    "Cancer": "04_cancer_female.png",
+    "Leo": "05_leo_male.png",
+    "Virgo": "06_virgo_female.png",
+    "Libra": "07_libra_male.png",
+    "Scorpio": "08_scorpio_female.png",
+    "Sagittarius": "09_sagittarius_female.png",
+    "Capricorn": "10_capricorn_male.png",
+    "Aquarius": "11_aquarius_female.png",
+    "Pisces": "12_pisces_male.png",
 }
 
 FOOTNOTE = "占比 = MBTI基准÷12（太阳座均匀假设），非精确普查"
@@ -205,8 +205,7 @@ PERSONA_CARD_CSS = """
   color: var(--zx-text);
 }
 .zx-persona-art {
-  aspect-ratio: 3 / 4;
-  max-height: 320px;
+  aspect-ratio: 3 / 5;
   overflow: hidden;
   background: var(--zx-bg-deep);
 }
@@ -214,8 +213,8 @@ PERSONA_CARD_CSS = """
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  object-position: center top;
+  object-fit: contain;
+  object-position: center;
 }
 .zx-persona-body {
   padding: 1.05rem 1.15rem 1.15rem;
@@ -295,6 +294,5 @@ PERSONA_CARD_CSS = """
 }
 @media (max-width: 520px) {
   .zx-persona-card { max-width: 100%; }
-  .zx-persona-art { max-height: 280px; }
 }
 """

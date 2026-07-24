@@ -27,7 +27,7 @@ Reversible Streamlit spike: natal chart (kerykeion) + MBTI → streamed Chinese 
 | Tarot logic | `tarot.py` stdlib `random` only — **do not change draw logic for UI** |
 | Tarot UI | `tarot_ui.py` + inline `st.html` flip fragment; LuciellaES assets |
 | Export | `report_export.py` — full HTML snapshot + text PDF (`fpdf2`); §6 via `split_main_and_extensions` |
-| Persona cards | `persona_cards.py` + `persona_cards/persona_cards.json` + 12 masters; lookup only — **never LLM-invent nicknames** |
+| Persona cards | `persona_cards.py` + `persona_cards/persona_cards.json` + `personapicture/zodiac_tarot_masters/v1/` (12 masters); lookup only — **never LLM-invent nicknames** |
 
 ## Implementation rules
 
@@ -46,7 +46,7 @@ Reversible Streamlit spike: natal chart (kerykeion) + MBTI → streamed Chinese 
 13. **Disclaimer / privacy** footer always present.
 14. **License:** MIT app code; kerykeion AGPL-3.0 while imported.
 15. **Tests:** `tests/test_design_system.py` (tokens ↔ config.toml, export, tarot fragment, no remote fonts); `tests/test_question_flow.py` (§4 prompt + upsert); `tests/test_persona_cards.py` (192 pool, lookup, masters).
-16. **Persona cards:** show after summary; key = `{MBTI}_{sun_en}` from chart sun + form MBTI;「不确定」→ missing hint, no invented card. Art = shared zodiac master (12), not 192 unique PNGs.
+16. **Persona cards:** show after summary; key = `{MBTI}_{sun_en}` from chart sun + form MBTI;「不确定」→ missing hint, no invented card. Art = shared 3:5 full-card zodiac tarot master from `personapicture/zodiac_tarot_masters/v1/` (12), not 192 unique PNGs. The former `zodiac_masters/v1/` set is archived and must not be used at runtime.
 
 ## Code status
 

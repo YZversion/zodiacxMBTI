@@ -85,12 +85,10 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
 [data-testid="stAppViewContainer"] {
   background-color: var(--zx-bg) !important;
   background-image:
-    radial-gradient(circle at 78% 12%, rgba(110, 143, 180, 0.18), transparent 26rem),
-    radial-gradient(circle at 12% 86%, rgba(127, 167, 155, 0.11), transparent 24rem),
-    linear-gradient(var(--zx-line) 1px, transparent 1px),
-    linear-gradient(90deg, var(--zx-line) 1px, transparent 1px),
-    linear-gradient(150deg, var(--zx-bg-deep) 0%, var(--zx-bg) 48%, #0e1b2d 100%) !important;
-  background-size: auto, auto, 48px 48px, 48px 48px, auto !important;
+    radial-gradient(circle at 82% 13%, rgba(169, 96, 72, 0.20), transparent 25rem),
+    radial-gradient(circle at 10% 88%, rgba(199, 175, 133, 0.10), transparent 22rem),
+    linear-gradient(145deg, var(--zx-bg-deep) 0%, var(--zx-bg) 48%, var(--zx-surface) 100%) !important;
+  background-size: auto, auto, auto !important;
   background-attachment: fixed !important;
 }
 
@@ -101,8 +99,44 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
   pointer-events: none;
   z-index: 0;
   background:
-    radial-gradient(circle at 82% 8%, transparent 0 11.9rem, rgba(169,198,189,0.22) 12rem 12.05rem, transparent 12.1rem 16rem, rgba(110,143,180,0.14) 16.05rem 16.1rem, transparent 16.15rem),
-    linear-gradient(180deg, rgba(7,16,29,0.18), rgba(7,16,29,0.64));
+    repeating-radial-gradient(
+      circle at 84% 10%,
+      transparent 0 3.7rem,
+      rgba(199, 175, 133, 0.12) 3.74rem 3.79rem,
+      transparent 3.83rem 6.7rem
+    ),
+    conic-gradient(
+      from 22.5deg at 84% 10%,
+      transparent 0 10deg,
+      rgba(199, 175, 133, 0.10) 11deg 12deg,
+      transparent 13deg 45deg
+    ),
+    linear-gradient(180deg, rgba(5, 11, 18, 0.08), rgba(5, 11, 18, 0.64));
+}
+
+[data-testid="stAppViewContainer"]::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.34;
+  background-image:
+    linear-gradient(
+      115deg,
+      transparent 0 48%,
+      rgba(199, 175, 133, 0.075) 49% 50%,
+      transparent 51%
+    ),
+    linear-gradient(
+      65deg,
+      transparent 0 48%,
+      rgba(199, 175, 133, 0.05) 49% 50%,
+      transparent 51%
+    );
+  background-size: 96px 96px;
+  -webkit-mask-image: linear-gradient(to bottom, #000, transparent 74%);
+  mask-image: linear-gradient(to bottom, #000, transparent 74%);
 }
 
 [data-testid="stHeader"] {
@@ -127,38 +161,139 @@ h1, h2, h3,
 .stHeading {
   font-family: var(--zx-display) !important;
   color: var(--zx-text) !important;
-  letter-spacing: 0.01em;
+  letter-spacing: 0.035em;
+  text-shadow: 0 12px 34px rgba(0, 0, 0, 0.34);
+}
+
+[data-testid="stMarkdownContainer"] h2,
+[data-testid="stMarkdownContainer"] h3,
+[data-testid="stHeadingWithActionElements"] h2,
+[data-testid="stHeadingWithActionElements"] h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.72rem;
+}
+
+[data-testid="stMarkdownContainer"] h2::before,
+[data-testid="stMarkdownContainer"] h3::before,
+[data-testid="stHeadingWithActionElements"] h2::before,
+[data-testid="stHeadingWithActionElements"] h3::before {
+  content: "";
+  width: 0.58rem;
+  height: 0.58rem;
+  flex: 0 0 auto;
+  border: 1px solid var(--zx-copper);
+  box-shadow: inset 0 0 0 2px rgba(169, 96, 72, 0.12);
+  transform: rotate(45deg);
+}
+
+[data-testid="stMarkdownContainer"] h2::after,
+[data-testid="stMarkdownContainer"] h3::after,
+[data-testid="stHeadingWithActionElements"] h2::after,
+[data-testid="stHeadingWithActionElements"] h3::after {
+  content: "";
+  height: 1px;
+  min-width: 2.5rem;
+  flex: 1;
+  background: linear-gradient(90deg, var(--zx-accent-strong), transparent);
+  opacity: 0.56;
+}
+
+[data-testid="stMarkdownContainer"] h4 {
+  padding-bottom: 0.55rem;
+  border-bottom: 1px solid var(--zx-line);
+  color: var(--zx-accent-strong) !important;
+  font-family: var(--zx-display) !important;
+  font-weight: 400;
+  letter-spacing: 0.04em;
 }
 
 .zx-hero {
-  padding: 2.1rem 0 1.2rem;
+  position: relative;
+  isolation: isolate;
   max-width: 46rem;
+  padding: 2.35rem 0 2rem;
+  overflow: hidden;
+}
+.zx-hero::after {
+  content: "✦";
+  position: absolute;
+  top: -5.4rem;
+  right: -2.8rem;
+  z-index: -1;
+  display: grid;
+  place-items: center;
+  width: 14.8rem;
+  aspect-ratio: 1;
+  border: 1px solid rgba(199, 175, 133, 0.28);
+  border-radius: 50%;
+  color: rgba(199, 175, 133, 0.52);
+  font-family: Georgia, serif;
+  font-size: 1.1rem;
+  background:
+    repeating-radial-gradient(
+      circle,
+      transparent 0 2.1rem,
+      rgba(199, 175, 133, 0.18) 2.14rem 2.18rem,
+      transparent 2.22rem 3.6rem
+    ),
+    repeating-conic-gradient(
+      from 22.5deg,
+      rgba(199, 175, 133, 0.16) 0 1deg,
+      transparent 1deg 22.5deg
+    );
+  opacity: 0.72;
 }
 .zx-eyebrow {
   margin: 0 0 0.75rem;
-  color: var(--zx-accent-strong);
+  color: var(--zx-copper);
   font-family: var(--zx-data);
   font-size: 0.72rem;
   font-weight: 600;
   letter-spacing: 0.15em;
   text-transform: uppercase;
 }
+.zx-hero-rule {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  width: min(17.5rem, 76%);
+  margin: 0.85rem 0 0.95rem;
+  color: var(--zx-accent-strong);
+}
+.zx-hero-rule span {
+  height: 1px;
+  flex: 1;
+  background: currentColor;
+  opacity: 0.76;
+}
+.zx-hero-rule i {
+  width: 0.55rem;
+  aspect-ratio: 1;
+  border: 1px solid currentColor;
+  transform: rotate(45deg);
+}
 .zx-hero-title {
   margin: 0;
   color: var(--zx-text);
   font-family: var(--zx-display);
-  font-size: clamp(2.35rem, 7vw, 4.4rem);
+  font-size: clamp(2.8rem, 8vw, 5rem);
   font-weight: 400;
-  letter-spacing: 0.015em;
-  line-height: 1.12;
+  letter-spacing: 0.045em;
+  line-height: 1.06;
   text-wrap: balance;
+  text-shadow: 0 18px 45px rgba(0, 0, 0, 0.44);
 }
 .zx-hero-title span {
   display: block;
 }
+.zx-hero-title b {
+  color: var(--zx-copper);
+  font-weight: 400;
+}
 .zx-hero-lede {
   max-width: 38rem;
-  margin: 1rem 0 0;
+  margin: 1.05rem 0 0;
   color: var(--zx-muted);
   font-size: 1rem;
   line-height: 1.75;
@@ -189,8 +324,13 @@ h1, h2, h3,
 [data-testid="stVerticalBlockBorderWrapper"] {
   border: 1px solid var(--zx-border) !important;
   border-radius: 14px !important;
-  background: linear-gradient(145deg, rgba(24,40,61,0.80), rgba(18,31,49,0.58)) !important;
-  box-shadow: 0 20px 55px rgba(2, 8, 16, 0.24);
+  background:
+    linear-gradient(135deg, rgba(199, 175, 133, 0.10), transparent 5.5rem),
+    linear-gradient(315deg, rgba(169, 96, 72, 0.08), transparent 7rem),
+    linear-gradient(145deg, rgba(16, 29, 43, 0.92), rgba(10, 21, 34, 0.76)) !important;
+  box-shadow:
+    0 22px 58px rgba(1, 6, 12, 0.34),
+    inset 0 1px 0 rgba(238, 229, 212, 0.07);
   backdrop-filter: blur(14px);
 }
 
@@ -206,9 +346,9 @@ h1, h2, h3,
 [data-baseweb="select"] > div:focus-within,
 button:focus-visible,
 summary:focus-visible {
-  outline: 3px solid rgba(169, 198, 189, 0.92) !important;
+  outline: 3px solid rgba(199, 175, 133, 0.92) !important;
   outline-offset: 2px !important;
-  box-shadow: 0 0 0 5px rgba(11, 22, 38, 0.86) !important;
+  box-shadow: 0 0 0 5px rgba(9, 19, 31, 0.88) !important;
 }
 
 [data-testid="stButton"] button[kind="primary"],
@@ -219,14 +359,14 @@ summary:focus-visible {
   background: var(--zx-cta) !important;
   color: var(--zx-cta-text) !important;
   font-weight: 700 !important;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.06em;
   box-shadow: 0 12px 28px rgba(2, 8, 16, 0.28);
 }
 [data-testid="stButton"] button[kind="primary"]:hover,
 [data-testid="stFormSubmitButton"] button[kind="primary"]:hover {
   border-color: var(--zx-accent-strong) !important;
-  background: var(--zx-accent-strong) !important;
-  color: var(--zx-cta-text) !important;
+  background: var(--zx-copper) !important;
+  color: var(--zx-text) !important;
   transform: translateY(-1px);
 }
 
@@ -243,7 +383,7 @@ summary:focus-visible {
 .zx-coordinate-cell {
   min-width: 0;
   padding: 0.72rem 0.78rem;
-  background: rgba(7, 16, 29, 0.72);
+  background: rgba(5, 11, 18, 0.72);
 }
 .zx-coordinate-cell small {
   display: block;
@@ -295,7 +435,9 @@ summary:focus-visible {
 .zx-ext-fold {
   border: 1px solid var(--zx-border);
   border-radius: 12px;
-  background: var(--zx-glass);
+  background:
+    linear-gradient(135deg, rgba(199, 175, 133, 0.07), transparent 5rem),
+    var(--zx-glass);
   padding: 0.15rem 0.85rem 0.55rem;
 }
 .zx-ext-fold > summary {
@@ -347,8 +489,8 @@ summary:focus-visible {
   inset: 0;
   pointer-events: none;
   background:
-    linear-gradient(135deg, rgba(231,221,201,0.09), transparent 40%),
-    radial-gradient(circle at 86% 12%, rgba(127,167,155,0.20), transparent 32%);
+    linear-gradient(135deg, rgba(238,229,212,0.08), transparent 40%),
+    radial-gradient(circle at 86% 12%, rgba(169,96,72,0.19), transparent 32%);
 }
 .zx-summary-headline {
   position: relative;
@@ -379,9 +521,9 @@ summary:focus-visible {
 }
 
 .zx-question-card {
-  border-left: 3px solid var(--zx-accent-strong);
+  border-left: 3px solid var(--zx-copper);
   border-radius: 0 12px 12px 0;
-  background: rgba(18, 31, 49, 0.72);
+  background: rgba(16, 29, 43, 0.78);
   padding: 0.9rem 1rem;
   margin: 0.35rem 0 1rem;
   box-shadow: 0 14px 36px rgba(2, 8, 16, 0.22);
@@ -409,8 +551,14 @@ __ZX_PERSONA_CARD_CSS__
   .zx-hero {
     padding-top: 1.3rem;
   }
+  .zx-hero::after {
+    top: -3.2rem;
+    right: -5rem;
+    width: 11rem;
+    opacity: 0.48;
+  }
   .zx-hero-title {
-    font-size: 2.2rem;
+    font-size: 2.7rem;
     line-height: 1.14;
   }
   .zx-coordinate-strip {
@@ -562,13 +710,15 @@ def _render_hero() -> None:
         """
         <section class="zx-hero">
           <p class="zx-eyebrow">Birth coordinate × personality type</p>
+          <div class="zx-hero-rule" aria-hidden="true">
+            <span></span><i></i><span></span>
+          </div>
           <h1 class="zx-hero-title">
-            <span>把出生坐标和 MBTI，</span>
-            <span>交叉成一份性格报告</span>
+            <span>星盘 <b>×</b> MBTI</span>
           </h1>
           <p class="zx-hero-lede">
+            把出生坐标与人格类型，读成一张属于你的命运角色牌。
             <strong>只讲矛盾，不讲套话。</strong>
-            无需注册，一次生成，可下载留存。
           </p>
         </section>
         """

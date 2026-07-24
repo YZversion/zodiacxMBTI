@@ -383,31 +383,82 @@ def build_report_html(
     color: var(--zx-text);
     font-family: {BODY_FONT_STACK};
     background:
-      radial-gradient(circle at 78% 12%, rgba(110,143,180,0.18), transparent 26rem),
-      linear-gradient(var(--zx-line) 1px, transparent 1px),
-      linear-gradient(90deg, var(--zx-line) 1px, transparent 1px),
-      linear-gradient(150deg, var(--zx-bg-deep) 0%, var(--zx-bg) 48%, #0e1b2d 100%);
-    background-size: auto, 48px 48px, 48px 48px, auto;
+      radial-gradient(circle at 82% 13%, rgba(169,96,72,0.20), transparent 25rem),
+      radial-gradient(circle at 10% 88%, rgba(199,175,133,0.10), transparent 22rem),
+      linear-gradient(145deg, var(--zx-bg-deep) 0%, var(--zx-bg) 48%, var(--zx-surface) 100%);
+    background-size: auto;
     background-attachment: fixed;
     line-height: 1.65;
   }}
+  body::before {{
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background:
+      repeating-radial-gradient(
+        circle at 84% 10%,
+        transparent 0 3.7rem,
+        rgba(199,175,133,0.12) 3.74rem 3.79rem,
+        transparent 3.83rem 6.7rem
+      ),
+      conic-gradient(
+        from 22.5deg at 84% 10%,
+        transparent 0 10deg,
+        rgba(199,175,133,0.10) 11deg 12deg,
+        transparent 13deg 45deg
+      );
+  }}
   .wrap {{
+    position: relative;
+    z-index: 1;
     max-width: 820px;
     margin: 0 auto;
     padding: 28px 18px 64px;
   }}
+  .brand-kicker {{
+    margin: 0 0 8px;
+    color: var(--zx-copper);
+    font-family: {DATA_FONT_STACK};
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }}
+  .brand-rule {{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: min(280px, 76%);
+    margin: 10px 0 12px;
+    color: var(--zx-accent-strong);
+  }}
+  .brand-rule span {{ height: 1px; flex: 1; background: currentColor; }}
+  .brand-rule i {{
+    width: 9px;
+    aspect-ratio: 1;
+    border: 1px solid currentColor;
+    transform: rotate(45deg);
+  }}
   .brand {{
     font-family: {DISPLAY_FONT_STACK};
-    font-size: clamp(28px, 5vw, 40px);
+    font-size: clamp(34px, 7vw, 52px);
     font-weight: 400;
-    margin: 0 0 8px;
+    letter-spacing: 0.045em;
+    line-height: 1.08;
+    margin: 0 0 10px;
+    text-shadow: 0 18px 45px rgba(0,0,0,0.42);
   }}
+  .brand b {{ color: var(--zx-copper); font-weight: 400; }}
   .meta {{ color: var(--zx-muted); font-family: {DATA_FONT_STACK}; font-size: 12px; margin-bottom: 18px; }}
   .glass {{
     position: relative;
-    background: var(--zx-glass);
+    background:
+      linear-gradient(135deg, rgba(199,175,133,0.09), transparent 6rem),
+      linear-gradient(315deg, rgba(169,96,72,0.08), transparent 7rem),
+      var(--zx-glass);
     border: 1px solid var(--zx-border);
-    border-radius: 16px;
+    border-radius: 14px;
     padding: 1.15rem 1.2rem;
     margin: 0 0 22px;
     backdrop-filter: blur(18px);
@@ -418,8 +469,8 @@ def build_report_html(
     content: "";
     position: absolute; inset: 0; pointer-events: none;
     background:
-      linear-gradient(135deg, rgba(231,221,201,0.09), transparent 40%),
-      radial-gradient(circle at 86% 12%, rgba(127,167,155,0.20), transparent 32%);
+      linear-gradient(135deg, rgba(238,229,212,0.08), transparent 40%),
+      radial-gradient(circle at 86% 12%, rgba(169,96,72,0.19), transparent 32%);
   }}
   .headline {{
     position: relative;
@@ -439,10 +490,30 @@ def build_report_html(
   .advice {{ position: relative; margin: 0; font-size: 1.02rem; }}
   .note {{ color: var(--zx-accent-strong); font-size: 0.92rem; }}
   .section h1 {{
+    display: flex;
+    align-items: center;
+    gap: 0.72rem;
     font-family: {DISPLAY_FONT_STACK};
     font-size: 1.5rem;
     font-weight: 400;
+    letter-spacing: 0.035em;
     margin: 28px 0 12px;
+  }}
+  .section h1::before {{
+    content: "";
+    width: 0.58rem;
+    height: 0.58rem;
+    flex: 0 0 auto;
+    border: 1px solid var(--zx-copper);
+    transform: rotate(45deg);
+  }}
+  .section h1::after {{
+    content: "";
+    height: 1px;
+    min-width: 2.5rem;
+    flex: 1;
+    background: linear-gradient(90deg, var(--zx-accent-strong), transparent);
+    opacity: 0.56;
   }}
   .persona-section .zx-persona-card {{ margin-left: 0; margin-right: auto; }}
   __ZX_PERSONA_CARD_CSS__
@@ -458,16 +529,21 @@ def build_report_html(
   .chart-box svg {{ width: 100%; height: 100%; display: block; }}
   .prose h2 {{
     font-family: {DISPLAY_FONT_STACK};
-    color: var(--zx-accent-strong);
+    color: var(--zx-text);
     font-size: 1.15rem;
     font-weight: 400;
+    letter-spacing: 0.03em;
+    padding-left: 0.7rem;
+    border-left: 2px solid var(--zx-copper);
     margin: 1.2rem 0 0.45rem;
   }}
   .prose p {{ margin: 0.35rem 0; }}
   details.fold {{
     border: 1px solid var(--zx-border);
     border-radius: 12px;
-    background: var(--zx-glass);
+    background:
+      linear-gradient(135deg, rgba(199,175,133,0.07), transparent 5rem),
+      var(--zx-glass);
     padding: 0.4rem 1rem 1rem;
     margin: 1.25rem 0;
   }}
@@ -542,7 +618,9 @@ def build_report_html(
 <body>
   <div class="wrap">
     <p class="print-hint">这是完整页面快照。若需要 PDF：用浏览器打开本文件 → 打印 → 另存为 PDF。</p>
-    <h1 class="brand">星盘 × MBTI 性格解读</h1>
+    <p class="brand-kicker">Birth coordinate × personality archetype</p>
+    <div class="brand-rule" aria-hidden="true"><span></span><i></i><span></span></div>
+    <h1 class="brand">星盘 <b>×</b> MBTI</h1>
     <p class="meta">{meta}</p>
     <div class="glass">
       <p class="headline">{headline}</p>

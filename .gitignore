@@ -53,7 +53,13 @@ temp/
 charts_output/
 _smoke_*.py
 
+# Image-generation references and QA composites
+# The 12 runtime masters under zodiac_tarot_masters stay versioned.
+personapicture/example2/
+personapicture/**/contact_sheet.png
+
 # Local tooling / personal notes — never publish
+.agents/
 .understand-anything/
 .workbuddy/
 今日日志*.md

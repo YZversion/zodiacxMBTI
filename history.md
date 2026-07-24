@@ -27,6 +27,7 @@ Source of truth for the sealed plan: [`星盘MBTI解读spike需求与实施方�
 | 2026-07-22 | Question-section repair: if user filled「想问的事」but model skipped/short §4, call `generate_question_section` + `upsert_question_section`; show `_render_question_card`; tests in `tests/test_question_flow.py`. Commit `bcb0c66`. |
 | 2026-07-23 | Docs: `architecture.md` / `agent.md` catch up on §4 repair, §6 `<details>`, persona-card side assets (offline, not in app). |
 | 2026-07-23 | Persona card in-app: `persona_cards.py` lookup → result page after summary + HTML/PDF export; 12 zodiac masters + 192 JSON copy; MBTI unknown → hint. |
+| 2026-07-24 | Persona-card art switched to `personapicture/zodiac_tarot_masters/v1/`: 12 full 3:5 Art Nouveau tarot masters, six male / six female. Former `zodiac_masters/v1/` set archived; runtime and exports now use the tarot set without cropping. |
 
 ## Watch list (not in spike)
 
