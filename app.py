@@ -545,6 +545,24 @@ summary:focus-visible {
   line-height: 1.65;
 }
 
+.zx-natal-chart {
+  width: 100%;
+  max-width: 640px;
+  margin: 8px auto 1rem;
+  box-sizing: border-box;
+  overflow-x: hidden;
+  border: 1px solid var(--zx-border);
+  border-radius: 12px;
+  background: var(--zx-surface);
+}
+.zx-natal-chart svg {
+  display: block;
+  width: 100% !important;
+  max-width: 100%;
+  height: auto !important;
+  margin: 0 auto;
+}
+
 __ZX_PERSONA_CARD_CSS__
 
 @media (max-width: 520px) {
@@ -759,9 +777,9 @@ def _render_coordinate_strip(
 
 
 def _render_svg(svg: str) -> None:
-    # Keep the chart iframe in normal visible flow (never inside a collapsed
-    # expander). Community Cloud can then measure its responsive content height
-    # correctly, while srcdoc preserves Kerykeion's <style> and <defs> blocks.
+    # Render inline via st.html — not st.iframe. Mobile Cloud still measures
+    # iframe height="content" as 0px even when the chart is outside expanders;
+    # page-DOM SVG sizes with normal CSS and stays visible on phones.
     root_match = re.search(r"<svg\b[^>]*>", svg, re.IGNORECASE)
     if not root_match:
         st.error("星盘图形格式无效，请重新生成。")
@@ -770,42 +788,17 @@ def _render_svg(svg: str) -> None:
     viewbox_match = re.search(
         r"\bviewBox\s*=\s*(['\"])([^'\"]+)\1", opening, re.IGNORECASE
     )
-    intrinsic_width, intrinsic_height = "100", "100"
+    intrinsic_width, intrinsic_height = "1", "1"
     if viewbox_match:
         viewbox = viewbox_match.group(2).replace(",", " ").split()
         if len(viewbox) == 4:
             intrinsic_width, intrinsic_height = viewbox[2], viewbox[3]
-            for attribute, value in (
-                ("width", intrinsic_width),
-                ("height", intrinsic_height),
-            ):
-                pattern = rf"\s{attribute}\s*=\s*(['\"])[^'\"]*\1"
-                if re.search(pattern, opening, re.IGNORECASE):
-                    opening = re.sub(
-                        pattern,
-                        f' {attribute}="{value}"',
-                        opening,
-                        count=1,
-                        flags=re.IGNORECASE,
-                    )
-                else:
-                    opening = opening[:-1] + f' {attribute}="{value}">'
-    try:
-        chart_ratio = float(intrinsic_height) / float(intrinsic_width)
-    except (TypeError, ValueError, ZeroDivisionError):
-        chart_ratio = 1.0
-    max_height = 640 * chart_ratio
-    viewport_height = 100 * chart_ratio
-    gutter_height = 16 * chart_ratio
     chart_style = (
         "display:block;"
-        "width:min(640px,calc(100% - 16px));"
-        f"height:min({max_height:.3f}px,calc({viewport_height:.3f}vw - {gutter_height:.3f}px));"
-        "margin:8px auto;"
-        f"border:1px solid {COLORS['border']};"
-        "border-radius:12px;"
-        f"background:{COLORS['surface']};"
-        "box-sizing:border-box;"
+        "width:100%;"
+        "max-width:100%;"
+        "height:auto;"
+        f"aspect-ratio:{intrinsic_width} / {intrinsic_height};"
     )
     style_marker = re.search(r"\sstyle\s*=\s*(['\"])", opening, re.IGNORECASE)
     if style_marker:
@@ -815,11 +808,10 @@ def _render_svg(svg: str) -> None:
     else:
         opening = opening[:-1] + f' style="{chart_style}">'
     styled_svg = svg[: root_match.start()] + opening + svg[root_match.end() :]
-    st.iframe(
-        styled_svg,
-        width="stretch",
-        height="content",
-        tab_index=-1,
+    st.html(
+        '<div class="zx-natal-chart" role="img" aria-label="本命盘">'
+        f"{styled_svg}"
+        "</div>"
     )
 
 

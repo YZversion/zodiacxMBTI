@@ -41,7 +41,7 @@ Reversible Streamlit spike: natal chart (kerykeion) + MBTI → streamed Chinese 
 8. **TAROT_SYSTEM:** past / present / future / 三张牌共同指向; ~500–650 chars; closing is a hammer (one core tension + one self-question), not more analysis. Red lines: no transit/timing invention, no fabricated trauma origins.
 9. **Streaming:** `stream_main_report` / `stream_tarot_report` + `st.write_stream`; optional §4 repair; cache then `st.rerun()`.
 10. **Theme CSS:** inject once via `st.html`. Tokens only from `design_system` — do not hardcode old gold `#c9a46c` / cream stacks. **Never** `font-family` on all `span` (breaks expander `.arrow_`). Keep `prefers-reduced-motion` + focus-visible.
-11. **Chart display:** wheel-only + CJK font injection; `st.iframe(..., height="content")` in normal visible flow — **never** inside a collapsed `st.expander` (Cloud first paint measures 0px height).
+11. **Chart display:** wheel-only + CJK font injection via `st.html` in page DOM — **never** `st.iframe` / collapsed expander (mobile Cloud measures iframe content height as 0px).
 12. **Tarot display:** inline HTML fragment (no full `<!DOCTYPE html>` document); responsive grid; reduced-motion safe.
 13. **Disclaimer / privacy** footer always present.
 14. **License:** MIT app code; kerykeion AGPL-3.0 while imported.
