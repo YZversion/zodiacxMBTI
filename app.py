@@ -759,10 +759,9 @@ def _render_coordinate_strip(
 
 
 def _render_svg(svg: str) -> None:
-    # Streamlit measures srcdoc content and updates the iframe height when its
-    # responsive width changes, so the chart never reserves stale space.
-    # Keep the SVG top-level and style it inline: Kerykeion's percentage
-    # dimensions then resolve from its viewBox without an extra wrapper.
+    # Keep the chart iframe in normal visible flow (never inside a collapsed
+    # expander). Community Cloud can then measure its responsive content height
+    # correctly, while srcdoc preserves Kerykeion's <style> and <defs> blocks.
     root_match = re.search(r"<svg\b[^>]*>", svg, re.IGNORECASE)
     if not root_match:
         st.error("星盘图形格式无效，请重新生成。")
@@ -1055,9 +1054,8 @@ def main() -> None:
             f"地点解析为 {chart.resolved_city or chart.city}"
             + (f" · {chart.resolved_tz}" if chart.resolved_tz else "")
         )
-        with st.expander("▸ 展开查看完整星盘", expanded=False):
-            st.caption("本命盘轮盘（暗色）。行星过密时度数可能仍会靠近，属排盘图常态。")
-            _render_svg(chart.svg)
+        st.caption("本命盘轮盘（暗色）。行星过密时度数可能仍会靠近，属排盘图常态。")
+        _render_svg(chart.svg)
 
         st.subheader("解读报告")
         main_body, ext_items = split_main_and_extensions(report_text)

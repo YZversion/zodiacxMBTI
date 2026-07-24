@@ -137,6 +137,7 @@ _render_tarot_cards([
         self.assertIn("<style>", app.markdown[0].value)
         self.assertIn("stAppViewContainer", app.markdown[0].value)
         self.assertEqual(len(app.get("iframe")), 1)
+        self.assertIn("<svg", app.get("iframe")[0].proto.srcdoc)
         self.assertIn('height="content"', inspect.getsource(_render_svg))
 
 
