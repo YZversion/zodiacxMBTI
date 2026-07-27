@@ -27,7 +27,7 @@ Result page
   • optional「本次问题」echo card
   • glass summary card (Sun / Moon / Asc × MBTI + §5 advice)
   • persona card: 192 JSON copy + 12 zodiac master art (HTML)
-  • wheel chart via st.html (page DOM; not iframe)
+  • wheel chart as base64 img via st.html (not raw SVG / not iframe)
   • report §§1–5 markdown
   • §6 延伸探索 → native HTML <details> folds (not st.expander)
   • export: full HTML page | text PDF  (same design_system tokens)
@@ -138,7 +138,7 @@ UI/HTML: `split_main_and_extensions` keeps §§1–5 in the main prose and rende
 | Question echo | `_render_question_card` when life question was submitted |
 | Persona card | `persona_cards.lookup` → HTML (master art + nickname/definition/paradox/exit/pct); MBTI unknown → hint only |
 | Summary card | glass HTML via `st.html` |
-| Chart | wheel-only SVG via `st.html` (page DOM, not iframe — mobile height-safe); CJK font injection |
+| Chart | wheel-only SVG as base64 `<img>` via `st.html` (DOMPurify strips raw SVG; no iframe) + CJK font injection |
 | §6 folds | native HTML `<details>` via `st.html` (avoid Streamlit material-icon expander collision) |
 | Tarot stage | inline `st.html` fragment (not full document); responsive grid; reduced-motion safe |
 | Full page download | self-contained HTML using same `--zx-*` tokens; §6 as closed `<details>` |

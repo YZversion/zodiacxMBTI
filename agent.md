@@ -41,11 +41,11 @@ Reversible Streamlit spike: natal chart (kerykeion) + MBTI → streamed Chinese 
 8. **TAROT_SYSTEM:** past / present / future / 三张牌共同指向; ~500–650 chars; closing is a hammer (one core tension + one self-question), not more analysis. Red lines: no transit/timing invention, no fabricated trauma origins.
 9. **Streaming:** `stream_main_report` / `stream_tarot_report` + `st.write_stream`; optional §4 repair; cache then `st.rerun()`.
 10. **Theme CSS:** inject once via `st.html`. Tokens only from `design_system` — do not hardcode old gold `#c9a46c` / cream stacks. **Never** `font-family` on all `span` (breaks expander `.arrow_`). Keep `prefers-reduced-motion` + focus-visible.
-11. **Chart display:** wheel-only + CJK font injection via `st.html` in page DOM — **never** `st.iframe` / collapsed expander (mobile Cloud measures iframe content height as 0px).
+11. **Chart display:** wheel-only + CJK fonts; encode SVG as `data:image/svg+xml;base64` `<img>` inside `st.html` — **never** raw `<svg>` in `st.html` (DOMPurify strips it) and **never** `st.iframe` (mobile height often 0).
 12. **Tarot display:** inline HTML fragment (no full `<!DOCTYPE html>` document); responsive grid; reduced-motion safe.
 13. **Disclaimer / privacy** footer always present.
 14. **License:** MIT app code; kerykeion AGPL-3.0 while imported.
-15. **Tests:** `tests/test_design_system.py` (tokens ↔ config.toml, export, tarot fragment, no remote fonts); `tests/test_question_flow.py` (§4 prompt + upsert); `tests/test_persona_cards.py` (192 pool, lookup, masters).
+15. **Tests:** `tests/test_design_system.py` (tokens ↔ config.toml, export, tarot fragment, natal base64 img); `tests/test_question_flow.py` (§4 prompt + upsert); `tests/test_persona_cards.py` (192 pool, lookup, masters); `tests/test_friendly_errors.py` (user-facing error map).
 16. **Persona cards:** show after summary; key = `{MBTI}_{sun_en}` from chart sun + form MBTI;「不确定」→ missing hint, no invented card. Art = shared 3:5 full-card zodiac tarot master from `personapicture/zodiac_tarot_masters/v1/` (12), not 192 unique PNGs. The former `zodiac_masters/v1/` set is archived and must not be used at runtime.
 
 ## Code status

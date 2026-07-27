@@ -107,7 +107,7 @@ requirements.txt
 | 钩子 | 节首揭示性格矛盾（即本节结论）；禁止「想知道吗」伪 CTA |
 | 塔罗 | 过去 / 现在 / 未来 / 三张牌共同指向；结尾落锤收束 |
 | 摘要卡 | 太阳/月亮/上升 × MBTI + 第 5 节一句话 |
-| 星盘 | 结果页直接展示暗色轮盘（CN 标签 + Noto；`st.html` 内联，避免手机 iframe 测高为 0） |
+| 星盘 | 结果页直接展示暗色轮盘（CN 标签 + Noto；SVG→base64 `<img>`，避开 DOMPurify 剥 SVG / iframe 测高） |
 | 塔罗 UI | CSS 3D 翻牌；牌面 base64；inline fragment + reduced-motion |
 | 导出 | 完整 HTML（含图，可浏览器打印成 PDF）+ 文字 PDF；共享设计 token |
 | UI | 夜空蓝坐标感主题；Hero + 输入坐标条；本地字体栈（无 Google Fonts） |

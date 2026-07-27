@@ -28,7 +28,7 @@ A separate `memory.md` usually duplicates the timeline and goes stale. If someth
 
 | Doc | Role |
 |---|---|
-| [`SHIP.md`](SHIP.md) | Pre-share checklist + observation cadence |
+| [`log20260727.md`](log20260727.md) | 2026-07-27 UX five-fix decision log (chart img / city / calendar / errors / downloads) |
 | [`星盘MBTI解读spike需求与实施方案.md`](星盘MBTI解读spike需求与实施方案.md) | Sealed plan **v1.4** — do not reopen paper review; code wins after seal |
 
 ## Content / growth (only when that work is in scope)

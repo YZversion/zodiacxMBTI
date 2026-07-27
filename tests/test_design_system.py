@@ -132,7 +132,7 @@ _render_tarot_cards([
 """
         app = AppTest.from_string(code).run(timeout=20)
         self.assertEqual(len(app.exception), 0)
-        # Theme via markdown; natal chart + tarot via st.html (no iframe — mobile-safe)
+        # Theme via markdown; natal chart as base64 <img> (DOMPurify strips raw SVG)
         self.assertEqual(len(app.markdown), 1)
         self.assertIn("<style>", app.markdown[0].value)
         self.assertIn("stAppViewContainer", app.markdown[0].value)
@@ -140,10 +140,13 @@ _render_tarot_cards([
         self.assertEqual(len(app.get("iframe")), 0)
         html_bodies = [item.proto.body for item in app.get("html")]
         self.assertTrue(any("zx-natal-chart" in body for body in html_bodies))
-        self.assertTrue(any("<svg" in body for body in html_bodies))
-        self.assertTrue(any("aspect-ratio:10 / 10" in body for body in html_bodies))
+        self.assertTrue(
+            any("data:image/svg+xml;base64," in body for body in html_bodies)
+        )
+        self.assertTrue(any("<img" in body for body in html_bodies))
         source = inspect.getsource(_render_svg)
         self.assertIn("st.html", source)
+        self.assertIn("base64", source)
         self.assertNotIn("st.iframe(", source)
 
 

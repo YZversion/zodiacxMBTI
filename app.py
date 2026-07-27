@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
+import base64
 import html
-import re
 from datetime import date, time
 
 import streamlit as st
@@ -555,11 +555,11 @@ summary:focus-visible {
   border-radius: 12px;
   background: var(--zx-surface);
 }
-.zx-natal-chart svg {
+.zx-natal-chart img {
   display: block;
-  width: 100% !important;
+  width: 100%;
   max-width: 100%;
-  height: auto !important;
+  height: auto;
   margin: 0 auto;
 }
 
@@ -624,6 +624,39 @@ def _require_api_key() -> str:
         )
         st.stop()
     return key
+
+
+def _friendly_error_message(exc: BaseException | str, *, kind: str = "api") -> str:
+    """Map technical failures to short Chinese copy for end users."""
+    text = str(exc)
+    lower = text.lower()
+    if kind == "place" or isinstance(exc, PlaceLookupError):
+        return PLACE_HINT
+    if any(token in lower for token in ("429", "rate limit", "too many requests", "quota")):
+        return "系统访问有点忙，请稍候再试。"
+    if any(
+        token in lower
+        for token in ("500", "502", "503", "504", "server error", "internal error", "overloaded")
+    ):
+        return "系统已躺下，晚安💤"
+    if any(
+        token in lower
+        for token in ("401", "403", "invalid api key", "authentication", "unauthorized")
+    ):
+        return "解读服务暂时不可用，请稍后再试。"
+    if "400" in lower or "bad request" in lower:
+        if kind == "place" or "geonames" in lower or "city" in lower or "place" in lower:
+            return PLACE_HINT
+        return "系统访问频繁，请稍候再试。"
+    if kind == "chart":
+        return "排盘暂时没成功，请检查出生信息后重试。"
+    return "解读服务暂时不可用，请稍后再试。"
+
+
+def _show_user_error(exc: BaseException | str, *, kind: str = "api") -> None:
+    st.error(_friendly_error_message(exc, kind=kind))
+    with st.expander("技术详情", expanded=False):
+        st.code(str(exc))
 
 
 def _init_state() -> None:
@@ -777,40 +810,16 @@ def _render_coordinate_strip(
 
 
 def _render_svg(svg: str) -> None:
-    # Render inline via st.html — not st.iframe. Mobile Cloud still measures
-    # iframe height="content" as 0px even when the chart is outside expanders;
-    # page-DOM SVG sizes with normal CSS and stays visible on phones.
-    root_match = re.search(r"<svg\b[^>]*>", svg, re.IGNORECASE)
-    if not root_match:
+    # st.html DOMPurify strips raw <svg>; embed as base64 <img> instead.
+    # Do not use st.iframe (mobile height="content" often measures 0px).
+    if "<svg" not in (svg or "").lower():
         st.error("星盘图形格式无效，请重新生成。")
         return
-    opening = root_match.group(0)
-    viewbox_match = re.search(
-        r"\bviewBox\s*=\s*(['\"])([^'\"]+)\1", opening, re.IGNORECASE
-    )
-    intrinsic_width, intrinsic_height = "1", "1"
-    if viewbox_match:
-        viewbox = viewbox_match.group(2).replace(",", " ").split()
-        if len(viewbox) == 4:
-            intrinsic_width, intrinsic_height = viewbox[2], viewbox[3]
-    chart_style = (
-        "display:block;"
-        "width:100%;"
-        "max-width:100%;"
-        "height:auto;"
-        f"aspect-ratio:{intrinsic_width} / {intrinsic_height};"
-    )
-    style_marker = re.search(r"\sstyle\s*=\s*(['\"])", opening, re.IGNORECASE)
-    if style_marker:
-        quote = style_marker.group(1)
-        style_end = opening.find(quote, style_marker.end())
-        opening = opening[:style_end] + ";" + chart_style + opening[style_end:]
-    else:
-        opening = opening[:-1] + f' style="{chart_style}">'
-    styled_svg = svg[: root_match.start()] + opening + svg[root_match.end() :]
+    b64 = base64.b64encode(svg.encode("utf-8")).decode("ascii")
     st.html(
         '<div class="zx-natal-chart" role="img" aria-label="本命盘">'
-        f"{styled_svg}"
+        f'<img alt="本命盘" src="data:image/svg+xml;base64,{b64}" '
+        'style="width:100%;height:auto;display:block"/>'
         "</div>"
     )
 
@@ -849,11 +858,13 @@ def main() -> None:
                 help="若列表中没有你的国家，填写两位字母代码（如德国 DE）。",
             )
         birth_date = st.date_input(
-            "出生日期",
+            "出生日期（公历）",
             value=date(1995, 1, 1),
             min_value=date(1920, 1, 1),
             max_value=date.today(),
+            help="请填阳历（公历），与身份证/日历一致；暂不支持阴历换算。",
         )
+        st.caption("请填阳历（公历），与身份证/日历一致；暂不支持阴历换算。")
         time_unknown = st.checkbox("不知道出生时间", value=False)
         birth_time = st.time_input(
             "出生时间",
@@ -862,10 +873,13 @@ def main() -> None:
         )
         city = st.text_input(
             "出生城市",
-            placeholder="Shanghai",
+            placeholder="如 Shanghai、Xi'an、Taiyuan",
             help=PLACE_HINT,
         )
-        st.caption("请使用拼音或英文城市名，例如 Shanghai、Beijing。")
+        st.caption(
+            "拼音/英文城市名最稳。山西 → Taiyuan / Shanxi；"
+            "陕西 → Xi'an / Shaanxi（注意双 a）。也可试中文市名。"
+        )
 
     with st.container(border=True):
         st.markdown("#### 人格参照")
@@ -938,10 +952,10 @@ def main() -> None:
                         geonames_username=geonames,
                     )
             except PlaceLookupError as exc:
-                st.error(str(exc))
+                _show_user_error(exc, kind="place")
                 st.stop()
             except Exception as exc:  # noqa: BLE001
-                st.error(f"排盘失败：{exc}")
+                _show_user_error(exc, kind="chart")
                 st.stop()
 
             st.session_state.chart = chart
@@ -957,7 +971,7 @@ def main() -> None:
                     )
                 )
             except Exception as exc:  # noqa: BLE001
-                st.error(f"解读生成失败：{exc}")
+                _show_user_error(exc, kind="api")
                 st.stop()
 
             text = (report or "").strip() if isinstance(report, str) else str(report or "").strip()
@@ -977,7 +991,7 @@ def main() -> None:
                         )
                     text = upsert_question_section(text, section)
                 except Exception as exc:  # noqa: BLE001
-                    st.error(f"针对你问题的分析补全失败，本次结果未保存：{exc}")
+                    _show_user_error(exc, kind="api")
                     st.stop()
             st.session_state.report_text = text
             st.session_state.main_user_question = q
@@ -996,48 +1010,50 @@ def main() -> None:
         st.subheader("你的隐藏人格")
         _render_persona_card(chart)
 
-        try:
-            page_html = build_report_html(
-                chart=chart,
-                report_text=report_text,
-                tarot_cards=st.session_state.tarot_cards,
-                tarot_text=st.session_state.tarot_text,
-            )
-            st.download_button(
-                label="下载完整页面（HTML）",
-                data=page_html.encode("utf-8"),
-                file_name="星盘MBTI完整报告.html",
-                mime="text/html; charset=utf-8",
-                use_container_width=True,
-                type="primary",
-                help="含摘要、人设卡、星盘图、报告与塔罗牌面。用浏览器打开后可「打印 → 另存为 PDF」。",
-                key="dl_full_html",
-            )
-        except Exception as exc:  # noqa: BLE001
-            st.warning(f"完整页面导出失败：{exc}")
+        with st.expander("下载报告（可选）", expanded=False):
+            try:
+                page_html = build_report_html(
+                    chart=chart,
+                    report_text=report_text,
+                    tarot_cards=st.session_state.tarot_cards,
+                    tarot_text=st.session_state.tarot_text,
+                )
+                st.download_button(
+                    label="下载完整页面（HTML）",
+                    data=page_html.encode("utf-8"),
+                    file_name="星盘MBTI完整报告.html",
+                    mime="text/html; charset=utf-8",
+                    use_container_width=True,
+                    type="primary",
+                    help="含摘要、人设卡、星盘图、报告与塔罗牌面。用浏览器打开后可「打印 → 另存为 PDF」。",
+                    key="dl_full_html",
+                )
+            except Exception as exc:  # noqa: BLE001
+                st.warning(f"完整页面导出失败：{exc}")
 
-        try:
-            pdf_bytes = build_report_pdf(
-                chart=chart,
-                report_text=report_text,
-                tarot_cards=st.session_state.tarot_cards,
-                tarot_text=st.session_state.tarot_text,
-            )
-            st.download_button(
-                label="下载文字版 PDF",
-                data=pdf_bytes,
-                file_name="星盘MBTI解读报告.pdf",
-                mime="application/pdf",
-                use_container_width=True,
-                help="轻量文字版，不含星盘大图与牌面图。",
-                key="dl_text_pdf",
-            )
-        except FontNotFoundError as exc:
-            st.warning(str(exc))
-        except Exception as exc:  # noqa: BLE001
-            st.warning(f"PDF 生成失败：{exc}")
+            try:
+                pdf_bytes = build_report_pdf(
+                    chart=chart,
+                    report_text=report_text,
+                    tarot_cards=st.session_state.tarot_cards,
+                    tarot_text=st.session_state.tarot_text,
+                )
+                st.download_button(
+                    label="下载文字版 PDF",
+                    data=pdf_bytes,
+                    file_name="星盘MBTI解读报告.pdf",
+                    mime="application/pdf",
+                    use_container_width=True,
+                    help="轻量文字版，不含星盘大图与牌面图。",
+                    key="dl_text_pdf",
+                )
+            except FontNotFoundError as exc:
+                st.warning(str(exc))
+            except Exception as exc:  # noqa: BLE001
+                st.warning(f"PDF 生成失败：{exc}")
 
-        st.caption("需要带图的 PDF：先下「完整页面」，浏览器打开后打印并另存为 PDF。")
+            st.caption("需要带图的 PDF：先下「完整页面」，浏览器打开后打印并另存为 PDF。")
+
         st.subheader("你的星盘")
         if chart.preface_notes:
             for note in chart.preface_notes:
@@ -1087,7 +1103,7 @@ def main() -> None:
             except Exception as exc:  # noqa: BLE001
                 st.session_state.tarot_streaming = False
                 st.session_state.tarot_cards = None
-                st.error(f"塔罗解读失败：{exc}")
+                _show_user_error(exc, kind="api")
             else:
                 text = (
                     (tarot_text or "").strip()

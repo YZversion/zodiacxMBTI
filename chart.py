@@ -37,8 +37,9 @@ SIGN_ZH = {
 }
 
 PLACE_HINT = (
-    "请用拼音或英文城市名（如 Shanghai、Beijing），"
-    "若解析失败可改输入附近更大的城市，误差可忽略。"
+    "请用拼音或英文城市名（如 Shanghai、Xi'an、Taiyuan）；中国也可试中文市名。"
+    "山西用 Taiyuan / Shanxi，陕西用 Xi'an / Shaanxi（双 a）。"
+    "解析失败可改输附近更大城市，误差可忽略。"
 )
 
 
