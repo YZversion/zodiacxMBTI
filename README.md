@@ -94,9 +94,11 @@ data/china_cities.json # 中文城市映射表
 cache/usage.sqlite     # 本地/Cloud 匿名计数（gitignore）
 tests/                 # design_system / question_flow / persona_cards / usage_stats / mentor_batch / …
 persona_cards/         # persona_cards.json（192 真相源）
-personapicture/zodiac_tarot_masters/v1/     # 12 张星座母图（回落）
-personapicture/mbti_tarot_cards/aries/v1/   # 白羊 × 16（已接线）
-personapicture/mbti_tarot_cards/taurus/v1/  # 金牛 × 16（已接线）
+assets/cards/webp/     # 离线合成人格卡 WebP + manifest
+personapicture/zodiac_tarot_masters/v1/     # 12 张星座母图（本地；gitignored）
+personapicture/mbti_tarot_cards/aries/v1/   # 白羊 × 16（本地合成输入）
+personapicture/mbti_tarot_cards/taurus/v1/  # 金牛 × 16
+personapicture/mbti_tarot_cards/gemini/v1/  # 双子 × 16
 assets/tarot/          # LuciellaES CC0 韦特牌面
 assets/fonts/          # Noto Sans SC（PDF 中文）
 requirements.txt       # + pillow（人设 PNG）

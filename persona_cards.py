@@ -12,6 +12,7 @@ from typing import Optional
 
 ROOT = Path(__file__).resolve().parent
 CARDS_PATH = ROOT / "persona_cards" / "persona_cards.json"
+MANIFEST_PATH = ROOT / "assets" / "cards" / "manifest.json"
 MASTERS_DIR = ROOT / "personapicture" / "zodiac_tarot_masters" / "v1"
 MBTI_TAROT_ROOT = ROOT / "personapicture" / "mbti_tarot_cards"
 
@@ -135,6 +136,35 @@ def lookup_persona_card(
     if not sun_en:
         return None
     return _load_cards().get(card_id(mbti, sun_en))
+
+
+@lru_cache(maxsize=1)
+def _load_manifest() -> dict[str, dict]:
+    if not MANIFEST_PATH.is_file():
+        return {}
+    raw = json.loads(MANIFEST_PATH.read_text(encoding="utf-8"))
+    if isinstance(raw, dict) and isinstance(raw.get("cards"), list):
+        return {row["id"]: row for row in raw["cards"] if "id" in row}
+    if isinstance(raw, dict):
+        return {k: v for k, v in raw.items() if isinstance(v, dict)}
+    return {}
+
+
+def card_image_path(*, mbti: Optional[str], sun_sign: str) -> Optional[Path]:
+    """Precomposed WebP from offline build (`assets/cards/manifest.json`), or None."""
+    if not mbti or mbti.strip() in ("", "不确定"):
+        return None
+    sun_en = normalize_sun_en(sun_sign)
+    if not sun_en:
+        return None
+    entry = _load_manifest().get(card_id(mbti, sun_en))
+    if not entry:
+        return None
+    rel = entry.get("webp")
+    if not rel:
+        return None
+    path = ROOT / str(rel)
+    return path if path.is_file() else None
 
 
 def master_image_path(sun_en: str) -> Optional[Path]:

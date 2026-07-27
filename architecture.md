@@ -62,7 +62,7 @@ sun_preview.py         # approximate sun sign for form hints (not kerykeion)
 usage_stats.py         # cache/usage.sqlite counters; build_stats_snapshot for operator export
 interpret.py           # MAIN_SYSTEM / TAROT_SYSTEM / QUESTION_SECTION_SYSTEM;
                        # stream_* + generate_question_section (§4 repair)
-persona_cards.py       # 192 JSON; persona_art_path (mbti_tarot_cards or masters);
+persona_cards.py       # 192 JSON; card_image_path (manifest WebP); art helpers kept for export;
                        # HTML, st.image path, share PNG
 tarot.py               # 78-card deck + draw_three (logic only)
 tarot_ui.py            # name→asset map, flip HTML fragment, base64 faces
@@ -77,8 +77,9 @@ tests/test_mentor_batch.py
 tests/test_app_validation_smoke.py
 data/china_cities.json
 persona_cards/         # persona_cards.json (192 truth source)
-personapicture/zodiac_tarot_masters/v1/  # 12 fallback masters
-personapicture/mbti_tarot_cards/{sign}/v1/ # per-sign 16 MBTI art (Aries + Taurus shipped)
+assets/cards/          # offline composed WebP + manifest.json
+personapicture/zodiac_tarot_masters/v1/  # 12 fallback masters (local / gitignored)
+personapicture/mbti_tarot_cards/{sign}/v1/ # per-sign 16 MBTI art (compose input)
 assets/tarot/rws/      # 78 LuciellaES CC0 faces
 assets/fonts/          # NotoSansSC-Regular.ttf for PDF
 .streamlit/

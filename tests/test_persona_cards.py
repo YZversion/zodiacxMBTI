@@ -11,6 +11,7 @@ from persona_cards import (
     build_persona_card_html,
     build_persona_missing_html,
     card_id,
+    card_image_path,
     lookup_persona_card,
     master_image_path,
     normalize_sun_en,
@@ -48,6 +49,8 @@ class PersonaCardTests(unittest.TestCase):
         cards = _load_cards()
         self.assertEqual(len(cards), 192)
         self.assertEqual(len({c.nickname for c in cards.values()}), 192)
+        if not MASTERS_DIR.is_dir():
+            self.skipTest("personapicture masters not present (offline-only art)")
         for sun in (
             "Aries",
             "Taurus",
@@ -85,6 +88,18 @@ class PersonaCardTests(unittest.TestCase):
                 },
             )
 
+    def test_composed_webp_from_manifest(self) -> None:
+        from persona_cards import _load_manifest
+
+        _load_manifest.cache_clear()
+        path = card_image_path(mbti="INTJ", sun_sign="Taurus")
+        self.assertIsNotNone(path)
+        assert path is not None
+        self.assertTrue(path.is_file())
+        self.assertEqual(path.suffix.lower(), ".webp")
+        self.assertIsNone(card_image_path(mbti="INTJ", sun_sign="Scorpio"))
+        self.assertIsNone(card_image_path(mbti="不确定", sun_sign="Taurus"))
+
     def test_tarot_master_art_is_shown_without_cropping(self) -> None:
         self.assertIn("aspect-ratio: 3 / 5", PERSONA_CARD_CSS)
         self.assertIn("object-fit: contain", PERSONA_CARD_CSS)
@@ -113,6 +128,8 @@ class PersonaCardTests(unittest.TestCase):
         self.assertIn("base64,", fragment)
 
     def test_aries_prefers_unique_mbti_card(self) -> None:
+        if not (MBTI_TAROT_ROOT / "aries" / "v1").is_dir():
+            self.skipTest("aries unique art not present")
         unique = unique_mbti_card_path(mbti="INTJ", sun_en="Aries")
         self.assertIsNotNone(unique)
         assert unique is not None
@@ -122,6 +139,8 @@ class PersonaCardTests(unittest.TestCase):
         self.assertEqual(art, unique)
 
     def test_non_aries_falls_back_to_shared_master(self) -> None:
+        if not MASTERS_DIR.is_dir():
+            self.skipTest("personapicture masters not present")
         self.assertIsNone(unique_mbti_card_path(mbti="INTJ", sun_en="Scorpio"))
         art = persona_art_path(mbti="INTJ", sun_en="Scorpio")
         master = master_image_path("Scorpio")
@@ -129,6 +148,8 @@ class PersonaCardTests(unittest.TestCase):
         self.assertEqual(art.parent if art else None, MASTERS_DIR)
 
     def test_aries_set_has_all_16_mbti(self) -> None:
+        if not (MBTI_TAROT_ROOT / "aries" / "v1").is_dir():
+            self.skipTest("aries unique art not present")
         types = [
             "ISTJ",
             "ISFJ",
@@ -154,6 +175,8 @@ class PersonaCardTests(unittest.TestCase):
             self.assertTrue(path.is_file(), path)
 
     def test_taurus_prefers_unique_mbti_card(self) -> None:
+        if not (MBTI_TAROT_ROOT / "taurus" / "v1").is_dir():
+            self.skipTest("taurus unique art not present")
         unique = unique_mbti_card_path(mbti="INTJ", sun_en="Taurus")
         self.assertIsNotNone(unique)
         assert unique is not None
@@ -162,6 +185,8 @@ class PersonaCardTests(unittest.TestCase):
         self.assertEqual(persona_art_path(mbti="INTJ", sun_en="Taurus"), unique)
 
     def test_taurus_set_has_all_16_mbti(self) -> None:
+        if not (MBTI_TAROT_ROOT / "taurus" / "v1").is_dir():
+            self.skipTest("taurus unique art not present")
         types = [
             "ISTJ",
             "ISFJ",

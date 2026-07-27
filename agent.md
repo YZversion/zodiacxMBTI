@@ -28,7 +28,7 @@ Reversible Streamlit spike: natal chart (kerykeion) + MBTI → streamed Chinese 
 | Tarot logic | `tarot.py` stdlib `random` only — **do not change draw logic for UI** |
 | Tarot UI | `tarot_ui.py` + inline `st.html` flip fragment; LuciellaES assets |
 | Export | `report_export.py` — full HTML snapshot + text PDF (`fpdf2`); §6 via `split_main_and_extensions` |
-| Persona cards | `persona_cards.py` + `persona_cards/persona_cards.json` + `personapicture/zodiac_tarot_masters/v1/` (12 masters); unique art in `mbti_tarot_cards/{aries,taurus}/v1/` (16 each); lookup only — **never LLM-invent nicknames** |
+| Persona cards | `persona_cards.py` + `persona_cards/persona_cards.json` + offline WebP in `assets/cards/` via `card_image_path` / `manifest.json`; compose with `tools/build_cards.py`. Original art lives locally under `personapicture/` (gitignored). Lookup only — **never LLM-invent nicknames** |
 | Anonymous stats | `usage_stats.py` → `cache/usage.sqlite` (counters only; no PII) |
 | CN cities | `china_cities.py` + `data/china_cities.json` exact map |
 
@@ -49,7 +49,7 @@ Reversible Streamlit spike: natal chart (kerykeion) + MBTI → streamed Chinese 
 13. **Disclaimer / privacy** near submit CTA and in footer.
 14. **License:** MIT app code; kerykeion AGPL-3.0 while imported.
 15. **Tests:** `tests/test_design_system.py` (tokens ↔ config.toml, export, tarot fragment, natal base64 img, empty date / MBTI sentinel); `tests/test_question_flow.py`; `tests/test_persona_cards.py`; `tests/test_friendly_errors.py`; `tests/test_usage_stats.py`; `tests/test_mentor_batch.py` (sun preview, CN cities, section split, persona PNG).
-16. **Persona cards:** show after summary; key = `{MBTI}_{sun_en}` from chart sun + form MBTI;「不确定」→ missing hint, no invented card. Art = `persona_art_path`: prefer `mbti_tarot_cards/{sign}/v1/*_{MBTI}_{Sun}_*.png` when present (**Aries + Taurus** 16 each shipped), else shared 3:5 master from `zodiac_tarot_masters/v1/` (12). Optional PNG via `build_persona_share_png`. The former `zodiac_masters/v1/` set is archived and must not be used at runtime.
+16. **Persona cards:** show after summary; key = `{MBTI}_{sun_en}` from chart sun + form MBTI;「不确定」→ missing hint, no invented card. Runtime image = `card_image_path` → `assets/cards/webp/{id}.webp` from offline `tools/build_cards.py` (Aries/Taurus/Gemini shipped). No runtime Pillow compose; export HTML may still use `build_persona_card_html` until a follow-up.
 17. **Generate CTA:** fixed `key="generate_report"`; label may be `解读我的{太阳}×{MBTI}` or fallback「生成解读». Approximate sun under date is preview-only（以排盘为准）.
 18. **Usage + feedback:** `record_successful_report` only once on the just-succeeded path before `report_ready=True`. Section vote buttons for §§1–5 only; session lock per report+section; never double-count.
 

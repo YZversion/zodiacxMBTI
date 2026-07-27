@@ -12,13 +12,11 @@ from chart import PLACE_HINT, PlaceLookupError, build_chart
 from design_system import COLORS, css_variables
 from interpret import generate_question_section, stream_main_report, stream_tarot_report
 from persona_cards import (
+    FOOTNOTE,
     PERSONA_CARD_CSS,
-    build_persona_card_html,
     build_persona_missing_html,
-    build_persona_share_png,
+    card_image_path,
     lookup_persona_card,
-    persona_art_path,
-    unique_mbti_card_path,
 )
 from report_export import (
     DISCLAIMER,
@@ -908,43 +906,37 @@ def _render_question_card(question: str) -> None:
 
 
 def _render_persona_card(chart) -> None:
+    import logging
+
     card = lookup_persona_card(mbti=chart.mbti, sun_sign=chart.sun_sign)
     if card is None:
         st.html(build_persona_missing_html())
         return
 
-    # Prefer local file via st.image — raw 3MB+ PNG as base64 inside st.html
-    # often fails silently in the browser / DOMPurify path.
-    art = persona_art_path(mbti=card.mbti, sun_en=card.sun_en)
-    unique = unique_mbti_card_path(mbti=card.mbti, sun_en=card.sun_en)
-    if art is not None and art.is_file():
-        st.image(str(art.resolve()), use_container_width=True)
-        if unique is not None:
-            st.caption(f"专属卡图 · {card.mbti} × {card.sun_zh}")
-        else:
-            st.caption(f"星座母图 · {card.sun_zh}（该组合专属图尚未收录）")
-        st.html(build_persona_card_html(card, include_image=False))
+    # Runtime zero-compose: only prebuilt WebP from offline manifest.
+    path = card_image_path(mbti=card.mbti, sun_sign=card.sun_en)
+    if path is not None:
+        st.image(str(path.resolve()), use_container_width=True)
+        st.caption("长按保存")
     else:
-        st.html(build_persona_card_html(card, include_image=True))
-
-    try:
-        cache_key = f"persona_png_{card.id}"
-        png = st.session_state.get(cache_key)
-        if not isinstance(png, (bytes, bytearray)) or not png:
-            png = build_persona_share_png(card)
-            st.session_state[cache_key] = png
-        st.download_button(
-            label="下载人设卡图片（PNG）",
-            data=png,
-            file_name=f"隐藏人格_{card.mbti}_{card.sun_zh}.png",
-            mime="image/png",
-            use_container_width=True,
-            help="适合发微信/朋友圈；手机可保存后长按分享。",
-            key="dl_persona_png",
+        logging.getLogger(__name__).info(
+            "persona card image missing for %s (manifest/webp)",
+            card.id,
         )
-        st.caption("手机：下载后打开图片，长按即可转发。")
-    except Exception:  # noqa: BLE001 — share is optional
-        st.caption("人设卡图片暂不可用，仍可截图上方卡片。")
+
+    st.html(
+        f'<aside class="zx-persona-body" aria-label="隐藏人格文案">'
+        f'<p class="zx-persona-eyebrow">你的隐藏人格</p>'
+        f'<h2 class="zx-persona-nickname">{html.escape(card.nickname)}</h2>'
+        f'<p class="zx-persona-combo">{html.escape(f"{card.mbti} × {card.sun_zh}")}</p>'
+        f'<div class="zx-persona-block"><p class="zx-persona-label">人设定义</p>'
+        f'<p class="zx-persona-text">{html.escape(card.definition)}</p></div>'
+        f'<div class="zx-persona-block"><p class="zx-persona-label">出口（给你自己）</p>'
+        f'<p class="zx-persona-text">{html.escape(card.exit)}</p></div>'
+        f'<p class="zx-persona-pct">{html.escape(card.pct_line)}</p>'
+        f'<p class="zx-persona-foot">{html.escape(FOOTNOTE)}</p>'
+        f"</aside>"
+    )
 
 
 def _render_extension_folds(items: list[tuple[str, str]]) -> None:
