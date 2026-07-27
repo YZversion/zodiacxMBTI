@@ -29,6 +29,8 @@ def _db_path(override: Optional[Path] = None) -> Path:
 def _connect(path: Path) -> sqlite3.Connection:
     path.parent.mkdir(parents=True, exist_ok=True)
     conn = sqlite3.connect(str(path), timeout=5)
+    # Explicit autocommit-friendly mode; avoid nested BEGIN issues.
+    conn.isolation_level = None
     conn.execute(
         """
         CREATE TABLE IF NOT EXISTS counters (
@@ -37,7 +39,6 @@ def _connect(path: Path) -> sqlite3.Connection:
         )
         """
     )
-    conn.commit()
     return conn
 
 
@@ -100,7 +101,6 @@ def record_successful_report(
     path = _db_path(db_path)
     try:
         def _write(conn: sqlite3.Connection):
-            conn.execute("BEGIN IMMEDIATE")
             _bump(conn, COUNTER_MAIN, 1)
             if has_question:
                 _bump(conn, COUNTER_WITH_Q, 1)
@@ -127,7 +127,6 @@ def record_section_feedback(
     path = _db_path(db_path)
     try:
         def _write(conn: sqlite3.Connection):
-            conn.execute("BEGIN IMMEDIATE")
             _bump(conn, key, 1)
             conn.commit()
 

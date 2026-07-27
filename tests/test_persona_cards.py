@@ -109,7 +109,8 @@ class PersonaCardTests(unittest.TestCase):
         assert card is not None
         fragment = build_persona_card_html(card)
         self.assertIn('class="zx-persona-art"', fragment)
-        self.assertIn("data:image/png;base64,", fragment)
+        self.assertIn("data:image/", fragment)
+        self.assertIn("base64,", fragment)
 
     def test_aries_prefers_unique_mbti_card(self) -> None:
         unique = unique_mbti_card_path(mbti="INTJ", sun_en="Aries")

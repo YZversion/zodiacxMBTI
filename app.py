@@ -17,6 +17,8 @@ from persona_cards import (
     build_persona_missing_html,
     build_persona_share_png,
     lookup_persona_card,
+    persona_art_path,
+    unique_mbti_card_path,
 )
 from report_export import (
     DISCLAIMER,
@@ -325,6 +327,22 @@ h1, h2, h3,
 
 [data-testid="stCaption"] {
   color: var(--zx-muted) !important;
+}
+
+.zx-usage-stats {
+  margin: 0.55rem 0 0.15rem;
+  padding: 0.55rem 0.75rem;
+  border-left: 3px solid var(--zx-copper);
+  border-radius: 0 10px 10px 0;
+  background: rgba(18, 31, 49, 0.72);
+  font-family: var(--zx-data) !important;
+  font-size: 0.92rem;
+  letter-spacing: 0.02em;
+  color: var(--zx-coordinate) !important;
+}
+.zx-usage-stats b {
+  color: var(--zx-copper);
+  font-weight: 700;
 }
 
 [data-testid="stVerticalBlockBorderWrapper"] {
@@ -711,11 +729,16 @@ def _render_usage_caption() -> None:
             total_base=total_base,
             question_base=question_base,
         )
-        st.caption(
-            f"已生成 {stats.total} 次 · 其中 {stats.with_question} 次写下了想问的事"
+        st.html(
+            '<p class="zx-usage-stats" aria-live="polite">'
+            f"已生成 <b>{stats.total}</b> 次 · 其中 "
+            f"<b>{stats.with_question}</b> 次写下了想问的事"
+            "</p>"
         )
     except Exception:  # noqa: BLE001
-        st.caption("已生成 — · 其中 — 次写下了想问的事")
+        st.html(
+            '<p class="zx-usage-stats">已生成 — 次 · 其中 — 次写下了想问的事</p>'
+        )
 
 
 def _generate_button_label(birth_date: date | None, mbti_raw: str) -> str:
@@ -883,7 +906,21 @@ def _render_persona_card(chart) -> None:
     if card is None:
         st.html(build_persona_missing_html())
         return
-    st.html(build_persona_card_html(card))
+
+    # Prefer local file via st.image — raw 3MB+ PNG as base64 inside st.html
+    # often fails silently in the browser / DOMPurify path.
+    art = persona_art_path(mbti=card.mbti, sun_en=card.sun_en)
+    unique = unique_mbti_card_path(mbti=card.mbti, sun_en=card.sun_en)
+    if art is not None and art.is_file():
+        st.image(str(art.resolve()), use_container_width=True)
+        if unique is not None:
+            st.caption(f"专属卡图 · {card.mbti} × {card.sun_zh}")
+        else:
+            st.caption(f"星座母图 · {card.sun_zh}（该组合专属图尚未收录）")
+        st.html(build_persona_card_html(card, include_image=False))
+    else:
+        st.html(build_persona_card_html(card, include_image=True))
+
     try:
         cache_key = f"persona_png_{card.id}"
         png = st.session_state.get(cache_key)
@@ -1194,9 +1231,13 @@ def main() -> None:
             # Prefill tarot question box with the same text (user can edit)
             st.session_state.tarot_question = q
             try:
-                record_successful_report(
+                stats = record_successful_report(
                     has_question=bool(q),
                     db_path=_usage_db_path(),
+                )
+                st.session_state["usage_stats_last"] = (
+                    stats.total,
+                    stats.with_question,
                 )
             except Exception:  # noqa: BLE001 — never block report
                 pass
@@ -1206,6 +1247,7 @@ def main() -> None:
     if st.session_state.report_ready and st.session_state.chart:
         chart = st.session_state.chart
         report_text = sanitize_main_report(st.session_state.report_text or "")
+        _render_usage_caption()
 
         st.subheader("解读摘要")
         _render_question_card(st.session_state.main_user_question)

@@ -171,14 +171,33 @@ def persona_art_path(*, mbti: str, sun_en: str) -> Optional[Path]:
     return master_image_path(sun_en)
 
 
+def _web_preview_bytes(path: Path, *, max_width: int = 900) -> tuple[bytes, str]:
+    """Resize + JPEG for inline HTML (full PNG is ~3MB and often fails in st.html)."""
+    from io import BytesIO
+
+    from PIL import Image
+
+    im = Image.open(path).convert("RGB")
+    if im.width > max_width:
+        height = int(im.height * (max_width / im.width))
+        im = im.resize((max_width, height), Image.Resampling.LANCZOS)
+    buf = BytesIO()
+    im.save(buf, format="JPEG", quality=82, optimize=True)
+    return buf.getvalue(), "jpeg"
+
+
 @lru_cache(maxsize=64)
 def persona_art_data_uri(mbti: str, sun_en: str) -> Optional[str]:
     path = persona_art_path(mbti=mbti, sun_en=sun_en)
     if path is None:
         return None
-    raw = path.read_bytes()
+    try:
+        raw, subtype = _web_preview_bytes(path)
+    except Exception:  # noqa: BLE001 — fall back to original bytes
+        raw = path.read_bytes()
+        subtype = "png" if path.suffix.lower() == ".png" else "jpeg"
     b64 = base64.b64encode(raw).decode("ascii")
-    return f"data:image/png;base64,{b64}"
+    return f"data:image/{subtype};base64,{b64}"
 
 
 @lru_cache(maxsize=16)
@@ -187,9 +206,13 @@ def master_image_data_uri(sun_en: str) -> Optional[str]:
     path = master_image_path(sun_en)
     if path is None:
         return None
-    raw = path.read_bytes()
+    try:
+        raw, subtype = _web_preview_bytes(path)
+    except Exception:  # noqa: BLE001
+        raw = path.read_bytes()
+        subtype = "png"
     b64 = base64.b64encode(raw).decode("ascii")
-    return f"data:image/png;base64,{b64}"
+    return f"data:image/{subtype};base64,{b64}"
 
 
 def build_persona_card_html(
