@@ -29,6 +29,7 @@ A separate `memory.md` usually duplicates the timeline and goes stale. If someth
 | Doc | Role |
 |---|---|
 | [`log20260727.md`](log20260727.md) | 2026-07-27 UX five-fix decision log (chart img / city / calendar / errors / downloads) |
+| [`log20260727_mentor.md`](log20260727_mentor.md) | 2026-07-27 mentor batches A–C + usage stats + Aries 16 art + Cloud stats panel |
 | [`星盘MBTI解读spike需求与实施方案.md`](星盘MBTI解读spike需求与实施方案.md) | Sealed plan **v1.4** — do not reopen paper review; code wins after seal |
 
 ## Content / growth (only when that work is in scope)
@@ -38,7 +39,10 @@ A separate `memory.md` usually duplicates the timeline and goes stale. If someth
 | [`人设卡_设计稿.md`](人设卡_设计稿.md) | Persona-card copy/layout rules; JSON is truth for 192 cards |
 | [`小红书测试_物料与生态速览.md`](小红书测试_物料与生态速览.md) | XHS posting boundaries; no outbound links |
 | [`persona_cards/persona_cards_预览.md`](persona_cards/persona_cards_预览.md) | Human preview of 192 cards — edit JSON, then regenerate preview if needed |
-| [`personapicture/zodiac_tarot_masters/v1/README.md`](personapicture/zodiac_tarot_masters/v1/README.md) | Active 12 persona master art (runtime) |
+| [`personapicture/zodiac_tarot_masters/v1/README.md`](personapicture/zodiac_tarot_masters/v1/README.md) | Active 12 persona master art (runtime fallback) |
+| [`personapicture/mbti_tarot_cards/README.md`](personapicture/mbti_tarot_cards/README.md) | SOP for 16×MBTI per-sign sets; **Aries + Taurus v1 wired** |
+| [`personapicture/mbti_tarot_cards/aries/v1/README.md`](personapicture/mbti_tarot_cards/aries/v1/README.md) | Shipped Aries × 16 manifest |
+| [`personapicture/mbti_tarot_cards/taurus/v1/README.md`](personapicture/mbti_tarot_cards/taurus/v1/README.md) | Shipped Taurus × 16 manifest |
 | [`personapicture/zodiac_masters/v1/README.md`](personapicture/zodiac_masters/v1/README.md) | Archived former masters — not runtime |
 
 ## Asset attributions (rarely edited)

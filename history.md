@@ -32,7 +32,10 @@ Source of truth for the sealed plan: [`星盘MBTI解读spike需求与实施方�
 | 2026-07-24 | Persona-card art switched to `personapicture/zodiac_tarot_masters/v1/`: 12 full 3:5 Art Nouveau tarot masters, six male / six female. Former `zodiac_masters/v1/` set archived; runtime and exports now use the tarot set without cropping. |
 | 2026-07-27 | Docs map: add `DOCS.md`; sync README/SHIP/agent — no `memory.md` (use `history.md` / `agent.md` for durable context). |
 | 2026-07-27 | UX five-fix (`log20260727.md`): natal chart via base64 `<img>` (DOMPurify was stripping raw SVG); 公历 date label; Shanxi/Shaanxi city hint; friendly API errors + tech expander; downloads in collapsed expander. |
-| 2026-07-27 | Mentor triage batches A–C: empty date + MBTI sentinel defaults; dynamic CTA + privacy near submit; sun/combo hints; `usage_stats` SQLite (generation + §1–5 hit/miss); CN city map; question `text_area` up; persona PNG share. |
+| 2026-07-27 | Mentor triage batches A–C: empty date + MBTI sentinel defaults; dynamic CTA + privacy near submit; sun/combo hints; `usage_stats` SQLite (generation + §1–5 hit/miss); CN city map; question `text_area` up; persona PNG share. Commit `e09567f`. |
+| 2026-07-27 | Aries ×16 `mbti_tarot_cards/aries/v1` wired; persona art via `st.image` + JPEG preview for HTML export (`a8b1bba`). |
+| 2026-07-27 | Cloud operator panel: footer「运营统计」+ `STATS_PASSWORD` + JSON snapshot (`fcfbac4`). Docs: `log20260727_mentor.md`. |
+| 2026-07-27 | Taurus ×16 `mbti_tarot_cards/taurus/v1` ready; same lookup path as Aries (no code change). |
 
 ## Watch list (not in spike)
 

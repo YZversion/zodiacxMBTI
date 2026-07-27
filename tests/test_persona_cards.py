@@ -153,6 +153,39 @@ class PersonaCardTests(unittest.TestCase):
             assert path is not None
             self.assertTrue(path.is_file(), path)
 
+    def test_taurus_prefers_unique_mbti_card(self) -> None:
+        unique = unique_mbti_card_path(mbti="INTJ", sun_en="Taurus")
+        self.assertIsNotNone(unique)
+        assert unique is not None
+        self.assertEqual(unique.parent, MBTI_TAROT_ROOT / "taurus" / "v1")
+        self.assertIn("INTJ_Taurus", unique.name)
+        self.assertEqual(persona_art_path(mbti="INTJ", sun_en="Taurus"), unique)
+
+    def test_taurus_set_has_all_16_mbti(self) -> None:
+        types = [
+            "ISTJ",
+            "ISFJ",
+            "INFJ",
+            "INTJ",
+            "ISTP",
+            "ISFP",
+            "INFP",
+            "INTP",
+            "ESTP",
+            "ESFP",
+            "ENFP",
+            "ENTP",
+            "ESTJ",
+            "ESFJ",
+            "ENFJ",
+            "ENTJ",
+        ]
+        for mbti in types:
+            path = unique_mbti_card_path(mbti=mbti, sun_en="Taurus")
+            self.assertIsNotNone(path, mbti)
+            assert path is not None
+            self.assertTrue(path.is_file(), path)
+
     def test_missing_hint(self) -> None:
         html = build_persona_missing_html()
         self.assertIn("zx-persona-missing", html)

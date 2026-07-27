@@ -26,10 +26,11 @@ LLM API stream  (XML + MBTI + optional user_question → Chinese report)
 Result page
   • optional「本次问题」echo card
   • glass summary card (Sun / Moon / Asc × MBTI + §5 advice)
-  • persona card: 192 JSON copy + 12 zodiac master art (HTML)
+  • persona card: 192 JSON + art (MBTI×sign PNG if shipped, else 12 zodiac master)
   • wheel chart as base64 img via st.html (not raw SVG / not iframe)
-  • report §§1–5 markdown
+  • report §§1–5 markdown + per-section 准/不像我 → usage_stats
   • §6 延伸探索 → native HTML <details> folds (not st.expander)
+  • public usage caption + optional STATS_PASSWORD operator panel + JSON export
   • export: full HTML page | text PDF  (same design_system tokens)
         │
         └── optional tarot
@@ -41,7 +42,7 @@ Result page
 
 | Principle | Implication |
 |---|---|
-| One-shot report | No accounts, history, or database |
+| One-shot report | No accounts or user profiles; **anonymous aggregate counters only** (no birth/question text) |
 | One Python surface | Streamlit only |
 | One chart library | kerykeion for math + SVG + serializer |
 | Shared visuals | `design_system.py` tokens for app / HTML export / tarot stage |
@@ -55,10 +56,14 @@ Result page
 ```
 app.py                 # UI, THEME_CSS via st.html, hero, coordinate strip, orchestration
 design_system.py       # COLORS, font stacks, css_variables() → --zx-*
-chart.py               # GeoNames subject, moon ambiguity, wheel SVG prep
+chart.py               # GeoNames subject, moon ambiguity, wheel SVG prep; CN city via china_cities
+china_cities.py        # data/china_cities.json exact zh → en for GeoNames
+sun_preview.py         # approximate sun sign for form hints (not kerykeion)
+usage_stats.py         # cache/usage.sqlite counters; build_stats_snapshot for operator export
 interpret.py           # MAIN_SYSTEM / TAROT_SYSTEM / QUESTION_SECTION_SYSTEM;
                        # stream_* + generate_question_section (§4 repair)
-persona_cards.py       # load 192 JSON; lookup MBTI×sun; HTML + zodiac master URI
+persona_cards.py       # 192 JSON; persona_art_path (mbti_tarot_cards or masters);
+                       # HTML, st.image path, share PNG
 tarot.py               # 78-card deck + draw_three (logic only)
 tarot_ui.py            # name→asset map, flip HTML fragment, base64 faces
 report_export.py       # build_report_html / pdf; split_main_and_extensions;
@@ -66,21 +71,28 @@ report_export.py       # build_report_html / pdf; split_main_and_extensions;
 tests/test_design_system.py
 tests/test_question_flow.py
 tests/test_persona_cards.py
+tests/test_friendly_errors.py
+tests/test_usage_stats.py
+tests/test_mentor_batch.py
+tests/test_app_validation_smoke.py
+data/china_cities.json
+persona_cards/         # persona_cards.json (192 truth source)
+personapicture/zodiac_tarot_masters/v1/  # 12 fallback masters
+personapicture/mbti_tarot_cards/{sign}/v1/ # per-sign 16 MBTI art (Aries + Taurus shipped)
 assets/tarot/rws/      # 78 LuciellaES CC0 faces
 assets/fonts/          # NotoSansSC-Regular.ttf for PDF
-persona_cards/         # persona_cards.json (192 truth source)
-personapicture/zodiac_tarot_masters/v1/  # 12 active 3:5 full-card tarot masters
 .streamlit/
   config.toml          # dark theme aligned to COLORS; toolbarMode=minimal
   secrets.toml         # gitignored
   secrets.toml.example
-requirements.txt       # streamlit==1.59.2, kerykeion, openai, fpdf2
+requirements.txt       # streamlit==1.59.2, kerykeion, openai, fpdf2, pillow
 ```
 
 ### Adjacent (offline art / prompts; not required at runtime)
 
 ```
 personapicture/persona_card_img_prompts.json  # 192 unique-art prompts (not generated yet)
+personapicture/mbti_tarot_cards/            # 16×MBTI per-sign sets (SOP in README)
 personapicture/example/                       # style samples only
 personapicture/zodiac_masters/v1/             # archived former master set; not runtime
 人设卡_设计稿.md
@@ -91,11 +103,11 @@ personapicture/zodiac_masters/v1/             # archived former master set; not 
 | Field | Control | Notes |
 |---|---|---|
 | Birth country | select outside form | 中国/美国/…/其他 → ISO;「其他」shows 2-letter input |
-| Birth date | date | required |
-| Birth time | time +「不知道出生时间」 | checkbox → degraded report |
-| Birth city | text | pinyin/English; GeoNames |
-| MBTI | 16-type select |「不确定」→ skip cross-analysis |
-| Life question | optional text |「最近在纠结的事」; in fingerprint; drives report §4; prefills tarot Q |
+| Birth date | date | required; default empty |
+| Birth time | time +「不知道出生时间」 | default checkbox **on** → degraded report |
+| Birth city | text | CN 中文 / pinyin / English; `maybe_resolve_city` when nation=CN |
+| MBTI | select | sentinel「请选择类型」;「不确定」last → skip cross-analysis |
+| Life question | optional text_area | above MBTI; in fingerprint; drives §4; prefills tarot Q |
 
 ### Unknown birth time
 
@@ -133,10 +145,15 @@ UI/HTML: `split_main_and_extensions` keeps §§1–5 in the main prose and rende
 | Atmosphere | CSS grid + deep gradient on `stAppViewContainer` (no remote fonts; grain animation removed) |
 | Fonts | Display = Kaiti / Noto Serif SC; body = Noto Sans SC; data = Space Grotesk / mono |
 | Hero | Brand-first first viewport: eyebrow + title + one lede |
-| Coordinate strip | Live summary of country / date / city / MBTI while filling the form |
+| Coordinate strip | Live summary of date / time / city / MBTI while filling the form |
+| Sun / combo hints | `sun_preview.approximate_sun_sign_zh` (labeled 以排盘为准) |
+| Generate CTA | `st.button(..., key="generate_report")`; dynamic label when date+MBTI set |
+| Usage caption | `get_usage_stats` → prominent HTML strip (form + result page) |
+| Section feedback | `split_numbered_sections` + buttons §1–5; `record_section_feedback`; session lock |
+| Operator stats | Footer expander if `STATS_PASSWORD` set; table + JSON download (`build_stats_snapshot`) |
 | A11y | `prefers-reduced-motion`, `button:focus-visible`, CTA text contrast |
 | Question echo | `_render_question_card` when life question was submitted |
-| Persona card | `persona_cards.lookup` → HTML (master art + nickname/definition/paradox/exit/pct); MBTI unknown → hint only |
+| Persona card | lookup → `st.image` for art file + HTML body (no huge inline base64); Aries 16 PNG path |
 | Summary card | glass HTML via `st.html` |
 | Chart | wheel-only SVG as base64 `<img>` via `st.html` (DOMPurify strips raw SVG; no iframe) + CJK font injection |
 | §6 folds | native HTML `<details>` via `st.html` (avoid Streamlit material-icon expander collision) |
@@ -148,7 +165,7 @@ UI/HTML: `split_main_and_extensions` keeps §§1–5 in the main prose and rende
 
 - **Dev:** `.\.venv\Scripts\streamlit.exe run app.py` (Windows) / `streamlit run app.py`
 - **Prod:** Streamlit Community Cloud, entry `app.py`, Secrets mirrored from local
-- **Observability:** Cloud visits + LLM dashboard counts (chart vs tarot)
+- **Observability:** Cloud visits + LLM dashboard counts; in-app `usage_stats` (ephemeral on Cloud — export JSON); optional `GENERATION_COUNT_BASE` / `QUESTION_COUNT_BASE` in Secrets
 
 ## License / dependency boundary
 
@@ -162,4 +179,4 @@ UI/HTML: `split_main_and_extensions` keeps §§1–5 in the main prose and rende
 
 ## Explicitly not in the architecture
 
-Scrapers, generative chart images, MBTI quiz banks, user tables, React SPAs, CI/cron/APM, Bloom-style scroll-video shell inside Streamlit, runtime generation of 192 unique persona illustrations (12 masters + text overlay only).
+Scrapers, generative chart images, MBTI quiz banks, user tables, React SPAs, CI/cron/APM, Bloom-style scroll-video shell inside Streamlit. Per-sign 192 unique art is **incremental** (`mbti_tarot_cards/`); Aries + Taurus v1 live; other signs still use 12 masters.
