@@ -9,7 +9,7 @@ Reversible Streamlit spike: natal chart (kerykeion) + MBTI → streamed Chinese 
 ## Non-negotiable boundaries
 
 - **Spike, not product.** No accounts, no user history, no marketing, no payment.
-- **Anonymous stats only:** `usage_stats.py` → `cache/usage.sqlite` may store aggregate counters (`main_report`, with/without question, `s{n}_hit|miss`). **Never** store birth data, city, MBTI, or question text. Stats failures must not block the report.
+- **Anonymous stats only:** `usage_stats.py` → `cache/usage.sqlite` may store aggregate counters (`main_report`, with/without question, `s{n}_hit|miss`). **Never** store birth data, city, MBTI, or question text. Stats failures must not block the report. Operator view: footer expander「运营统计」gated by `STATS_PASSWORD` secret + JSON download (Cloud ephemeral — backup often).
 - **Do not rebuild deleted scope:** no astro-seek scraping, no GPT-generated chart images, no built-in MBTI quiz, no React/Vercel custom frontend, no CI/cron/monitoring unless the human explicitly expands the timebox.
 - **Secrets never in git.** Keys live in `.streamlit/secrets.toml` (gitignored) or Streamlit Cloud Secrets.
 - **Privacy:** do not log or persist birth data.

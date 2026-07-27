@@ -37,7 +37,12 @@ from report_export import (
 from sun_preview import approximate_sun_sign_zh
 from tarot import DrawnCard, draw_three
 from tarot_ui import build_flip_html
-from usage_stats import get_usage_stats, record_section_feedback, record_successful_report
+from usage_stats import (
+    build_stats_snapshot,
+    get_usage_stats,
+    record_section_feedback,
+    record_successful_report,
+)
 from china_cities import resolve_china_city
 
 MBTI_PLACEHOLDER = "请选择类型"
@@ -694,6 +699,7 @@ def _init_state() -> None:
         "tarot_streaming": False,
         "main_user_question": "",
         "section_feedback_votes": {},
+        "stats_unlocked": False,
     }
     for k, v in defaults.items():
         if k not in st.session_state:
@@ -1034,6 +1040,86 @@ def _footer() -> None:
     st.divider()
     st.caption(PRIVACY)
     st.caption(DISCLAIMER)
+    _render_stats_panel()
+
+
+def _render_stats_panel() -> None:
+    """Password-gated operator stats. Hidden entirely if STATS_PASSWORD unset."""
+    import hmac
+    import json
+    from datetime import datetime, timezone
+
+    expected = _secret("STATS_PASSWORD", "").strip()
+    if not expected:
+        return
+
+    if "stats_unlocked" not in st.session_state:
+        st.session_state.stats_unlocked = False
+
+    with st.expander("运营统计（需密码）", expanded=False):
+        if not st.session_state.stats_unlocked:
+            pwd = st.text_input(
+                "统计密码",
+                type="password",
+                key="stats_password_input",
+                autocomplete="current-password",
+            )
+            if st.button("查看统计", key="stats_unlock_btn"):
+                if pwd and hmac.compare_digest(pwd, expected):
+                    st.session_state.stats_unlocked = True
+                    st.rerun()
+                else:
+                    st.error("密码不对。")
+            st.caption("仅运营查看匿名计数；不含出生信息或问题原文。")
+            return
+
+        total_base, question_base = _usage_bases()
+        snap = build_stats_snapshot(
+            db_path=_usage_db_path(),
+            total_base=total_base,
+            question_base=question_base,
+        )
+        st.markdown(
+            f"**已生成** {snap['total']} 次 · "
+            f"**写了问题** {snap['with_question']} 次 · "
+            f"**未写问题** {snap['without_question']} 次"
+        )
+        if snap["total_base"] or snap["question_base"]:
+            st.caption(
+                f"含 secrets 基数：GENERATION_COUNT_BASE={snap['total_base']}，"
+                f"QUESTION_COUNT_BASE={snap['question_base']}"
+            )
+        rows = []
+        for s in snap["sections"]:
+            rate = s["hit_rate"]
+            rate_txt = "—" if rate is None else f"{rate * 100:.0f}%"
+            rows.append(
+                {
+                    "节": f"§{s['section']}",
+                    "准": s["hit"],
+                    "不像我": s["miss"],
+                    "命中率": rate_txt,
+                }
+            )
+        st.dataframe(rows, hide_index=True, use_container_width=True)
+        st.caption(
+            "Cloud 容器重建后计数可能归零；请定期下载 JSON 备份。"
+        )
+        payload = {
+            "exported_at": datetime.now(timezone.utc).isoformat(),
+            **snap,
+        }
+        st.download_button(
+            label="下载统计 JSON",
+            data=json.dumps(payload, ensure_ascii=False, indent=2).encode("utf-8"),
+            file_name="usage_stats_snapshot.json",
+            mime="application/json",
+            key="dl_stats_json",
+            use_container_width=True,
+        )
+        if st.button("锁定统计", key="stats_lock_btn"):
+            st.session_state.stats_unlocked = False
+            st.rerun()
 
 
 def main() -> None:

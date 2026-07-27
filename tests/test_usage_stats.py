@@ -43,6 +43,22 @@ class UsageStatsTests(unittest.TestCase):
         hit, miss = get_section_feedback_counts(6, db_path=self.db)
         self.assertEqual((hit, miss), (0, 0))
 
+    def test_stats_snapshot_includes_sections(self) -> None:
+        from usage_stats import build_stats_snapshot
+
+        record_successful_report(has_question=True, db_path=self.db)
+        record_section_feedback(section=2, hit=True, db_path=self.db)
+        record_section_feedback(section=2, hit=False, db_path=self.db)
+        snap = build_stats_snapshot(db_path=self.db)
+        self.assertEqual(snap["total"], 1)
+        self.assertEqual(snap["with_question"], 1)
+        self.assertEqual(len(snap["sections"]), 5)
+        s2 = snap["sections"][1]
+        self.assertEqual(s2["hit"], 1)
+        self.assertEqual(s2["miss"], 1)
+        self.assertAlmostEqual(s2["hit_rate"], 0.5)
+        self.assertIn("main_report", snap["raw_counters"])
+
 
 if __name__ == "__main__":
     unittest.main()

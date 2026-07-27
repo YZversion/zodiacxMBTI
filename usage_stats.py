@@ -151,3 +151,51 @@ def get_section_feedback_counts(
         return _run(path, _read)
     except Exception:  # noqa: BLE001
         return 0, 0
+
+
+def build_stats_snapshot(
+    *,
+    db_path: Optional[Path] = None,
+    total_base: int = 0,
+    question_base: int = 0,
+) -> dict:
+    """Anonymous aggregate snapshot for operator backup (no PII)."""
+    usage = get_usage_stats(
+        db_path=db_path,
+        total_base=total_base,
+        question_base=question_base,
+    )
+    sections: list[dict] = []
+    for n in range(1, 6):
+        hit, miss = get_section_feedback_counts(n, db_path=db_path)
+        total_votes = hit + miss
+        rate = (hit / total_votes) if total_votes else None
+        sections.append(
+            {
+                "section": n,
+                "hit": hit,
+                "miss": miss,
+                "hit_rate": None if rate is None else round(rate, 4),
+            }
+        )
+    raw: dict[str, int] = {}
+    path = _db_path(db_path)
+    try:
+        def _dump(conn: sqlite3.Connection):
+            rows = conn.execute(
+                "SELECT name, value FROM counters ORDER BY name"
+            ).fetchall()
+            return {str(name): int(value) for name, value in rows}
+
+        raw = _run(path, _dump)
+    except Exception:  # noqa: BLE001
+        raw = {}
+    return {
+        "total": usage.total,
+        "with_question": usage.with_question,
+        "without_question": usage.without_question,
+        "total_base": max(0, total_base),
+        "question_base": max(0, question_base),
+        "sections": sections,
+        "raw_counters": raw,
+    }
