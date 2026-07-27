@@ -2,6 +2,8 @@
 
 Spike architecture for **zodiacxMBTI**: one straight pipeline, no persistent state.
 
+Doc map: [`DOCS.md`](DOCS.md). Agent rules: [`agent.md`](agent.md).
+
 ## System diagram
 
 ```

@@ -30,6 +30,7 @@ Source of truth for the sealed plan: [`星盘MBTI解读spike需求与实施方�
 | 2026-07-24 | Fix: natal chart SVG no longer inside collapsed `st.expander` — Cloud first paint measured iframe height as 0px; chart now inline with responsive `height="content"`. |
 | 2026-07-24 | Fix: mobile still hid chart (iframe `height="content"` → 0). Switch natal SVG to `st.html` page-DOM render with CSS `aspect-ratio`; drop `st.iframe`. |
 | 2026-07-24 | Persona-card art switched to `personapicture/zodiac_tarot_masters/v1/`: 12 full 3:5 Art Nouveau tarot masters, six male / six female. Former `zodiac_masters/v1/` set archived; runtime and exports now use the tarot set without cropping. |
+| 2026-07-27 | Docs map: add `DOCS.md`; sync README/SHIP/agent — no `memory.md` (use `history.md` / `agent.md` for durable context). |
 
 ## Watch list (not in spike)
 

@@ -54,17 +54,21 @@ Implemented end-to-end: optional life-question (+ §4 repair), persona card (192
 
 ## Docs to read before coding
 
-1. [`星盘MBTI解读spike需求与实施方案.md`](星盘MBTI解读spike需求与实施方案.md) — sealed plan v1.4
+Doc map: [`DOCS.md`](DOCS.md). **Do not add `memory.md`** — use `history.md` / `agent.md` instead.
+
+1. [`agent.md`](agent.md) — this file (boundaries first)
 2. [architecture.md](architecture.md) — runtime shape
-3. [history.md](history.md) — decisions + timeline
-4. [SHIP.md](SHIP.md) — pre-share checklist
-5. [`人设卡_设计稿.md`](人设卡_设计稿.md) — only when working on persona-card content/art (not default app work)
+3. [`星盘MBTI解读spike需求与实施方案.md`](星盘MBTI解读spike需求与实施方案.md) — sealed plan v1.4 (only if revisiting product scope)
+4. [history.md](history.md) — decisions + timeline
+5. [SHIP.md](SHIP.md) — pre-share checklist
+6. [`人设卡_设计稿.md`](人设卡_设计稿.md) — only when working on persona-card content/art
 
 ## Out of scope unless asked
 
-Commercialization, payment, Law 25 build-out, English UI, conversational follow-ups, classical aspect rule-banks, Bloom-style scroll video landing (separate static page only if requested), runtime generation of 192 unique persona illustrations.
+Commercialization, payment, Law 25 build-out, English UI, conversational follow-ups, classical aspect rule-banks, Bloom-style scroll video landing (separate static page only if requested), runtime generation of 192 unique persona illustrations, inventing a `memory.md` layer.
 
 ## Commit hygiene
 
 - Never commit `.streamlit/secrets.toml` or API keys.
 - Do not commit unless the human asks.
+- After a non-trivial ship/fix, append one row to `history.md` (not a separate memory file).
