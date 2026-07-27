@@ -704,6 +704,182 @@
       "rarity_label": "最稀有",
       "sun_en": "Cancer",
       "mbti": "ENTJ"
+    },
+    {
+      "id": "ISTJ_Leo",
+      "webp": "assets/cards/webp/ISTJ_Leo.webp",
+      "index": 65,
+      "nickname": "低调王座",
+      "paradox": "你说不在乎虚名，庆功宴漏了你，你能记半年",
+      "pct": 1.0,
+      "rarity_label": "常见",
+      "sun_en": "Leo",
+      "mbti": "ISTJ"
+    },
+    {
+      "id": "ISFJ_Leo",
+      "webp": "assets/cards/webp/ISFJ_Leo.webp",
+      "index": 66,
+      "nickname": "幕后女王",
+      "paradox": "你甘当绿叶，又暗暗希望有人非你这片叶不可",
+      "pct": 1.0,
+      "rarity_label": "常见",
+      "sun_en": "Leo",
+      "mbti": "ISFJ"
+    },
+    {
+      "id": "INFJ_Leo",
+      "webp": "assets/cards/webp/INFJ_Leo.webp",
+      "index": 67,
+      "nickname": "加冕隐士",
+      "paradox": "你不屑争抢聚光灯，又暗暗失落没人为你打光",
+      "pct": 0.12,
+      "rarity_label": "最稀有",
+      "sun_en": "Leo",
+      "mbti": "INFJ"
+    },
+    {
+      "id": "INTJ_Leo",
+      "webp": "assets/cards/webp/INTJ_Leo.webp",
+      "index": 68,
+      "nickname": "王座工程师",
+      "paradox": "你说作品会说话，又气作品说话没人听",
+      "pct": 0.21,
+      "rarity_label": "稀有",
+      "sun_en": "Leo",
+      "mbti": "INTJ"
+    },
+    {
+      "id": "ISTP_Leo",
+      "webp": "assets/cards/webp/ISTP_Leo.webp",
+      "index": 69,
+      "nickname": "酷盖修理王",
+      "paradox": "你享受被膜拜的瞬间，又嫌粉丝烦",
+      "pct": 0.46,
+      "rarity_label": "较为常见",
+      "sun_en": "Leo",
+      "mbti": "ISTP"
+    },
+    {
+      "id": "ISFP_Leo",
+      "webp": "assets/cards/webp/ISFP_Leo.webp",
+      "index": 70,
+      "nickname": "羞涩巨星",
+      "paradox": "你渴望掌声，掌声真响起来又想找地缝",
+      "pct": 0.67,
+      "rarity_label": "较为常见",
+      "sun_en": "Leo",
+      "mbti": "ISFP"
+    },
+    {
+      "id": "INFP_Leo",
+      "webp": "assets/cards/webp/INFP_Leo.webp",
+      "index": 71,
+      "nickname": "戏精独角兽",
+      "paradox": "你幻想过一万次高光时刻，报名表却一次没交",
+      "pct": 0.38,
+      "rarity_label": "少见",
+      "sun_en": "Leo",
+      "mbti": "INFP"
+    },
+    {
+      "id": "INTP_Leo",
+      "webp": "assets/cards/webp/INTP_Leo.webp",
+      "index": 72,
+      "nickname": "高冷猫王",
+      "paradox": "你想要被认可，真被捧了又觉得“你们懂个屁”",
+      "pct": 0.29,
+      "rarity_label": "少见",
+      "sun_en": "Leo",
+      "mbti": "INTP"
+    },
+    {
+      "id": "ESTP_Leo",
+      "webp": "assets/cards/webp/ESTP_Leo.webp",
+      "index": 73,
+      "nickname": "全场焦点兽",
+      "paradox": "你享受万众瞩目，冷场三秒就开始怀疑人生",
+      "pct": 0.38,
+      "rarity_label": "少见",
+      "sun_en": "Leo",
+      "mbti": "ESTP"
+    },
+    {
+      "id": "ESFP_Leo",
+      "webp": "assets/cards/webp/ESFP_Leo.webp",
+      "index": 74,
+      "nickname": "人间镁光灯",
+      "paradox": "你怕没人看你，更怕有人看穿你",
+      "pct": 0.67,
+      "rarity_label": "较为常见",
+      "sun_en": "Leo",
+      "mbti": "ESFP"
+    },
+    {
+      "id": "ENFP_Leo",
+      "webp": "assets/cards/webp/ENFP_Leo.webp",
+      "index": 75,
+      "nickname": "彩虹小太阳",
+      "paradox": "你温暖了所有人，电量告急时只会硬撑着笑",
+      "pct": 0.67,
+      "rarity_label": "较为常见",
+      "sun_en": "Leo",
+      "mbti": "ENFP"
+    },
+    {
+      "id": "ENTP_Leo",
+      "webp": "assets/cards/webp/ENTP_Leo.webp",
+      "index": 76,
+      "nickname": "金句制造机",
+      "paradox": "你要全场记住你的话，忘了问别人爱不爱听",
+      "pct": 0.29,
+      "rarity_label": "少见",
+      "sun_en": "Leo",
+      "mbti": "ENTP"
+    },
+    {
+      "id": "ESTJ_Leo",
+      "webp": "assets/cards/webp/ESTJ_Leo.webp",
+      "index": 77,
+      "nickname": "气场管理员",
+      "paradox": "你最怕被说“你需要人陪”，却把孤独藏进加班里",
+      "pct": 0.83,
+      "rarity_label": "常见",
+      "sun_en": "Leo",
+      "mbti": "ESTJ"
+    },
+    {
+      "id": "ESFJ_Leo",
+      "webp": "assets/cards/webp/ESFJ_Leo.webp",
+      "index": 78,
+      "nickname": "排面担当",
+      "paradox": "你把排面给足所有人，自己受的委屈按下不表",
+      "pct": 0.92,
+      "rarity_label": "常见",
+      "sun_en": "Leo",
+      "mbti": "ESFJ"
+    },
+    {
+      "id": "ENFJ_Leo",
+      "webp": "assets/cards/webp/ENFJ_Leo.webp",
+      "index": 79,
+      "nickname": "灯塔本塔",
+      "paradox": "你必须永远正确、永远发光，错一次就整夜失眠",
+      "pct": 0.21,
+      "rarity_label": "稀有",
+      "sun_en": "Leo",
+      "mbti": "ENFJ"
+    },
+    {
+      "id": "ENTJ_Leo",
+      "webp": "assets/cards/webp/ENTJ_Leo.webp",
+      "index": 80,
+      "nickname": "王中王",
+      "paradox": "你什么场子都镇得住，唯独镇不住深夜的自我怀疑",
+      "pct": 0.12,
+      "rarity_label": "最稀有",
+      "sun_en": "Leo",
+      "mbti": "ENTJ"
     }
   ]
 }
