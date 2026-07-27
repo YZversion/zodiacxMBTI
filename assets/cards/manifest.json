@@ -528,6 +528,182 @@
       "rarity_label": "最稀有",
       "sun_en": "Gemini",
       "mbti": "ENTJ"
+    },
+    {
+      "id": "ISTJ_Cancer",
+      "webp": "assets/cards/webp/ISTJ_Cancer.webp",
+      "index": 49,
+      "nickname": "祖传守夜人",
+      "paradox": "你守着全家的秩序，最怕的变故是有人长大离家",
+      "pct": 1.0,
+      "rarity_label": "常见",
+      "sun_en": "Cancer",
+      "mbti": "ISTJ"
+    },
+    {
+      "id": "ISFJ_Cancer",
+      "webp": "assets/cards/webp/ISFJ_Cancer.webp",
+      "index": 50,
+      "nickname": "情绪收纳师",
+      "paradox": "你记得全家人的生日，却说不清自己想要什么",
+      "pct": 1.0,
+      "rarity_label": "常见",
+      "sun_en": "Cancer",
+      "mbti": "ISFJ"
+    },
+    {
+      "id": "INFJ_Cancer",
+      "webp": "assets/cards/webp/INFJ_Cancer.webp",
+      "index": 51,
+      "nickname": "读心管家",
+      "paradox": "你能接住所有人的情绪，自己的情绪只在深夜放风",
+      "pct": 0.12,
+      "rarity_label": "最稀有",
+      "sun_en": "Cancer",
+      "mbti": "INFJ"
+    },
+    {
+      "id": "INTJ_Cancer",
+      "webp": "assets/cards/webp/INTJ_Cancer.webp",
+      "index": 52,
+      "nickname": "铁壳软心兽",
+      "paradox": "把在乎的人写进十年规划，却说不出一句“我想你”",
+      "pct": 0.21,
+      "rarity_label": "稀有",
+      "sun_en": "Cancer",
+      "mbti": "INTJ"
+    },
+    {
+      "id": "ISTP_Cancer",
+      "webp": "assets/cards/webp/ISTP_Cancer.webp",
+      "index": 53,
+      "nickname": "闷声护崽匠",
+      "paradox": "你用干活表达感情，还怪别人收不到信号",
+      "pct": 0.46,
+      "rarity_label": "较为常见",
+      "sun_en": "Cancer",
+      "mbti": "ISTP"
+    },
+    {
+      "id": "ISFP_Cancer",
+      "webp": "assets/cards/webp/ISFP_Cancer.webp",
+      "index": 54,
+      "nickname": "家里蹲艺术家",
+      "paradox": "你把家布置成避风港，也把它住成了逃避的借口",
+      "pct": 0.67,
+      "rarity_label": "较为常见",
+      "sun_en": "Cancer",
+      "mbti": "ISFP"
+    },
+    {
+      "id": "INFP_Cancer",
+      "webp": "assets/cards/webp/INFP_Cancer.webp",
+      "index": 55,
+      "nickname": "旧事放映员",
+      "paradox": "你劝别人向前看，自己的票根一张没扔",
+      "pct": 0.38,
+      "rarity_label": "少见",
+      "sun_en": "Cancer",
+      "mbti": "INFP"
+    },
+    {
+      "id": "INTP_Cancer",
+      "webp": "assets/cards/webp/INTP_Cancer.webp",
+      "index": 56,
+      "nickname": "壳里科学家",
+      "paradox": "你能分析所有情绪的成因，就是不肯承认自己难过",
+      "pct": 0.29,
+      "rarity_label": "少见",
+      "sun_en": "Cancer",
+      "mbti": "INTP"
+    },
+    {
+      "id": "ESTP_Cancer",
+      "webp": "assets/cards/webp/ESTP_Cancer.webp",
+      "index": 57,
+      "nickname": "江湖奶爸",
+      "paradox": "你为兄弟两肋插刀，家人的电话总说“在忙”",
+      "pct": 0.38,
+      "rarity_label": "少见",
+      "sun_en": "Cancer",
+      "mbti": "ESTP"
+    },
+    {
+      "id": "ESFP_Cancer",
+      "webp": "assets/cards/webp/ESFP_Cancer.webp",
+      "index": 58,
+      "nickname": "团宠饲养员",
+      "paradox": "你投喂了整个朋友圈，饿的时候不好意思张口",
+      "pct": 0.67,
+      "rarity_label": "较为常见",
+      "sun_en": "Cancer",
+      "mbti": "ESFP"
+    },
+    {
+      "id": "ENFP_Cancer",
+      "webp": "assets/cards/webp/ENFP_Cancer.webp",
+      "index": 59,
+      "nickname": "热泪派对王",
+      "paradox": "你的快乐给所有人，眼泪只留给凌晨两点",
+      "pct": 0.67,
+      "rarity_label": "较为常见",
+      "sun_en": "Cancer",
+      "mbti": "ENFP"
+    },
+    {
+      "id": "ENTP_Cancer",
+      "webp": "assets/cards/webp/ENTP_Cancer.webp",
+      "index": 60,
+      "nickname": "嘴硬心软怪",
+      "paradox": "你用抬杠表达关心，被当真讨厌时又偷偷委屈",
+      "pct": 0.29,
+      "rarity_label": "少见",
+      "sun_en": "Cancer",
+      "mbti": "ENTP"
+    },
+    {
+      "id": "ESTJ_Cancer",
+      "webp": "assets/cards/webp/ESTJ_Cancer.webp",
+      "index": 61,
+      "nickname": "家长制暖男",
+      "paradox": "你把安排当爱，别人却只收到了压力",
+      "pct": 0.83,
+      "rarity_label": "常见",
+      "sun_en": "Cancer",
+      "mbti": "ESTJ"
+    },
+    {
+      "id": "ESFJ_Cancer",
+      "webp": "assets/cards/webp/ESFJ_Cancer.webp",
+      "index": 62,
+      "nickname": "全村的妈",
+      "paradox": "你是所有人的紧急联系人，自己那栏填的还是“无”",
+      "pct": 0.92,
+      "rarity_label": "常见",
+      "sun_en": "Cancer",
+      "mbti": "ESFJ"
+    },
+    {
+      "id": "ENFJ_Cancer",
+      "webp": "assets/cards/webp/ENFJ_Cancer.webp",
+      "index": 63,
+      "nickname": "大家长圣体",
+      "paradox": "你撑着所有人的天，塌方的时候只敢自己连夜抢修",
+      "pct": 0.21,
+      "rarity_label": "稀有",
+      "sun_en": "Cancer",
+      "mbti": "ENFJ"
+    },
+    {
+      "id": "ENTJ_Cancer",
+      "webp": "assets/cards/webp/ENTJ_Cancer.webp",
+      "index": 64,
+      "nickname": "护犊子暴君",
+      "paradox": "你用强势保护柔软，却总被当成控制狂",
+      "pct": 0.12,
+      "rarity_label": "最稀有",
+      "sun_en": "Cancer",
+      "mbti": "ENTJ"
     }
   ]
 }
