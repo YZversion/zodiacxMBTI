@@ -6,6 +6,7 @@ from pathlib import Path
 from persona_cards import (
     FOOTNOTE,
     MASTERS_DIR,
+    MBTI_TAROT_ROOT,
     PERSONA_CARD_CSS,
     build_persona_card_html,
     build_persona_missing_html,
@@ -13,6 +14,8 @@ from persona_cards import (
     lookup_persona_card,
     master_image_path,
     normalize_sun_en,
+    persona_art_path,
+    unique_mbti_card_path,
 )
 
 
@@ -107,6 +110,47 @@ class PersonaCardTests(unittest.TestCase):
         fragment = build_persona_card_html(card)
         self.assertIn('class="zx-persona-art"', fragment)
         self.assertIn("data:image/png;base64,", fragment)
+
+    def test_aries_prefers_unique_mbti_card(self) -> None:
+        unique = unique_mbti_card_path(mbti="INTJ", sun_en="Aries")
+        self.assertIsNotNone(unique)
+        assert unique is not None
+        self.assertEqual(unique.parent, MBTI_TAROT_ROOT / "aries" / "v1")
+        self.assertIn("INTJ_Aries", unique.name)
+        art = persona_art_path(mbti="INTJ", sun_en="Aries")
+        self.assertEqual(art, unique)
+
+    def test_non_aries_falls_back_to_shared_master(self) -> None:
+        self.assertIsNone(unique_mbti_card_path(mbti="INTJ", sun_en="Scorpio"))
+        art = persona_art_path(mbti="INTJ", sun_en="Scorpio")
+        master = master_image_path("Scorpio")
+        self.assertEqual(art, master)
+        self.assertEqual(art.parent if art else None, MASTERS_DIR)
+
+    def test_aries_set_has_all_16_mbti(self) -> None:
+        types = [
+            "ISTJ",
+            "ISFJ",
+            "INFJ",
+            "INTJ",
+            "ISTP",
+            "ISFP",
+            "INFP",
+            "INTP",
+            "ESTP",
+            "ESFP",
+            "ENFP",
+            "ENTP",
+            "ESTJ",
+            "ESFJ",
+            "ENFJ",
+            "ENTJ",
+        ]
+        for mbti in types:
+            path = unique_mbti_card_path(mbti=mbti, sun_en="Aries")
+            self.assertIsNotNone(path, mbti)
+            assert path is not None
+            self.assertTrue(path.is_file(), path)
 
     def test_missing_hint(self) -> None:
         html = build_persona_missing_html()

@@ -58,10 +58,26 @@ _render_coordinate_strip(
     def test_submit_with_empty_date_shows_validation_instead_of_crashing(self) -> None:
         app = AppTest.from_file(str(ROOT / "app.py")).run(timeout=20)
         app.date_input[0].set_value(None)
-        app.button[0].click()
+        # Primary generate button has fixed key
+        gen = [b for b in app.button if b.key == "generate_report"]
+        self.assertTrue(gen)
+        gen[0].click()
         app.run(timeout=20)
         self.assertEqual(len(app.exception), 0)
         self.assertEqual([item.value for item in app.error], ["请选择出生日期。"])
+
+    def test_submit_with_mbti_placeholder_blocked(self) -> None:
+        app = AppTest.from_file(str(ROOT / "app.py")).run(timeout=20)
+        app.date_input[0].set_value(date(1995, 6, 15))
+        app.text_input[0].set_value("Shanghai")
+        gen = [b for b in app.button if b.key == "generate_report"]
+        gen[0].click()
+        app.run(timeout=20)
+        self.assertEqual(len(app.exception), 0)
+        self.assertEqual(
+            [item.value for item in app.error],
+            ["请选择 MBTI 类型，或选「不确定」。"],
+        )
 
     def test_theme_has_accessibility_guards_and_no_remote_fonts(self) -> None:
         self.assertIn("@media (prefers-reduced-motion: reduce)", THEME_CSS)

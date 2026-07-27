@@ -13,6 +13,7 @@ from typing import Optional
 ROOT = Path(__file__).resolve().parent
 CARDS_PATH = ROOT / "persona_cards" / "persona_cards.json"
 MASTERS_DIR = ROOT / "personapicture" / "zodiac_tarot_masters" / "v1"
+MBTI_TAROT_ROOT = ROOT / "personapicture" / "mbti_tarot_cards"
 
 # kerykeion may emit abbr (Ari) or full (Aries); cards use full English.
 _SIGN_TO_EN: dict[str, str] = {
@@ -39,6 +40,21 @@ _SIGN_TO_EN: dict[str, str] = {
     "Aquarius": "Aquarius",
     "Pis": "Pisces",
     "Pisces": "Pisces",
+}
+
+_SIGN_FOLDER: dict[str, str] = {
+    "Aries": "aries",
+    "Taurus": "taurus",
+    "Gemini": "gemini",
+    "Cancer": "cancer",
+    "Leo": "leo",
+    "Virgo": "virgo",
+    "Libra": "libra",
+    "Scorpio": "scorpio",
+    "Sagittarius": "sagittarius",
+    "Capricorn": "capricorn",
+    "Aquarius": "aquarius",
+    "Pisces": "pisces",
 }
 
 _MASTER_FILES: dict[str, str] = {
@@ -122,6 +138,7 @@ def lookup_persona_card(
 
 
 def master_image_path(sun_en: str) -> Optional[Path]:
+    """Shared per-sign master (fallback when no MBTI-unique card exists)."""
     filename = _MASTER_FILES.get(sun_en)
     if not filename:
         return None
@@ -129,8 +146,44 @@ def master_image_path(sun_en: str) -> Optional[Path]:
     return path if path.is_file() else None
 
 
+def unique_mbti_card_path(*, mbti: str, sun_en: str) -> Optional[Path]:
+    """Prefer `mbti_tarot_cards/{sign}/v1/*_{MBTI}_{Sun}_*.png` when present."""
+    folder_name = _SIGN_FOLDER.get(sun_en)
+    if not folder_name:
+        return None
+    mbti_u = (mbti or "").strip().upper()
+    if not mbti_u or mbti_u == "不确定":
+        return None
+    folder = MBTI_TAROT_ROOT / folder_name / "v1"
+    if not folder.is_dir():
+        return None
+    matches = sorted(folder.glob(f"*_{mbti_u}_{sun_en}_*.png"))
+    if not matches:
+        return None
+    return matches[0]
+
+
+def persona_art_path(*, mbti: str, sun_en: str) -> Optional[Path]:
+    """MBTI×sign unique art first; else shared zodiac master."""
+    unique = unique_mbti_card_path(mbti=mbti, sun_en=sun_en)
+    if unique is not None:
+        return unique
+    return master_image_path(sun_en)
+
+
+@lru_cache(maxsize=64)
+def persona_art_data_uri(mbti: str, sun_en: str) -> Optional[str]:
+    path = persona_art_path(mbti=mbti, sun_en=sun_en)
+    if path is None:
+        return None
+    raw = path.read_bytes()
+    b64 = base64.b64encode(raw).decode("ascii")
+    return f"data:image/png;base64,{b64}"
+
+
 @lru_cache(maxsize=16)
 def master_image_data_uri(sun_en: str) -> Optional[str]:
+    """Backward-compatible: shared master only (no MBTI unique lookup)."""
     path = master_image_path(sun_en)
     if path is None:
         return None
@@ -147,9 +200,9 @@ def build_persona_card_html(
     """Inline HTML fragment: screenshotable「你的隐藏人格」unit."""
     img_block = ""
     if include_image:
-        uri = master_image_data_uri(card.sun_en)
+        uri = persona_art_data_uri(card.mbti, card.sun_en)
         if uri:
-            alt = html.escape(f"{card.sun_zh}主视觉")
+            alt = html.escape(f"{card.mbti} × {card.sun_zh}")
             img_block = (
                 f'<div class="zx-persona-art">'
                 f'<img src="{uri}" alt="{alt}" loading="lazy" />'
@@ -191,6 +244,77 @@ def build_persona_missing_html() -> str:
         "不确定时不做猜测。</p>"
         "</aside>"
     )
+
+
+def build_persona_share_png(card: PersonaCard) -> bytes:
+    """One-liner share card PNG (nickname + combo + short definition)."""
+    from io import BytesIO
+
+    from PIL import Image, ImageDraw, ImageFont
+
+    from report_export import resolve_cjk_font
+
+    width, height = 1080, 1350
+    bg = (7, 16, 29)
+    copper = (199, 175, 133)
+    text_color = (232, 236, 241)
+    muted = (148, 163, 184)
+    accent = (169, 96, 72)
+
+    img = Image.new("RGB", (width, height), bg)
+    draw = ImageDraw.Draw(img)
+
+    # Optional art on top third: MBTI×sign unique, else shared master
+    master = persona_art_path(mbti=card.mbti, sun_en=card.sun_en)
+    if master is not None:
+        art = Image.open(master).convert("RGBA")
+        art_h = 620
+        art_w = int(art.width * (art_h / art.height))
+        art = art.resize((art_w, art_h), Image.Resampling.LANCZOS)
+        x = (width - art_w) // 2
+        img.paste(art, (x, 40), art)
+
+    font_path = str(resolve_cjk_font())
+    font_sm = ImageFont.truetype(font_path, 28)
+    font_md = ImageFont.truetype(font_path, 36)
+    font_lg = ImageFont.truetype(font_path, 64)
+    font_body = ImageFont.truetype(font_path, 34)
+
+    y = 700 if master is not None else 120
+    draw.text((72, y), "你的隐藏人格", fill=accent, font=font_sm)
+    y += 48
+    draw.text((72, y), card.nickname, fill=copper, font=font_lg)
+    y += 88
+    combo = f"{card.mbti} × {card.sun_zh}"
+    draw.text((72, y), combo, fill=muted, font=font_md)
+    y += 70
+
+    # Wrap one-liner definition
+    max_w = width - 144
+    line = ""
+    lines: list[str] = []
+    for ch in card.definition.strip():
+        trial = line + ch
+        if draw.textlength(trial, font=font_body) <= max_w:
+            line = trial
+        else:
+            if line:
+                lines.append(line)
+            line = ch
+        if len(lines) >= 5:
+            break
+    if line and len(lines) < 5:
+        lines.append(line)
+    for ln in lines:
+        draw.text((72, y), ln, fill=text_color, font=font_body)
+        y += 48
+
+    y = max(y + 40, height - 100)
+    draw.text((72, y), "星盘 × MBTI", fill=muted, font=font_sm)
+
+    buf = BytesIO()
+    img.save(buf, format="PNG", optimize=True)
+    return buf.getvalue()
 
 
 PERSONA_CARD_CSS = """

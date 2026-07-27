@@ -15,6 +15,7 @@ from persona_cards import (
     PERSONA_CARD_CSS,
     build_persona_card_html,
     build_persona_missing_html,
+    build_persona_share_png,
     lookup_persona_card,
 )
 from report_export import (
@@ -27,14 +28,18 @@ from report_export import (
     has_complete_question_section,
     sanitize_main_report,
     split_main_and_extensions,
+    split_numbered_sections,
     summary_headline,
     upsert_question_section,
 )
+from sun_preview import approximate_sun_sign_zh
 from tarot import DrawnCard, draw_three
 from tarot_ui import build_flip_html
+from usage_stats import get_usage_stats, record_section_feedback, record_successful_report
+from china_cities import resolve_china_city
 
-MBTI_OPTIONS = [
-    "不确定",
+MBTI_PLACEHOLDER = "请选择类型"
+MBTI_TYPES = [
     "INTJ",
     "INTP",
     "ENTJ",
@@ -52,6 +57,7 @@ MBTI_OPTIONS = [
     "ESTP",
     "ESFP",
 ]
+MBTI_OPTIONS = [MBTI_PLACEHOLDER, *MBTI_TYPES, "不确定"]
 
 COUNTRY_LABELS = [
     "中国",
@@ -669,10 +675,150 @@ def _init_state() -> None:
         "form_fingerprint": None,
         "tarot_streaming": False,
         "main_user_question": "",
+        "section_feedback_votes": {},
     }
     for k, v in defaults.items():
         if k not in st.session_state:
             st.session_state[k] = v
+
+
+def _usage_bases() -> tuple[int, int]:
+    try:
+        total_base = int(_secret("GENERATION_COUNT_BASE", "0") or "0")
+    except ValueError:
+        total_base = 0
+    try:
+        question_base = int(_secret("QUESTION_COUNT_BASE", "0") or "0")
+    except ValueError:
+        question_base = 0
+    return max(0, total_base), max(0, question_base)
+
+
+def _usage_db_path():
+    raw = _secret("USAGE_DB_PATH", "")
+    if raw.strip():
+        from pathlib import Path
+
+        return Path(raw.strip())
+    return None
+
+
+def _render_usage_caption() -> None:
+    total_base, question_base = _usage_bases()
+    try:
+        stats = get_usage_stats(
+            db_path=_usage_db_path(),
+            total_base=total_base,
+            question_base=question_base,
+        )
+        st.caption(
+            f"已生成 {stats.total} 次 · 其中 {stats.with_question} 次写下了想问的事"
+        )
+    except Exception:  # noqa: BLE001
+        st.caption("已生成 — · 其中 — 次写下了想问的事")
+
+
+def _generate_button_label(birth_date: date | None, mbti_raw: str) -> str:
+    if not isinstance(birth_date, date):
+        return "生成解读"
+    if mbti_raw in (MBTI_PLACEHOLDER, "不确定", ""):
+        return "生成解读"
+    sun, _near = approximate_sun_sign_zh(birth_date)
+    return f"解读我的{sun}×{mbti_raw}"
+
+
+def _render_sun_hint(birth_date: date | None) -> None:
+    if not isinstance(birth_date, date):
+        return
+    sun, near = approximate_sun_sign_zh(birth_date)
+    if near:
+        st.caption(
+            f"大致太阳座：{sun}（换座日附近，提交后以排盘为准）"
+        )
+    else:
+        st.caption(f"大致太阳座：{sun}（预览；提交后以排盘为准）")
+
+
+def _render_combo_hint(birth_date: date | None, mbti_raw: str) -> None:
+    if not isinstance(birth_date, date):
+        return
+    if mbti_raw in (MBTI_PLACEHOLDER, "不确定", ""):
+        return
+    sun, _near = approximate_sun_sign_zh(birth_date)
+    st.caption(f"组合预告：{sun}×{mbti_raw}（提交后生成完整解读）")
+
+
+def _render_city_hint(city: str, nation_label: str) -> None:
+    if nation_label != "中国":
+        return
+    mapped = resolve_china_city(city)
+    if mapped:
+        st.caption(f"地点将按「{mapped}」解析")
+
+
+def _feedback_vote_key(fingerprint, section: int) -> str:
+    token = abs(hash(fingerprint)) % (10**12)
+    return f"{token}|s{section}"
+
+
+def _render_section_with_feedback(
+    *,
+    fingerprint,
+    section_num: int,
+    heading: str,
+    body: str,
+) -> None:
+    if heading:
+        st.markdown(f"{heading}\n\n{body}" if body else heading)
+    elif body:
+        st.markdown(body)
+    if section_num < 1 or section_num > 5:
+        return
+    vote_key = _feedback_vote_key(fingerprint, section_num)
+    votes = st.session_state.section_feedback_votes
+    if vote_key in votes:
+        label = "这段准" if votes[vote_key] else "这段不像我"
+        st.caption(f"已记录：{label}")
+        return
+    token = abs(hash(fingerprint)) % (10**12)
+    c1, c2 = st.columns(2)
+    hit = c1.button(
+        "这段准",
+        key=f"fb_{token}_{section_num}_hit",
+        use_container_width=True,
+    )
+    miss = c2.button(
+        "这段不像我",
+        key=f"fb_{token}_{section_num}_miss",
+        use_container_width=True,
+    )
+    if hit or miss:
+        is_hit = bool(hit)
+        votes[vote_key] = is_hit
+        st.session_state.section_feedback_votes = votes
+        try:
+            record_section_feedback(
+                section=section_num,
+                hit=is_hit,
+                db_path=_usage_db_path(),
+            )
+        except Exception:  # noqa: BLE001
+            pass
+        st.rerun()
+
+
+def _render_main_report_with_feedback(main_body: str, fingerprint) -> None:
+    sections = split_numbered_sections(main_body)
+    if not sections or (len(sections) == 1 and sections[0][0] == 0 and not sections[0][1]):
+        st.markdown(main_body)
+        return
+    for num, heading, body in sections:
+        _render_section_with_feedback(
+            fingerprint=fingerprint,
+            section_num=num,
+            heading=heading,
+            body=body,
+        )
 
 
 def _fingerprint(
@@ -738,6 +884,24 @@ def _render_persona_card(chart) -> None:
         st.html(build_persona_missing_html())
         return
     st.html(build_persona_card_html(card))
+    try:
+        cache_key = f"persona_png_{card.id}"
+        png = st.session_state.get(cache_key)
+        if not isinstance(png, (bytes, bytearray)) or not png:
+            png = build_persona_share_png(card)
+            st.session_state[cache_key] = png
+        st.download_button(
+            label="下载人设卡图片（PNG）",
+            data=png,
+            file_name=f"隐藏人格_{card.mbti}_{card.sun_zh}.png",
+            mime="image/png",
+            use_container_width=True,
+            help="适合发微信/朋友圈；手机可保存后长按分享。",
+            key="dl_persona_png",
+        )
+        st.caption("手机：下载后打开图片，长按即可转发。")
+    except Exception:  # noqa: BLE001 — share is optional
+        st.caption("人设卡图片暂不可用，仍可截图上方卡片。")
 
 
 def _render_extension_folds(items: list[tuple[str, str]]) -> None:
@@ -792,7 +956,7 @@ def _render_coordinate_strip(
     else:
         time_value = birth_time.strftime("%H:%M")
     city_value = (city or "").strip().upper() or "CITY PENDING"
-    mbti_value = "UNSET" if mbti == "不确定" else mbti
+    mbti_value = "UNSET" if mbti in (MBTI_PLACEHOLDER, "不确定", "") else mbti
     cells = (
         ("DATE", date_value),
         ("LOCAL TIME", time_value),
@@ -859,44 +1023,69 @@ def main() -> None:
             )
         birth_date = st.date_input(
             "出生日期（公历）",
-            value=date(1995, 1, 1),
+            value=None,
             min_value=date(1920, 1, 1),
             max_value=date.today(),
             help="请填阳历（公历），与身份证/日历一致；暂不支持阴历换算。",
         )
         st.caption("请填阳历（公历），与身份证/日历一致；暂不支持阴历换算。")
-        time_unknown = st.checkbox("不知道出生时间", value=False)
+        _render_sun_hint(birth_date if isinstance(birth_date, date) else None)
+        time_unknown = st.checkbox("不知道出生时间", value=True)
         birth_time = st.time_input(
             "出生时间",
             value=time(12, 0),
             disabled=time_unknown,
+            help="不确定时请勾选上方「不知道出生时间」，勿使用默认正午假装精确。",
         )
+        if not time_unknown:
+            st.caption("请确认出生时间（勿沿用默认值若与实际不符）。")
         city = st.text_input(
             "出生城市",
-            placeholder="如 Shanghai、Xi'an、Taiyuan",
+            placeholder="如 上海、西安，或 Shanghai、Xi'an",
             help=PLACE_HINT,
         )
         st.caption(
-            "拼音/英文城市名最稳。山西 → Taiyuan / Shanxi；"
-            "陕西 → Xi'an / Shaanxi（注意双 a）。也可试中文市名。"
+            "中国可直接填中文市名；拼音/英文也稳。"
+            "山西 → Taiyuan / Shanxi；陕西 → Xi'an / Shaanxi（注意双 a）。"
         )
+        _render_city_hint(city, country_label)
 
     with st.container(border=True):
         st.markdown("#### 人格参照")
         st.caption("MBTI 用来做交叉分析；不确定可以跳过。具体问题会在报告中单独展开。")
-        mbti_raw = st.selectbox("MBTI", MBTI_OPTIONS, index=0)
-        user_question = st.text_input(
+        user_question = st.text_area(
             "最近在纠结的事（选填，报告会针对它展开）",
-            placeholder="例：在纠结稳定的 A 和自由的 B 两份工作 / 一段关系要不要继续",
+            placeholder=(
+                "例：在纠结稳定的 A 和自由的 B 两份工作；"
+                "一段关系要不要继续；要不要回老家……\n"
+                "写得越具体，§4 越不容易变成套话。"
+            ),
+            height=100,
+        )
+        mbti_raw = st.selectbox("MBTI", MBTI_OPTIONS, index=0)
+        _render_combo_hint(
+            birth_date if isinstance(birth_date, date) else None,
+            mbti_raw,
         )
         _render_coordinate_strip(
-            birth_date=birth_date,
-            birth_time=birth_time,
+            birth_date=birth_date if isinstance(birth_date, date) else None,
+            birth_time=birth_time if isinstance(birth_time, time) else None,
             time_unknown=time_unknown,
             city=city,
             mbti=mbti_raw,
         )
-        submitted = st.button("生成解读", type="primary", use_container_width=True)
+        st.caption(f"{PRIVACY} · 免费 · 约 40 秒")
+        btn_label = _generate_button_label(
+            birth_date if isinstance(birth_date, date) else None,
+            mbti_raw,
+        )
+        submitted = st.button(
+            btn_label,
+            type="primary",
+            use_container_width=True,
+            key="generate_report",
+        )
+        _render_usage_caption()
 
     if submitted:
         nation = _resolve_nation(country_label, other_code)
@@ -905,6 +1094,9 @@ def main() -> None:
             st.stop()
         if not time_unknown and not isinstance(birth_time, time):
             st.error("请选择出生时间，或勾选“不知道出生时间”。")
+            st.stop()
+        if mbti_raw == MBTI_PLACEHOLDER:
+            st.error("请选择 MBTI 类型，或选「不确定」。")
             st.stop()
         if not (city or "").strip():
             st.error(PLACE_HINT)
@@ -930,6 +1122,10 @@ def main() -> None:
             st.session_state.tarot_text = None
             st.session_state.tarot_streaming = False
             st.session_state.main_user_question = ""
+            st.session_state.section_feedback_votes = {}
+            for k in list(st.session_state.keys()):
+                if isinstance(k, str) and k.startswith("persona_png_"):
+                    del st.session_state[k]
             st.session_state.form_fingerprint = fp
 
         if not st.session_state.report_ready:
@@ -997,6 +1193,13 @@ def main() -> None:
             st.session_state.main_user_question = q
             # Prefill tarot question box with the same text (user can edit)
             st.session_state.tarot_question = q
+            try:
+                record_successful_report(
+                    has_question=bool(q),
+                    db_path=_usage_db_path(),
+                )
+            except Exception:  # noqa: BLE001 — never block report
+                pass
             st.session_state.report_ready = True
             st.rerun()
 
@@ -1067,7 +1270,10 @@ def main() -> None:
 
         st.subheader("解读报告")
         main_body, ext_items = split_main_and_extensions(report_text)
-        st.markdown(main_body)
+        _render_main_report_with_feedback(
+            main_body,
+            st.session_state.form_fingerprint,
+        )
         if ext_items:
             st.markdown("##### 延伸探索")
             st.caption("点开查看短解析（默认折叠）")
@@ -1130,13 +1336,19 @@ def main() -> None:
                 "form_fingerprint",
                 "tarot_streaming",
                 "main_user_question",
+                "section_feedback_votes",
             ):
                 if k == "report_ready" or k == "tarot_streaming":
                     st.session_state[k] = False
                 elif k == "main_user_question":
                     st.session_state[k] = ""
+                elif k == "section_feedback_votes":
+                    st.session_state[k] = {}
                 else:
                     st.session_state[k] = None
+            for k in list(st.session_state.keys()):
+                if isinstance(k, str) and k.startswith("persona_png_"):
+                    del st.session_state[k]
             st.rerun()
 
         _footer()

@@ -170,6 +170,35 @@ def split_main_and_extensions(report: str) -> tuple[str, list[tuple[str, str]]]:
     return main, parse_extension_items(ext)
 
 
+def split_numbered_sections(report: str) -> list[tuple[int, str, str]]:
+    """Split ## 1..## 5 (and any other ## N) into (num, heading, body).
+
+    Used to insert per-section feedback controls. §6 should already be stripped
+    via split_main_and_extensions before calling this.
+    """
+    text = (report or "").strip()
+    if not text:
+        return []
+    pattern = re.compile(r"(?m)^(##\s*(\d+)[.、．]?\s*[^\n]*)\n?")
+    matches = list(pattern.finditer(text))
+    if not matches:
+        return [(0, "", text)]
+    sections: list[tuple[int, str, str]] = []
+    # Preface before first ## N
+    if matches[0].start() > 0:
+        preface = text[: matches[0].start()].strip()
+        if preface:
+            sections.append((0, "", preface))
+    for i, m in enumerate(matches):
+        num = int(m.group(2))
+        heading = m.group(1).strip()
+        start = m.end()
+        end = matches[i + 1].start() if i + 1 < len(matches) else len(text)
+        body = text[start:end].strip()
+        sections.append((num, heading, body))
+    return sections
+
+
 def summary_headline(chart) -> str:
     sun = sign_to_zh(chart.sun_sign)
     parts = [f"太阳{sun}座"]

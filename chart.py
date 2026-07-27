@@ -10,6 +10,8 @@ from typing import Optional
 from kerykeion import AstrologicalSubjectFactory, ChartDataFactory, to_context
 from kerykeion.charts.chart_drawer import ChartDrawer
 
+from china_cities import maybe_resolve_city
+
 SIGN_ZH = {
     "Ari": "白羊",
     "Aries": "白羊",
@@ -37,7 +39,8 @@ SIGN_ZH = {
 }
 
 PLACE_HINT = (
-    "请用拼音或英文城市名（如 Shanghai、Xi'an、Taiyuan）；中国也可试中文市名。"
+    "中国常用市名可直接填中文（如 上海、西安、太原）；"
+    "或用拼音/英文（Shanghai、Xi'an、Taiyuan）。"
     "山西用 Taiyuan / Shanxi，陕西用 Xi'an / Shaanxi（双 a）。"
     "解析失败可改输附近更大城市，误差可忽略。"
 )
@@ -220,6 +223,8 @@ def build_chart(
         raise PlaceLookupError(PLACE_HINT)
 
     nation = (nation or "CN").strip().upper() or "CN"
+    city_input = city.strip()
+    city_lookup = maybe_resolve_city(city_input, nation)
     notes: list[str] = []
     moon_ambiguity: Optional[MoonAmbiguity] = None
 
@@ -231,7 +236,7 @@ def build_chart(
         )
         start_sign, end_sign = _moon_signs_for_day(
             birth_date=birth_date,
-            city=city,
+            city=city_lookup,
             nation=nation,
             geonames_username=geonames_username,
         )
@@ -250,7 +255,7 @@ def build_chart(
         day=birth_date.day,
         hour=hour,
         minute=minute,
-        city=city,
+        city=city_lookup,
         nation=nation,
         geonames_username=geonames_username,
     )
@@ -278,14 +283,14 @@ def build_chart(
         birth_date=birth_date,
         birth_time=used_time,
         time_unknown=time_unknown,
-        city=city.strip(),
+        city=city_input,
         nation=nation,
         mbti=mbti,
         context_xml=context_xml,
         svg=svg,
         moon_ambiguity=moon_ambiguity,
         preface_notes=notes,
-        resolved_city=getattr(subject, "city", city),
+        resolved_city=getattr(subject, "city", city_lookup),
         resolved_tz=getattr(subject, "tz_str", "") or "",
         sun_sign=subject.sun.sign,
         moon_sign=subject.moon.sign,
