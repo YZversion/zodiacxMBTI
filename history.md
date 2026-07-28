@@ -36,6 +36,10 @@ Source of truth for the sealed plan: [`星盘MBTI解读spike需求与实施方�
 | 2026-07-27 | Aries ×16 `mbti_tarot_cards/aries/v1` wired; persona art via `st.image` + JPEG preview for HTML export (`a8b1bba`). |
 | 2026-07-27 | Cloud operator panel: footer「运营统计」+ `STATS_PASSWORD` + JSON snapshot (`fcfbac4`). Docs: `log20260727_mentor.md`. |
 | 2026-07-27 | Taurus ×16 `mbti_tarot_cards/taurus/v1` ready; same lookup path as Aries (no code change). |
+| 2026-07-27 | Offline compositor shipped: `tools/build_cards.py` + `assets/cards/manifest.json` runtime lookup + Aries/Taurus/Gemini WebP batches (`67f123b`). |
+| 2026-07-27 | Cancer ×16 WebP batch added to manifest/runtime (`b45265e`). |
+| 2026-07-27 | Leo ×16 WebP batch added to manifest/runtime (`8800c10`). |
+| 2026-07-28 | Virgo + Libra ×16 WebP batches added; docs synced to 112 shipped cards. |
 
 ## Watch list (not in spike)
 
