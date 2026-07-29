@@ -32,7 +32,7 @@ from report_export import (
     summary_headline,
     upsert_question_section,
 )
-from sun_preview import approximate_sun_sign_zh
+from sun_preview import approximate_sun_sign_greek, approximate_sun_sign_zh
 from tarot import DrawnCard, draw_three
 from tarot_ui import build_flip_html
 from usage_stats import (
@@ -746,12 +746,11 @@ def _render_usage_caption() -> None:
 
 
 def _generate_button_label(birth_date: date | None, mbti_raw: str) -> str:
+    del mbti_raw  # CTA is Greek sun only; MBTI still validated on submit.
     if not isinstance(birth_date, date):
         return "生成解读"
-    if mbti_raw in (MBTI_PLACEHOLDER, "不确定", ""):
-        return "生成解读"
-    sun, _near = approximate_sun_sign_zh(birth_date)
-    return f"解读我的{sun}×{mbti_raw}"
+    greek, _near = approximate_sun_sign_greek(birth_date)
+    return f"解读 {greek}"
 
 
 def _render_sun_hint(birth_date: date | None) -> None:

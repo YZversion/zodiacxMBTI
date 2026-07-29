@@ -8,7 +8,7 @@ from datetime import date
 from china_cities import maybe_resolve_city, resolve_china_city
 from persona_cards import build_persona_share_png, lookup_persona_card
 from report_export import split_numbered_sections
-from sun_preview import approximate_sun_sign_zh
+from sun_preview import approximate_sun_sign_greek, approximate_sun_sign_zh
 
 
 class SunPreviewTests(unittest.TestCase):
@@ -25,6 +25,11 @@ class SunPreviewTests(unittest.TestCase):
     def test_capricorn_january(self) -> None:
         sign, _near = approximate_sun_sign_zh(date(1995, 1, 10))
         self.assertEqual(sign, "摩羯")
+
+    def test_greek_cta_names(self) -> None:
+        self.assertEqual(approximate_sun_sign_greek(date(2001, 4, 19))[0], "κριός")
+        self.assertEqual(approximate_sun_sign_greek(date(1995, 7, 1))[0], "καρκίνος")
+        self.assertEqual(approximate_sun_sign_greek(date(1995, 11, 1))[0], "σκορπίος")
 
 
 class ChinaCityTests(unittest.TestCase):

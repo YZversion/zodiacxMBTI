@@ -4,6 +4,22 @@ from __future__ import annotations
 
 from datetime import date
 
+# Classical constellation names in modern Greek lowercase (button CTA).
+SUN_SIGN_ZH_TO_GREEK: dict[str, str] = {
+    "白羊": "κριός",
+    "金牛": "ταύρος",
+    "双子": "δίδυμοι",
+    "巨蟹": "καρκίνος",
+    "狮子": "λέων",
+    "处女": "παρθένος",
+    "天秤": "ζυγός",
+    "天蝎": "σκορπίος",
+    "射手": "τοξότης",
+    "摩羯": "αιγόκερως",
+    "水瓶": "υδροχόος",
+    "双鱼": "ιχθύες",
+}
+
 
 def approximate_sun_sign_zh(birth_date: date) -> tuple[str, bool]:
     """Return (中文座名, near_cusp).
@@ -14,6 +30,12 @@ def approximate_sun_sign_zh(birth_date: date) -> tuple[str, bool]:
     sign = _resolve_sign(birth_date)
     near = _near_cusp(birth_date)
     return sign, near
+
+
+def approximate_sun_sign_greek(birth_date: date) -> tuple[str, bool]:
+    """Return (古希腊星座名小写, near_cusp) for CTA preview."""
+    zh, near = approximate_sun_sign_zh(birth_date)
+    return SUN_SIGN_ZH_TO_GREEK.get(zh, zh), near
 
 
 def _resolve_sign(birth_date: date) -> str:
