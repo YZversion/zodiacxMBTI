@@ -8,7 +8,7 @@ from datetime import date, time
 
 import streamlit as st
 
-from chart import PLACE_HINT, PlaceLookupError, build_chart
+from chart import PLACE_HINT, PlaceLookupError, build_chart, format_place_caption
 from design_system import COLORS, css_variables
 from interpret import generate_question_section, stream_main_report, stream_tarot_report
 from persona_cards import (
@@ -1382,8 +1382,10 @@ def main() -> None:
             for note in chart.preface_notes:
                 st.info(note)
         st.caption(
-            f"地点解析为 {chart.resolved_city or chart.city}"
-            + (f" · {chart.resolved_tz}" if chart.resolved_tz else "")
+            format_place_caption(
+                city=chart.resolved_city or chart.city,
+                tz=chart.resolved_tz or "",
+            )
         )
         st.caption("本命盘轮盘（暗色）。行星过密时度数可能仍会靠近，属排盘图常态。")
         _render_svg(chart.svg)

@@ -1408,6 +1408,182 @@
       "rarity_label": "最稀有",
       "sun_en": "Scorpio",
       "mbti": "ENTJ"
+    },
+    {
+      "id": "ISTJ_Sagittarius",
+      "webp": "assets/cards/webp/ISTJ_Sagittarius.webp",
+      "index": 129,
+      "nickname": "持证流浪汉",
+      "paradox": "你向往自由，自由必须在计划表以内",
+      "pct": 1.0,
+      "rarity_label": "常见",
+      "sun_en": "Sagittarius",
+      "mbti": "ISTJ"
+    },
+    {
+      "id": "ISFJ_Sagittarius",
+      "webp": "assets/cards/webp/ISFJ_Sagittarius.webp",
+      "index": 130,
+      "nickname": "靠谱乐天派",
+      "paradox": "你逗大家开心，自己的 Plan B 却从不敢说出口",
+      "pct": 1.0,
+      "rarity_label": "常见",
+      "sun_en": "Sagittarius",
+      "mbti": "ISFJ"
+    },
+    {
+      "id": "INFJ_Sagittarius",
+      "webp": "assets/cards/webp/INFJ_Sagittarius.webp",
+      "index": 131,
+      "nickname": "远方布道者",
+      "paradox": "为别人指了无数条路，自己的下一站永远“再看看”",
+      "pct": 0.12,
+      "rarity_label": "最稀有",
+      "sun_en": "Sagittarius",
+      "mbti": "INFJ"
+    },
+    {
+      "id": "INTJ_Sagittarius",
+      "webp": "assets/cards/webp/INTJ_Sagittarius.webp",
+      "index": 132,
+      "nickname": "战略浪子",
+      "paradox": "你计划环游世界，环游计划本身做了三年",
+      "pct": 0.21,
+      "rarity_label": "稀有",
+      "sun_en": "Sagittarius",
+      "mbti": "INTJ"
+    },
+    {
+      "id": "ISTP_Sagittarius",
+      "webp": "assets/cards/webp/ISTP_Sagittarius.webp",
+      "index": 133,
+      "nickname": "装备党浪人",
+      "paradox": "你随时能出发，却总在等一个“值得”的目的地",
+      "pct": 0.46,
+      "rarity_label": "较为常见",
+      "sun_en": "Sagittarius",
+      "mbti": "ISTP"
+    },
+    {
+      "id": "ISFP_Sagittarius",
+      "webp": "assets/cards/webp/ISFP_Sagittarius.webp",
+      "index": 134,
+      "nickname": "野生散步家",
+      "paradox": "你活得最自由，被问“以后怎么办”就笑着岔开",
+      "pct": 0.67,
+      "rarity_label": "较为常见",
+      "sun_en": "Sagittarius",
+      "mbti": "ISFP"
+    },
+    {
+      "id": "INFP_Sagittarius",
+      "webp": "assets/cards/webp/INFP_Sagittarius.webp",
+      "index": 135,
+      "nickname": "梦游远行者",
+      "paradox": "你收藏了一百篇旅行攻略，年假还剩十五天",
+      "pct": 0.38,
+      "rarity_label": "少见",
+      "sun_en": "Sagittarius",
+      "mbti": "INFP"
+    },
+    {
+      "id": "INTP_Sagittarius",
+      "webp": "assets/cards/webp/INTP_Sagittarius.webp",
+      "index": 136,
+      "nickname": "云端背包客",
+      "paradox": "你研究过所有远方，出发这个动作没研究明白",
+      "pct": 0.29,
+      "rarity_label": "少见",
+      "sun_en": "Sagittarius",
+      "mbti": "INTP"
+    },
+    {
+      "id": "ESTP_Sagittarius",
+      "webp": "assets/cards/webp/ESTP_Sagittarius.webp",
+      "index": 137,
+      "nickname": "肾上腺素王",
+      "paradox": "你什么极限都敢挑战，静下来五分钟就浑身难受",
+      "pct": 0.38,
+      "rarity_label": "少见",
+      "sun_en": "Sagittarius",
+      "mbti": "ESTP"
+    },
+    {
+      "id": "ESFP_Sagittarius",
+      "webp": "assets/cards/webp/ESFP_Sagittarius.webp",
+      "index": 138,
+      "nickname": "快乐窜天猴",
+      "paradox": "你把每天过成节日，节后空虚从不跟人提",
+      "pct": 0.67,
+      "rarity_label": "较为常见",
+      "sun_en": "Sagittarius",
+      "mbti": "ESFP"
+    },
+    {
+      "id": "ENFP_Sagittarius",
+      "webp": "assets/cards/webp/ENFP_Sagittarius.webp",
+      "index": 139,
+      "nickname": "宇宙撒欢王",
+      "paradox": "你什么都想体验，哪儿都不肯扎根",
+      "pct": 0.67,
+      "rarity_label": "较为常见",
+      "sun_en": "Sagittarius",
+      "mbti": "ENFP"
+    },
+    {
+      "id": "ENTP_Sagittarius",
+      "webp": "assets/cards/webp/ENTP_Sagittarius.webp",
+      "index": 140,
+      "nickname": "流浪哲学家",
+      "paradox": "你给所有人的人生答案都通透，自己的困惑从不落地",
+      "pct": 0.29,
+      "rarity_label": "少见",
+      "sun_en": "Sagittarius",
+      "mbti": "ENTP"
+    },
+    {
+      "id": "ESTJ_Sagittarius",
+      "webp": "assets/cards/webp/ESTJ_Sagittarius.webp",
+      "index": 141,
+      "nickname": "行军团长",
+      "paradox": "你安排的行程无懈可击，就是没人玩得尽兴，包括你",
+      "pct": 0.83,
+      "rarity_label": "常见",
+      "sun_en": "Sagittarius",
+      "mbti": "ESTJ"
+    },
+    {
+      "id": "ESFJ_Sagittarius",
+      "webp": "assets/cards/webp/ESFJ_Sagittarius.webp",
+      "index": 142,
+      "nickname": "气氛导游",
+      "paradox": "你操办了所有人的快乐，回家瘫倒才想起自己没玩够",
+      "pct": 0.92,
+      "rarity_label": "常见",
+      "sun_en": "Sagittarius",
+      "mbti": "ESFJ"
+    },
+    {
+      "id": "ENFJ_Sagittarius",
+      "webp": "assets/cards/webp/ENFJ_Sagittarius.webp",
+      "index": 143,
+      "nickname": "人生教练号",
+      "paradox": "你的口号是“追随内心”，自己的内心排在日程最后",
+      "pct": 0.21,
+      "rarity_label": "稀有",
+      "sun_en": "Sagittarius",
+      "mbti": "ENFJ"
+    },
+    {
+      "id": "ENTJ_Sagittarius",
+      "webp": "assets/cards/webp/ENTJ_Sagittarius.webp",
+      "index": 144,
+      "nickname": "征途永动机",
+      "paradox": "你征服了一座座山头，风景一眼没看",
+      "pct": 0.12,
+      "rarity_label": "最稀有",
+      "sun_en": "Sagittarius",
+      "mbti": "ENTJ"
     }
   ]
 }

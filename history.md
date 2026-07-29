@@ -41,6 +41,7 @@ Source of truth for the sealed plan: [`星盘MBTI解读spike需求与实施方�
 | 2026-07-27 | Leo ×16 WebP batch added to manifest/runtime (`8800c10`). |
 | 2026-07-28 | Virgo + Libra ×16 WebP batches added; docs synced to 112 shipped cards. |
 | 2026-07-29 | Scorpio ×16 WebP batch added; docs synced to 128 shipped cards. |
+| 2026-07-29 | Sagittarius ×16 WebP batch added; clarify Asia/Shanghai is China civil TZ (not Shanghai city); docs synced to 144 shipped cards. |
 
 ## Watch list (not in spike)
 

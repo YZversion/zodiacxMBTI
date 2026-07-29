@@ -85,6 +85,20 @@ class ChartResult:
     asc_sign: str = ""
 
 
+def format_place_caption(*, city: str, tz: str = "") -> str:
+    """Human-readable place line: city is location; tz is IANA zone, not a city."""
+    city = (city or "").strip() or "未知"
+    tz = (tz or "").strip()
+    if not tz:
+        return f"地点解析为 {city}"
+    if tz == "Asia/Shanghai":
+        return (
+            f"地点解析为 {city} · 时区 {tz}"
+            "（中国标准时间 / UTC+8；IANA 区名含 Shanghai，不是解析到了上海市）"
+        )
+    return f"地点解析为 {city} · 时区 {tz}"
+
+
 def sign_to_zh(sign: str) -> str:
     return SIGN_ZH.get(sign, sign)
 
