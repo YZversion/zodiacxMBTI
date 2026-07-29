@@ -97,7 +97,7 @@ class PersonaCardTests(unittest.TestCase):
         assert path is not None
         self.assertTrue(path.is_file())
         self.assertEqual(path.suffix.lower(), ".webp")
-        self.assertIsNone(card_image_path(mbti="INTJ", sun_sign="Capricorn"))
+        self.assertIsNone(card_image_path(mbti="INTJ", sun_sign="Aquarius"))
         self.assertIsNone(card_image_path(mbti="不确定", sun_sign="Taurus"))
 
     def test_tarot_master_art_is_shown_without_cropping(self) -> None:
