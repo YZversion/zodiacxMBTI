@@ -141,9 +141,9 @@ class PersonaCardTests(unittest.TestCase):
     def test_unbuilt_sign_falls_back_to_shared_master(self) -> None:
         if not MASTERS_DIR.is_dir():
             self.skipTest("personapicture masters not present")
-        self.assertIsNone(unique_mbti_card_path(mbti="INTJ", sun_en="Capricorn"))
-        art = persona_art_path(mbti="INTJ", sun_en="Capricorn")
-        master = master_image_path("Capricorn")
+        self.assertIsNone(unique_mbti_card_path(mbti="INTJ", sun_en="Aquarius"))
+        art = persona_art_path(mbti="INTJ", sun_en="Aquarius")
+        master = master_image_path("Aquarius")
         self.assertEqual(art, master)
         self.assertEqual(art.parent if art else None, MASTERS_DIR)
 
