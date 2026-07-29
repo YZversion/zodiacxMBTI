@@ -1208,7 +1208,7 @@ def main() -> None:
         _render_sun_hint(birth_date if isinstance(birth_date, date) else None)
         time_unknown = st.checkbox("不知道出生时间", value=True)
         birth_time = st.time_input(
-            "出生时间",
+            "出生时间（向后取整）",
             value=time(12, 0),
             disabled=time_unknown,
             help="不确定时请勾选上方「不知道出生时间」，勿使用默认正午假装精确。",

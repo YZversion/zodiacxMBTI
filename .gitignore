@@ -66,3 +66,14 @@ personapicture/**/contact_sheet.png
 *_日志_*.md
 personapicture/
 assets/cards/png/
+
+# Keep runtime tarot assets versionable while other personapicture files stay local.
+!personapicture/
+personapicture/*
+!personapicture/zodiac_tarot_masters/
+!personapicture/zodiac_tarot_masters/**
+!personapicture/mbti_tarot_cards/
+!personapicture/mbti_tarot_cards/**
+
+# Contact sheets are local visual-QA composites, not runtime assets.
+personapicture/**/contact_sheet.png
