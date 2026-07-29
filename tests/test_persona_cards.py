@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 from persona_cards import (
     FOOTNOTE,
@@ -97,8 +98,17 @@ class PersonaCardTests(unittest.TestCase):
         assert path is not None
         self.assertTrue(path.is_file())
         self.assertEqual(path.suffix.lower(), ".webp")
-        self.assertIsNone(card_image_path(mbti="INTJ", sun_sign="Aquarius"))
+        aqu = card_image_path(mbti="INTJ", sun_sign="Aquarius")
+        self.assertIsNotNone(aqu)
+        assert aqu is not None
+        self.assertTrue(aqu.is_file())
+        self.assertEqual(aqu.name, "INTJ_Aquarius.webp")
+        pis = card_image_path(mbti="INTJ", sun_sign="Pisces")
+        self.assertIsNotNone(pis)
+        assert pis is not None
+        self.assertTrue(pis.is_file())
         self.assertIsNone(card_image_path(mbti="不确定", sun_sign="Taurus"))
+        self.assertIsNone(card_image_path(mbti="INTJ", sun_sign="NotASign"))
 
     def test_tarot_master_art_is_shown_without_cropping(self) -> None:
         self.assertIn("aspect-ratio: 3 / 5", PERSONA_CARD_CSS)
@@ -138,12 +148,12 @@ class PersonaCardTests(unittest.TestCase):
         art = persona_art_path(mbti="INTJ", sun_en="Aries")
         self.assertEqual(art, unique)
 
-    def test_unbuilt_sign_falls_back_to_shared_master(self) -> None:
+    def test_missing_unique_art_falls_back_to_shared_master(self) -> None:
         if not MASTERS_DIR.is_dir():
             self.skipTest("personapicture masters not present")
-        self.assertIsNone(unique_mbti_card_path(mbti="INTJ", sun_en="Aquarius"))
-        art = persona_art_path(mbti="INTJ", sun_en="Aquarius")
-        master = master_image_path("Aquarius")
+        with patch("persona_cards.unique_mbti_card_path", return_value=None):
+            art = persona_art_path(mbti="INTJ", sun_en="Pisces")
+        master = master_image_path("Pisces")
         self.assertEqual(art, master)
         self.assertEqual(art.parent if art else None, MASTERS_DIR)
 
