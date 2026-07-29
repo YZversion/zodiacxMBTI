@@ -517,6 +517,13 @@ PERSONA_CARD_CSS = """
   color: var(--zx-muted);
 }
 @media (max-width: 520px) {
-  .zx-persona-card { max-width: 100%; }
+  .zx-persona-card {
+    max-width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .zx-persona-nickname {
+    font-size: clamp(1.35rem, 6vw, 1.7rem);
+  }
 }
 """

@@ -593,8 +593,15 @@ summary:focus-visible {
 __ZX_PERSONA_CARD_CSS__
 
 @media (max-width: 520px) {
+  [data-testid="stMainBlockContainer"] {
+    padding-left: 1.1rem !important;
+    padding-right: 1.1rem !important;
+    /* Clear Streamlit Cloud viewer badge (fixed bottom-right host chrome). */
+    padding-bottom: 5.75rem !important;
+  }
   .zx-hero {
-    padding-top: 1.3rem;
+    padding-top: 1.15rem;
+    padding-bottom: 1.35rem;
   }
   .zx-hero::after {
     top: -3.2rem;
@@ -603,11 +610,66 @@ __ZX_PERSONA_CARD_CSS__
     opacity: 0.48;
   }
   .zx-hero-title {
-    font-size: 2.7rem;
-    line-height: 1.14;
+    font-size: 2.15rem;
+    line-height: 1.18;
+  }
+  .zx-eyebrow {
+    letter-spacing: 0.1em;
+    font-size: 0.68rem;
+  }
+  .zx-hero-lede {
+    font-size: 0.95rem;
+    line-height: 1.55;
   }
   .zx-coordinate-strip {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .zx-coordinate-cell {
+    padding: 0.7rem 0.65rem;
+  }
+  .zx-coordinate-cell strong {
+    font-size: 0.78rem;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: unset;
+  }
+  /* Prefer ≥44px touch targets on primary fields (HIG). */
+  [data-testid="stTextInput"] input,
+  [data-testid="stDateInput"] input,
+  [data-testid="stNumberInput"] input,
+  [data-testid="stTextArea"] textarea,
+  [data-baseweb="input"] {
+    min-height: 44px !important;
+  }
+  [data-baseweb="select"] > div {
+    min-height: 44px !important;
+  }
+  [data-testid="stBaseButton-primary"],
+  [data-testid="stButton"] button[kind="primary"] {
+    min-height: 48px !important;
+  }
+  [data-testid="stImage"] {
+    max-width: 100% !important;
+  }
+  [data-testid="stImage"] img {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+  }
+  .zx-persona-card {
+    max-width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    border-radius: 14px;
+  }
+  .zx-persona-body {
+    padding: 0.95rem 0.95rem 1.05rem;
+  }
+  .zx-natal-chart {
+    margin-bottom: 0.75rem;
+  }
+  .zx-summary-headline {
+    font-size: 1.28rem;
   }
 }
 
@@ -1047,7 +1109,7 @@ def _render_stats_panel() -> None:
     if "stats_unlocked" not in st.session_state:
         st.session_state.stats_unlocked = False
 
-    with st.expander("运营统计（需密码）", expanded=False):
+    with st.expander("下载量统计", expanded=False):
         if not st.session_state.stats_unlocked:
             pwd = st.text_input(
                 "统计密码",

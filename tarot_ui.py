@@ -230,8 +230,12 @@ def build_flip_html(cards: list[DrawnCard]) -> str:
     to {{ opacity: 1; transform: translateY(0); }}
   }}
   @media (max-width: 520px) {{
+    .zx-tarot-stage {{
+      padding: 0.85rem 0.55rem 0.95rem;
+    }}
     .zx-flip-row {{
       grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px 10px;
     }}
     .zx-flip-item:last-child:nth-child(odd) {{
       grid-column: 1 / -1;
