@@ -217,6 +217,21 @@ def _web_preview_bytes(path: Path, *, max_width: int = 900) -> tuple[bytes, str]
 
 
 @lru_cache(maxsize=64)
+def composed_card_data_uri(*, mbti: str, sun_sign: str) -> Optional[str]:
+    """Precomposed share card (manifest WebP) as a compact data URI for HTML export."""
+    path = card_image_path(mbti=mbti, sun_sign=sun_sign)
+    if path is None:
+        return None
+    try:
+        raw, subtype = _web_preview_bytes(path)
+    except Exception:  # noqa: BLE001
+        raw = path.read_bytes()
+        subtype = "webp" if path.suffix.lower() == ".webp" else "png"
+    b64 = base64.b64encode(raw).decode("ascii")
+    return f"data:image/{subtype};base64,{b64}"
+
+
+@lru_cache(maxsize=64)
 def persona_art_data_uri(mbti: str, sun_en: str) -> Optional[str]:
     path = persona_art_path(mbti=mbti, sun_en=sun_en)
     if path is None:
@@ -250,22 +265,33 @@ def build_persona_card_html(
     *,
     include_image: bool = True,
 ) -> str:
-    """Inline HTML fragment: screenshotable「你的隐藏人格」unit."""
+    """Inline HTML fragment: screenshotable「你的隐藏人格」unit.
+
+    Prefers the offline-composed WebP (same asset as the app) so HTML export
+    matches the shareable card. Falls back to raw art + text body when missing.
+    """
     img_block = ""
+    composed = False
     if include_image:
-        uri = persona_art_data_uri(card.mbti, card.sun_en)
+        uri = composed_card_data_uri(mbti=card.mbti, sun_sign=card.sun_en)
         if uri:
-            alt = html.escape(f"{card.mbti} × {card.sun_zh}")
+            composed = True
+        else:
+            uri = persona_art_data_uri(card.mbti, card.sun_en)
+        if uri:
+            alt = html.escape(f"{card.mbti} × {card.sun_zh} · {card.nickname}")
+            art_class = "zx-persona-composed" if composed else "zx-persona-art"
             img_block = (
-                f'<div class="zx-persona-art">'
+                f'<div class="{art_class}">'
                 f'<img src="{uri}" alt="{alt}" loading="lazy" />'
                 f"</div>"
             )
 
     combo = html.escape(f"{card.mbti} × {card.sun_zh}")
-    return f"""
-<article class="zx-persona-card" aria-label="你的隐藏人格">
-  {img_block}
+    # Composed WebP already carries nickname / paradox / pct; keep a short
+    # reading body so the HTML report stays searchable without double-painting
+    # the full share layout.
+    body = f"""
   <div class="zx-persona-body">
     <p class="zx-persona-eyebrow">你的隐藏人格</p>
     <h2 class="zx-persona-nickname">{html.escape(card.nickname)}</h2>
@@ -285,6 +311,12 @@ def build_persona_card_html(
     <p class="zx-persona-pct">{html.escape(card.pct_line)}</p>
     <p class="zx-persona-foot">{html.escape(FOOTNOTE)}</p>
   </div>
+""".rstrip()
+
+    return f"""
+<article class="zx-persona-card" aria-label="你的隐藏人格">
+  {img_block}
+  {body}
 </article>
 """.strip()
 
@@ -300,8 +332,17 @@ def build_persona_missing_html() -> str:
 
 
 def build_persona_share_png(card: PersonaCard) -> bytes:
-    """One-liner share card PNG (nickname + combo + short definition)."""
+    """Shareable card bytes: prefer offline WebP→PNG; else one-off Pillow fallback."""
     from io import BytesIO
+
+    composed = card_image_path(mbti=card.mbti, sun_sign=card.sun_en)
+    if composed is not None:
+        from PIL import Image
+
+        im = Image.open(composed).convert("RGB")
+        buf = BytesIO()
+        im.save(buf, format="PNG", optimize=True)
+        return buf.getvalue()
 
     from PIL import Image, ImageDraw, ImageFont
 
@@ -386,7 +427,13 @@ PERSONA_CARD_CSS = """
   overflow: hidden;
   background: var(--zx-bg-deep);
 }
-.zx-persona-art img {
+.zx-persona-composed {
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background: var(--zx-bg-deep);
+}
+.zx-persona-art img,
+.zx-persona-composed img {
   display: block;
   width: 100%;
   height: 100%;

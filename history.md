@@ -43,6 +43,7 @@ Source of truth for the sealed plan: [`星盘MBTI解读spike需求与实施方�
 | 2026-07-29 | Scorpio ×16 WebP batch added; docs synced to 128 shipped cards. |
 | 2026-07-29 | Sagittarius ×16 WebP batch added; clarify Asia/Shanghai is China civil TZ (not Shanghai city); docs synced to 144 shipped cards. |
 | 2026-07-29 | Capricorn + Aquarius + Pisces ×16 WebP batches added; full 192 persona cards now shipped. |
+| 2026-07-29 | HTML export / share PNG prefer composed WebP so share path matches the app. |
 
 ## Watch list (not in spike)
 

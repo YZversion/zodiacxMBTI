@@ -112,6 +112,7 @@ class PersonaCardTests(unittest.TestCase):
 
     def test_tarot_master_art_is_shown_without_cropping(self) -> None:
         self.assertIn("aspect-ratio: 3 / 5", PERSONA_CARD_CSS)
+        self.assertIn("aspect-ratio: 3 / 4", PERSONA_CARD_CSS)
         self.assertIn("object-fit: contain", PERSONA_CARD_CSS)
         self.assertNotIn("max-height: 320px", PERSONA_CARD_CSS)
         self.assertNotIn("max-height: 280px", PERSONA_CARD_CSS)
@@ -128,14 +129,19 @@ class PersonaCardTests(unittest.TestCase):
         self.assertIn(FOOTNOTE, fragment)
         self.assertIn(card_id("INTJ", "Scorpio"), card.id)
 
-    def test_html_embeds_new_tarot_master(self) -> None:
+    def test_html_embeds_composed_webp(self) -> None:
+        from persona_cards import _load_manifest
+
+        _load_manifest.cache_clear()
         card = lookup_persona_card(mbti="INFP", sun_sign="Ari")
         self.assertIsNotNone(card)
         assert card is not None
+        self.assertIsNotNone(card_image_path(mbti=card.mbti, sun_sign=card.sun_en))
         fragment = build_persona_card_html(card)
-        self.assertIn('class="zx-persona-art"', fragment)
+        self.assertIn('class="zx-persona-composed"', fragment)
         self.assertIn("data:image/", fragment)
         self.assertIn("base64,", fragment)
+        self.assertNotIn('class="zx-persona-art"', fragment)
 
     def test_aries_prefers_unique_mbti_card(self) -> None:
         if not (MBTI_TAROT_ROOT / "aries" / "v1").is_dir():

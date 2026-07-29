@@ -62,7 +62,7 @@ sun_preview.py         # approximate sun sign for form hints (not kerykeion)
 usage_stats.py         # cache/usage.sqlite counters; build_stats_snapshot for operator export
 interpret.py           # MAIN_SYSTEM / TAROT_SYSTEM / QUESTION_SECTION_SYSTEM;
                        # stream_* + generate_question_section (§4 repair)
-persona_cards.py       # 192 JSON; card_image_path (manifest WebP); art helpers kept for export;
+persona_cards.py       # 192 JSON; card_image_path (manifest WebP); HTML export embeds composed card;
                        # HTML, st.image path, share PNG
 tarot.py               # 78-card deck + draw_three (logic only)
 tarot_ui.py            # name→asset map, flip HTML fragment, base64 faces
