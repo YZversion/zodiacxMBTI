@@ -12,7 +12,7 @@
 
 1. Streamlit 表单收集出生日期 / 时间 / 地点 / MBTI /（选填）最近在纠结的事
 2. [kerykeion](https://github.com/g-battaglia/kerykeion)（Swiss Ephemeris）算行星落座、宫位、上升，并出暗色轮盘 SVG
-3. 按太阳座 × MBTI 查出「隐藏人格」人设卡（192 选 1；**白羊→天秤共 7 星座各有 16 张 MBTI 专属图（已接入 112 张）**，其余星座暂不展示人格成品图）
+3. 按太阳座 × MBTI 查出「隐藏人格」人设卡（192 选 1；**白羊→天蝎共 8 星座各有 16 张 MBTI 专属图（已接入 128 张）**，其余星座暂不展示人格成品图）
 4. LLM API（OpenAI 兼容，可用 DeepSeek）流式生成中文分节解读（含金钱事业；有问题时加「纠结」专节；末尾「延伸探索」三条短解析）
 5. （可选）报告页「再抽三张牌」——3D 翻牌演出 + 结合星盘/MBTI 的补充解读
 6. 可下载**完整页面 HTML**（含图）或**文字版 PDF**
@@ -103,6 +103,7 @@ personapicture/mbti_tarot_cards/cancer/v1/  # 巨蟹 × 16
 personapicture/mbti_tarot_cards/leo/v1/     # 狮子 × 16
 personapicture/mbti_tarot_cards/virgo/v1/   # 处女 × 16
 personapicture/mbti_tarot_cards/libra/v1/   # 天秤 × 16
+personapicture/mbti_tarot_cards/scorpio/v1/ # 天蝎 × 16
 assets/tarot/          # LuciellaES CC0 韦特牌面
 assets/fonts/          # Noto Sans SC（PDF 中文）
 requirements.txt       # + pillow（人设 PNG）
@@ -121,7 +122,7 @@ requirements.txt       # + pillow（人设 PNG）
 | 出生国家 | 下拉（中国默认），「其他」才填两位码 |
 | 中文城市 | 常见市名可直接中文；`data/china_cities.json` 精确映射，失败仍走 GeoNames |
 | 想问的事 | 选填 `text_area`（在 MBTI 上方）；有则 §4 展开（缺节会补全）；预填塔罗 |
-| 人设卡 | 太阳×MBTI → 192 文案；**白羊→天秤共 7 星座各 16 张专属图**（manifest+WebP，已接入 112 张），其它星座暂不展示人格成品图 |
+| 人设卡 | 太阳×MBTI → 192 文案；**白羊→天蝎共 8 星座各 16 张专属图**（manifest+WebP，已接入 128 张），其它星座暂不展示人格成品图 |
 | 流式解读 | `st.write_stream`；结束后写入 session 缓存 |
 | 报告结构 | ①画像 ②金钱 ③关系 ④纠结（可选）⑤建议 ⑥延伸探索（3 条折叠） |
 | 节末反馈 | §§1–5「这段准 / 不像我」→ 匿名计数（验收用，非个性化学习） |

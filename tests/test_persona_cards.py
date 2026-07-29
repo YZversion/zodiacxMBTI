@@ -97,7 +97,7 @@ class PersonaCardTests(unittest.TestCase):
         assert path is not None
         self.assertTrue(path.is_file())
         self.assertEqual(path.suffix.lower(), ".webp")
-        self.assertIsNone(card_image_path(mbti="INTJ", sun_sign="Scorpio"))
+        self.assertIsNone(card_image_path(mbti="INTJ", sun_sign="Sagittarius"))
         self.assertIsNone(card_image_path(mbti="不确定", sun_sign="Taurus"))
 
     def test_tarot_master_art_is_shown_without_cropping(self) -> None:
@@ -138,12 +138,12 @@ class PersonaCardTests(unittest.TestCase):
         art = persona_art_path(mbti="INTJ", sun_en="Aries")
         self.assertEqual(art, unique)
 
-    def test_non_aries_falls_back_to_shared_master(self) -> None:
+    def test_unbuilt_sign_falls_back_to_shared_master(self) -> None:
         if not MASTERS_DIR.is_dir():
             self.skipTest("personapicture masters not present")
-        self.assertIsNone(unique_mbti_card_path(mbti="INTJ", sun_en="Scorpio"))
-        art = persona_art_path(mbti="INTJ", sun_en="Scorpio")
-        master = master_image_path("Scorpio")
+        self.assertIsNone(unique_mbti_card_path(mbti="INTJ", sun_en="Sagittarius"))
+        art = persona_art_path(mbti="INTJ", sun_en="Sagittarius")
+        master = master_image_path("Sagittarius")
         self.assertEqual(art, master)
         self.assertEqual(art.parent if art else None, MASTERS_DIR)
 

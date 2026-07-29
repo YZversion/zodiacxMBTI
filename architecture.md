@@ -154,7 +154,7 @@ UI/HTML: `split_main_and_extensions` keeps §§1–5 in the main prose and rende
 | Operator stats | Footer expander if `STATS_PASSWORD` set; table + JSON download (`build_stats_snapshot`) |
 | A11y | `prefers-reduced-motion`, `button:focus-visible`, CTA text contrast |
 | Question echo | `_render_question_card` when life question was submitted |
-| Persona card | lookup `manifest.json` → `card_image_path` → `st.image` + text block; Aries→Libra live (112 WebP cards) |
+| Persona card | lookup `manifest.json` → `card_image_path` → `st.image` + text block; Aries→Scorpio live (128 WebP cards) |
 | Summary card | glass HTML via `st.html` |
 | Chart | wheel-only SVG as base64 `<img>` via `st.html` (DOMPurify strips raw SVG; no iframe) + CJK font injection |
 | §6 folds | native HTML `<details>` via `st.html` (avoid Streamlit material-icon expander collision) |
@@ -180,4 +180,4 @@ UI/HTML: `split_main_and_extensions` keeps §§1–5 in the main prose and rende
 
 ## Explicitly not in the architecture
 
-Scrapers, generative chart images, MBTI quiz banks, user tables, React SPAs, CI/cron/APM, Bloom-style scroll-video shell inside Streamlit. Per-sign 192 unique art is **incremental** (`mbti_tarot_cards/`); Aries→Libra live in manifest (112 cards); remaining signs show text-only persona block until cards are composed.
+Scrapers, generative chart images, MBTI quiz banks, user tables, React SPAs, CI/cron/APM, Bloom-style scroll-video shell inside Streamlit. Per-sign 192 unique art is **incremental** (`mbti_tarot_cards/`); Aries→Scorpio live in manifest (128 cards); remaining signs show text-only persona block until cards are composed.

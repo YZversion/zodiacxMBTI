@@ -1232,6 +1232,182 @@
       "rarity_label": "最稀有",
       "sun_en": "Libra",
       "mbti": "ENTJ"
+    },
+    {
+      "id": "ISTJ_Scorpio",
+      "webp": "assets/cards/webp/ISTJ_Scorpio.webp",
+      "index": 113,
+      "nickname": "记仇档案馆",
+      "paradox": "你说早翻篇了，档案却按年份整理得整整齐齐",
+      "pct": 1.0,
+      "rarity_label": "常见",
+      "sun_en": "Scorpio",
+      "mbti": "ISTJ"
+    },
+    {
+      "id": "ISFJ_Scorpio",
+      "webp": "assets/cards/webp/ISFJ_Scorpio.webp",
+      "index": 114,
+      "nickname": "刀鞘型好人",
+      "paradox": "你为人隐忍大度，黑名单却一旦进入永不放出",
+      "pct": 1.0,
+      "rarity_label": "常见",
+      "sun_en": "Scorpio",
+      "mbti": "ISFJ"
+    },
+    {
+      "id": "INFJ_Scorpio",
+      "webp": "assets/cards/webp/INFJ_Scorpio.webp",
+      "index": 115,
+      "nickname": "深渊知己",
+      "paradox": "你渴望灵魂深交，又在别人靠太近时先撤一步",
+      "pct": 0.12,
+      "rarity_label": "最稀有",
+      "sun_en": "Scorpio",
+      "mbti": "INFJ"
+    },
+    {
+      "id": "INTJ_Scorpio",
+      "webp": "assets/cards/webp/INTJ_Scorpio.webp",
+      "index": 116,
+      "nickname": "深海战略家",
+      "paradox": "你最渴望绝对信任，却先测试对方一千次",
+      "pct": 0.21,
+      "rarity_label": "稀有",
+      "sun_en": "Scorpio",
+      "mbti": "INTJ"
+    },
+    {
+      "id": "ISTP_Scorpio",
+      "webp": "assets/cards/webp/ISTP_Scorpio.webp",
+      "index": 117,
+      "nickname": "冷面拆弹员",
+      "paradox": "你能拆掉所有炸弹，自己心里那颗从不让人靠近",
+      "pct": 0.46,
+      "rarity_label": "较为常见",
+      "sun_en": "Scorpio",
+      "mbti": "ISTP"
+    },
+    {
+      "id": "ISFP_Scorpio",
+      "webp": "assets/cards/webp/ISFP_Scorpio.webp",
+      "index": 118,
+      "nickname": "玫瑰刺客",
+      "paradox": "你嘴上云淡风轻，心里的爱恨都是满格",
+      "pct": 0.67,
+      "rarity_label": "较为常见",
+      "sun_en": "Scorpio",
+      "mbti": "ISFP"
+    },
+    {
+      "id": "INFP_Scorpio",
+      "webp": "assets/cards/webp/INFP_Scorpio.webp",
+      "index": 119,
+      "nickname": "深情卧底",
+      "paradox": "你考验着对方的真心，用的方法是先藏起自己的",
+      "pct": 0.38,
+      "rarity_label": "少见",
+      "sun_en": "Scorpio",
+      "mbti": "INFP"
+    },
+    {
+      "id": "INTP_Scorpio",
+      "webp": "assets/cards/webp/INTP_Scorpio.webp",
+      "index": 120,
+      "nickname": "人性实验员",
+      "paradox": "看穿所有人的动机，最不敢分析自己为什么孤独",
+      "pct": 0.29,
+      "rarity_label": "少见",
+      "sun_en": "Scorpio",
+      "mbti": "INTP"
+    },
+    {
+      "id": "ESTP_Scorpio",
+      "webp": "assets/cards/webp/ESTP_Scorpio.webp",
+      "index": 121,
+      "nickname": "危险玩家",
+      "paradox": "你在牌桌上敢押全部，感情里连底牌都不敢亮",
+      "pct": 0.38,
+      "rarity_label": "少见",
+      "sun_en": "Scorpio",
+      "mbti": "ESTP"
+    },
+    {
+      "id": "ESFP_Scorpio",
+      "webp": "assets/cards/webp/ESFP_Scorpio.webp",
+      "index": 122,
+      "nickname": "暗黑气氛组",
+      "paradox": "你看起来最会玩，玩完比谁都空虚",
+      "pct": 0.67,
+      "rarity_label": "较为常见",
+      "sun_en": "Scorpio",
+      "mbti": "ESFP"
+    },
+    {
+      "id": "ENFP_Scorpio",
+      "webp": "assets/cards/webp/ENFP_Scorpio.webp",
+      "index": 123,
+      "nickname": "阳光深水炸弹",
+      "paradox": "你和谁都聊得来，真话只对深夜的备忘录讲",
+      "pct": 0.67,
+      "rarity_label": "较为常见",
+      "sun_en": "Scorpio",
+      "mbti": "ENFP"
+    },
+    {
+      "id": "ENTP_Scorpio",
+      "webp": "assets/cards/webp/ENTP_Scorpio.webp",
+      "index": 124,
+      "nickname": "诛心辩手",
+      "paradox": "你一眼看穿别人的软肋，被人看穿一次就记很久",
+      "pct": 0.29,
+      "rarity_label": "少见",
+      "sun_en": "Scorpio",
+      "mbti": "ENTP"
+    },
+    {
+      "id": "ESTJ_Scorpio",
+      "webp": "assets/cards/webp/ESTJ_Scorpio.webp",
+      "index": 125,
+      "nickname": "铁腕审判长",
+      "paradox": "你要求绝对忠诚，自己的信任却从不预支",
+      "pct": 0.83,
+      "rarity_label": "常见",
+      "sun_en": "Scorpio",
+      "mbti": "ESTJ"
+    },
+    {
+      "id": "ESFJ_Scorpio",
+      "webp": "assets/cards/webp/ESFJ_Scorpio.webp",
+      "index": 126,
+      "nickname": "知心特工",
+      "paradox": "你保管着全朋友圈的秘密，自己的秘密没人配听",
+      "pct": 0.92,
+      "rarity_label": "常见",
+      "sun_en": "Scorpio",
+      "mbti": "ESFJ"
+    },
+    {
+      "id": "ENFJ_Scorpio",
+      "webp": "assets/cards/webp/ENFJ_Scorpio.webp",
+      "index": 127,
+      "nickname": "灵魂操盘手",
+      "paradox": "你度化了所有人，自己的执念供在最深处",
+      "pct": 0.21,
+      "rarity_label": "稀有",
+      "sun_en": "Scorpio",
+      "mbti": "ENFJ"
+    },
+    {
+      "id": "ENTJ_Scorpio",
+      "webp": "assets/cards/webp/ENTJ_Scorpio.webp",
+      "index": 128,
+      "nickname": "暗夜帝王",
+      "paradox": "你掌控全局的每颗棋子，最怕的失控叫“动心”",
+      "pct": 0.12,
+      "rarity_label": "最稀有",
+      "sun_en": "Scorpio",
+      "mbti": "ENTJ"
     }
   ]
 }
