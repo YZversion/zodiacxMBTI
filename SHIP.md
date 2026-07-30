@@ -63,3 +63,10 @@ Cloud 测试用户的数据写在容器内 `cache/usage.sqlite`，**不会同步
 - 原始 JSON **不进 git**；本机建议固定目录：`Documents\zodiacxMBTI-stats\usage_YYYY-MM-DD.json`（首份已存为 `usage_2026-07-30.json`）。Cloud SQLite 会丢，以你下载备份为准。
 
 下次导出后，用同一表对比 `total` / `with_question` / 各节 hit+miss。
+
+### LLM 费用与质量红线
+
+- 费用主要来自：主报告 +（偶发）§4 补全 +（可选）塔罗，各自附带完整 `context_xml`。
+- **质量优先：** 不为省 token 压缩 `MAIN_SYSTEM` / 瘦 XML / 给 completion 加可能截断的 `max_tokens`。
+- 允许的省钱：会话缓存避免重复主报告；§4 标题变体识别正确以免**误触发**第二次补全。
+- 只读量体积：`python tools/measure_llm_payload.py --live-chart`

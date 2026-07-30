@@ -134,9 +134,11 @@ UI/HTML: `split_main_and_extensions` keeps §§1–5 in the main prose and rende
 
 **Streaming:** OpenAI-compatible `stream=True` → `st.write_stream` → sanitize → optional §4 repair → cache full string → rerun.
 
-**§4 repair:** If `user_question` is set and `has_complete_question_section` fails (missing or body under 80 chars), one extra non-stream `generate_question_section` call fills §4 via `upsert_question_section` (inserted before §5). Failure aborts without caching a partial report.
+**§4 repair:** If `user_question` is set and `has_complete_question_section` fails (missing or body under 80 chars), one extra `generate_question_section` call fills §4 via `upsert_question_section` (inserted before §5). Detector accepts `## 4.…` and title-only `## 关于你正在纠结的事` so a good main-report §4 is not mistaken for missing (avoids a redundant repair call). Failure aborts without caching a partial report.
 
 **Tarot:** past / present / future / 三张牌共同指向 (~500–650 chars); closing hammer = one core tension + one self-question; optional question (prefilled from main form); weave chart + MBTI. No transit invention. Do not append a main-report-style「延伸探索」block to tarot text.
+
+**LLM token cost (quality-first):** Cost is dominated by `context_xml` (~4k chars) attached to main / optional §4 repair / optional tarot. **Do not** slim system prompts, strip XML fields, or add `max_tokens` caps to save money unless a human quality review explicitly approves. Measure only: `python tools/measure_llm_payload.py [--live-chart]`.
 
 ## UI / export
 

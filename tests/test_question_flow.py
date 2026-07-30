@@ -53,6 +53,31 @@ class QuestionFlowTests(unittest.TestCase):
         self.assertNotIn("太短", repaired)
         self.assertTrue(has_complete_question_section(repaired))
 
+    def test_title_only_heading_counts_as_complete_without_repair(self) -> None:
+        """Model sometimes omits '4.'; must not trigger a second LLM call."""
+        body = "针对原话给出的决策模式与自我欺骗方式，以及可执行判断框架。" * 3
+        report = (
+            "## 3. 关系与沟通风格\n正文\n\n"
+            f"## 关于你正在纠结的事\n{body}\n\n"
+            "## 5. 当前阶段的一句话建议\n建议"
+        )
+        self.assertTrue(has_complete_question_section(report))
+
+    def test_numbered_heading_variants_count_as_complete(self) -> None:
+        body = "具体行为推断与可操作出口，覆盖决策模式与自我欺骗，并给出可观察验证点。" * 3
+        for heading in (
+            "## 4. 关于你正在纠结的事",
+            "## 4、关于你正在纠结的事",
+            "## 4 关于你正在纠结的事",
+        ):
+            report = f"{heading}\n{body}\n\n## 5. 当前阶段的一句话建议\n建议"
+            self.assertTrue(has_complete_question_section(report), heading)
+
+    def test_missing_or_stub_section_still_needs_repair(self) -> None:
+        self.assertFalse(has_complete_question_section("## 3. 关系\n正文\n\n## 5. 建议\n嗯"))
+        stub = f"{QUESTION_SECTION_HEADING}\n太短了\n\n## 5. 当前阶段的一句话建议\n建议"
+        self.assertFalse(has_complete_question_section(stub))
+
 
 if __name__ == "__main__":
     unittest.main()

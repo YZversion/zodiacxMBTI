@@ -46,6 +46,7 @@ Source of truth for the sealed plan: [`星盘MBTI解读spike需求与实施方�
 | 2026-07-29 | HTML export / share PNG prefer composed WebP so share path matches the app. |
 | 2026-07-29 | Mobile UX: larger touch targets, safer bottom padding vs Streamlit badge, tighter hero type. |
 | 2026-07-30 | Usage-stats snapshot baseline recorded (n=19); guardrail: do not churn MAIN_SYSTEM until ≥50 gens and section miss≥5; `tools/summarize_usage_snapshot.py`. |
+| 2026-07-30 | Quality-safe token hygiene: measure_llm_payload tool; §4 complete-detector accepts title-only headings to avoid false repair calls; docs red-line against prompt/XML slimming. |
 
 ## Watch list (not in spike)
 

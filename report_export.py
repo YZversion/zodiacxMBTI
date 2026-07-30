@@ -24,8 +24,10 @@ DISCLAIMER = (
 )
 
 QUESTION_SECTION_HEADING = "## 4. 关于你正在纠结的事"
+_QUESTION_TITLE_HINT = "关于你正在纠结的事"
 _QUESTION_SECTION_RE = re.compile(
-    r"(?ms)^\s*##\s*4(?:[.、．]|\s).*?(?=^\s*##\s+|\Z)"
+    rf"(?ms)^\s*##\s*(?:4(?:[.、．]|\s)|{re.escape(_QUESTION_TITLE_HINT)}).*?"
+    r"(?=^\s*##\s+(?!#)|\Z)"
 )
 
 FONT_CANDIDATES = [
@@ -72,12 +74,25 @@ def sanitize_main_report(report: str) -> str:
 
 
 def has_complete_question_section(report: str) -> bool:
-    """Return whether §4 exists and contains a substantive answer."""
+    """Return whether §4 exists and contains a substantive answer.
+
+    Recognizes both ``## 4. …`` and title-only ``## 关于你正在纠结的事`` so a
+    good main-report §4 is not mistaken for missing (avoids a redundant repair
+    LLM call). Still returns False for absent or stub-length bodies.
+    """
     match = _QUESTION_SECTION_RE.search(report or "")
     if not match:
         return False
-    lines = match.group(0).strip().splitlines()
+    block = match.group(0).strip()
+    lines = block.splitlines()
+    if not lines:
+        return False
+    # Drop the heading line only.
     body = "\n".join(lines[1:]).strip()
+    # Ignore leftover heading echoes inside body.
+    if body.startswith("#"):
+        body_lines = body.splitlines()
+        body = "\n".join(body_lines[1:]).strip() if len(body_lines) > 1 else ""
     return len(re.sub(r"\s+", "", body)) >= 80
 
 
