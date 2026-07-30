@@ -41,6 +41,7 @@ A separate `memory.md` usually duplicates the timeline and goes stale. If someth
 | [`persona_cards/persona_cards_预览.md`](persona_cards/persona_cards_预览.md) | Human preview of 192 cards — edit JSON, then regenerate preview if needed |
 | [`assets/cards/manifest.json`](assets/cards/manifest.json) | Runtime persona-card index (`id -> webp`), current shipped signs and metadata |
 | [`tools/build_cards.py`](tools/build_cards.py) | Offline compositor for per-sign 16-card batches (`--normalize` / `--check` / `--sign`) |
+| [`tools/summarize_usage_snapshot.py`](tools/summarize_usage_snapshot.py) | Read-only summary of exported `usage_stats` JSON + prompt-churn guardrail |
 | [`assets/cards/webp/`](assets/cards/webp/) | Runtime-shipped precomposed persona cards (all 12 signs = 192) |
 
 ## Asset attributions (rarely edited)
